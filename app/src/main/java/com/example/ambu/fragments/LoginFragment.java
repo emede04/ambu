@@ -7,8 +7,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.ambu.R;
+import com.example.ambu.R.*;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,6 +20,8 @@ import com.example.ambu.R;
 public class LoginFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
+    Button bLogin;
+    Button bRegister;
 
 
     // TODO: Rename and change types of parameters
@@ -45,5 +49,18 @@ public class LoginFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_login, container, false);
+    }
+
+    public void login(){
+
+    }
+    public void register(){
+
+    }
+
+    public void init(View view){
+        bLogin = view.findViewById(id.botonLogin);
+        bRegister = view.findViewById(id.botonRegistar);
+
     }
 }

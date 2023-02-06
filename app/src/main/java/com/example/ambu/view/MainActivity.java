@@ -9,6 +9,8 @@ import com.example.ambu.R;
 import com.example.ambu.fragments.LoginFragment;
 
 import android.os.Bundle;
+import android.view.View;
+
 public class MainActivity extends AppCompatActivity implements  Navigation {
 
 
@@ -39,4 +41,7 @@ public class MainActivity extends AppCompatActivity implements  Navigation {
         }
         transaction.commit();
     }
+
+
+
 }
