@@ -2,16 +2,25 @@
     <!-- Base application theme. -->
     <style name="Theme.Ambu" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Base application theme. -->
-            <!-- Primary brand color. -->
-            <item name="colorPrimary">@color/azul</item>
-            <item name="colorPrimaryVariant">@color/azulClaro</item>
-            <item name="colorOnPrimary">@color/white</item>
-            <!-- Secondary brand color. -->
-            <item name="colorSecondary">@color/naranja</item>
-            <item name="colorSecondaryVariant">@color/naranjaClaro</item>
-            <item name="colorOnSecondary">@color/black</item>
-            <!-- Status bar color. -->
-            <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        </style>
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/azul</item>
+        <item name="colorPrimaryVariant">@color/azulClaro</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/naranja</item>
+        <item name="colorSecondaryVariant">@color/naranjaClaro</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+    </style>
+
+    <style name="Theme.Ambu.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Ambu.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Ambu.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
