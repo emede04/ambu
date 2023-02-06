@@ -24,7 +24,7 @@ import com.example.ambu.view.Med.MedActivity;
  * Use the {@link LoginFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LoginFragment extends Fragment {
+public class LoginFragment extends Fragment implements View.OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     Button bLogin;
@@ -51,14 +51,18 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+       View view = inflater.inflate(R.layout.fragment_login, container, false);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+        init(view);
+        bLogin.setOnClickListener( this);
+        bRegister.setOnClickListener(this);
+
+        return view;
     }
 
     public void login(){
@@ -68,7 +72,7 @@ public class LoginFragment extends Fragment {
 
     }
 
-    public void onClick(View v) throws Throwable {    //metodo para poner todos los lisenter de la de golpe
+    public void onClick(View v) {    //metodo para poner todos los lisenter de la de golpe
 
         switch (v.getId()/*to get clicked view id**/) {
             case id.botonLogin:
@@ -80,7 +84,6 @@ public class LoginFragment extends Fragment {
 
 
                     startActivity(intent);
-                    finalize();
 
              /*  }else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
