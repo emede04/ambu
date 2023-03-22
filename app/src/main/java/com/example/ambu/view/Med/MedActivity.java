@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.Menu;
 
 import com.example.ambu.R;
+import com.example.ambu.models.Symptom;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -17,11 +18,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.ambu.databinding.ActivityMedBinding;
 
+import java.util.ArrayList;
+
 public class MedActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMedBinding binding;
 
+
+    //Private ArrayList<Pacientes> listaPacientes;
+    private  ArrayList<Symptom> listaSintomas;
+    //Private ArrayList<Diagnostico> listaDiagnostico
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,5 +69,23 @@ public class MedActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_med);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public int loadBasicData(String id){
+        //carga pacientes
+
+        //carga sintomas
+            cargaSintomas(listaSintomas);
+        //carga diagnosticos
+
+
+
+
+        return 1;
+    }
+
+    public ArrayList cargaSintomas(ArrayList lS){
+
+        return lS;
     }
 }

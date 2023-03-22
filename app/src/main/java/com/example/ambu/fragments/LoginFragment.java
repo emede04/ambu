@@ -126,6 +126,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    public int checkmedorpac(){
+        //este metodo checkea si el id introducido es de un medico o un paciente y carga los datos correspondientes para paciente la informacion base y el medico sintomas horario etc
+        return 1;
+    }
+
+
 
     public void init(View view){
         bLogin = view.findViewById(id.botonLogin);
