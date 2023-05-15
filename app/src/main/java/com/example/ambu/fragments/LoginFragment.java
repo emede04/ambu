@@ -2,10 +2,13 @@ package com.example.ambu.fragments;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +18,33 @@ import android.widget.Toast;
 
 import com.example.ambu.R;
 import com.example.ambu.R.*;
+import com.example.ambu.models.User;
+import com.example.ambu.utils.Apis;
+import com.example.ambu.utils.Interfaces.LoginService;
+import com.example.ambu.utils.Interfaces.apiMedicService;
+import com.example.ambu.utils.SharedPreferencesUtils;
 import com.example.ambu.utils.localDB;
 import com.example.ambu.view.MainActivity;
 import com.example.ambu.view.Med.MedActivity;
+import com.example.ambu.view.Navigation;
+
+import org.checkerframework.common.returnsreceiver.qual.This;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
+import okhttp3.Headers;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,7 +53,6 @@ import com.example.ambu.view.Med.MedActivity;
  */
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
-    // TODO: Rename parameter arguments, choose names that match
     Button bLogin;
     Button bRegister;
     String user;
@@ -34,9 +60,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     TextView vUser;
     TextView vPass;
     localDB bd;
-    // TODO: Rename and change types of parameters
-
-
+    LoginService loginService = Apis.loginUserService();
+    User usuario;
+    apiMedicService api;
+    String ApimedicUserName = "mariadolorespersonal@gmail.com ";
+    String ApiMedicPassword = "e5XNa9f6P2LgAj4r7 ";
+    String ApiMedicUrl = "https://sandbox-authservice.priaid.ch/login";
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -61,7 +90,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         init(view);
         bLogin.setOnClickListener( this);
         bRegister.setOnClickListener(this);
-
+        api = Apis.apiMedicServiceLogin();
         return view;
     }
 
@@ -79,9 +108,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
                 //boolean kapasao=   bd.verifica(vUser.getText().toString(), vPass.getText().toString());
              //   if(kapasao){
+                      LoadToken(v);
                     Toast.makeText(this.getActivity(), "Pa dentro", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(this.getActivity(), MedActivity.class);
-
 
                     startActivity(intent);
 
@@ -138,5 +167,83 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         bRegister = view.findViewById(id.botonRegistar);
         vPass = view.findViewById(id.txtUsuario);
         vUser = view.findViewById(id.txtPass);
+        usuario = new User();
+
+    }
+
+    public void createUser(String username, String password){
+        usuario.setName(username);
+        usuario.setPassword(password);
+        //metodo para guardar informacion en el db
+      //  ((MainActivity)getActivity()).getDB().cargarDB(usuario);
+    }
+
+    public void cargarDB(User u){
+            //cuando pase a db local
+    }
+
+   public void LoadToken(View view){
+            Call<Void> call = loginService.login(usuario);
+          call.enqueue(new Callback<Void>() {
+              @RequiresApi(api = Build.VERSION_CODES.O)
+              @Override
+              public void onResponse(Call<Void> call, Response<Void> response) {
+                  if(response.isSuccessful()){
+                      try {
+                        createToken(ApimedicUserName,ApiMedicPassword,ApiMedicUrl,view);
+                      }catch (Exception e){
+
+                      }
+                  Headers headers = response.headers();
+
+                    SharedPreferencesUtils. saveToke("auth-token",headers.get("Authorization"),view);
+
+                  }
+              }
+
+              @Override
+              public void onFailure(Call<Void> call, Throwable t) {
+
+              }
+          });
+    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+
+    public void createToken(String user, String password, String url, View view){
+        SecretKeySpec secretKeySpec = new SecretKeySpec(password.getBytes(),
+                "HmacMD5");
+        String hash = "";
+        try{
+            Mac mac = Mac.getInstance("HmacMD5");
+            mac.init(secretKeySpec);
+            byte[] resultado = mac.doFinal(url.getBytes());
+
+                hash = Base64.getEncoder().encodeToString(resultado);
+                Call<ResponseBody> call = api.loginApiMedic("Bearer "+ApimedicUserName+":"+hash);
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        try{
+                            JSONObject json = new JSONObject(response.toString());
+                            //guardar el token generado
+                            SharedPreferencesUtils.saveToke("ApiMedic Token",json.getString("Token".toString()), view);
+                            Log.e("DesdeSharedPreferences",SharedPreferencesUtils.sacarToken("ApiMedicToken", view));
+                        }catch (JSONException exception){
+                            exception.printStackTrace();
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+
+                    }
+                });
+        }catch (Exception e){
+
+        }
+
+
     }
 }

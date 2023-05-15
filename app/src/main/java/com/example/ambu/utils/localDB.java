@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.example.ambu.models.User;
+
 public class localDB extends SQLiteOpenHelper {
     public localDB(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -28,4 +30,8 @@ public class localDB extends SQLiteOpenHelper {
     }
 
 
-}
+
+
+    public void cargarDB(User u){
+
+    }}

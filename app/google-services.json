@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "225587391854",
+    "project_id": "ambu-a41e9",
+    "storage_bucket": "ambu-a41e9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:225587391854:android:087eca484b12861d13a57f",
+        "android_client_info": {
+          "package_name": "com.example.ambu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "225587391854-69g9djdgpp5gbtkl7rmkgja5k5lhpbkb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDA4o5K8OqcEp0HHtT7CZ_vXNHsrX0HpCI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "225587391854-69g9djdgpp5gbtkl7rmkgja5k5lhpbkb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
