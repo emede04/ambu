@@ -3,23 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_pacientes">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.example.ambu.view.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_pacientes"
+        android:name="com.example.ambu.view.Med.ui.pacientes.Pacientes"
+        android:label="@string/menu_pacientes"
+        tools:layout="@layout/fragment_pacientes" />
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.example.ambu.view.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
+        android:name="com.example.ambu.view.Med.ui.consulta.Consulta"
+        android:label="@string/menu_consulta"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.example.ambu.view.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:name="com.example.ambu.view.Med.ui.miscelaneaos.MiscelaneosFragment"
+        android:label="@string/menu_med"
+        tools:layout="@layout/fragment_miscelaneos" />
 </navigation>
