@@ -132,6 +132,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
                 break;
             case id.botonRegistar:
+                createToken(ApimedicUserName, ApiMedicPassword, ApiMedicUrl, v);
+
                 txtUser = vUser.getText().toString();
                 txtPassword = vPass.getText().toString();
                 if ((txtUser.equals("")) || (txtPassword.equals(""))) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,224 +7,250 @@
     tools:context=".fragments.registerPaciente">
 
 
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="119dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+
+        <ListView
+            android:id="@+id/listaSintomas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="2dp"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:paddingTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <!-- Contraseña -->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/password_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="contraseña"
+            app:endIconMode="password_toggle"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- end Contraseña -->
+
+        <!-- Confirmar contraseña -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/confirm_pass_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="contraseña"
+            app:endIconMode="password_toggle"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/confirm_pass_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- end Confirmar contraseña -->
+
+        <!-- Nombre -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/first_name_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="nombre usuario">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/first_name_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- end Nombre -->
+
+        <!-- Apellido -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/last_name_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="apellido">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/last_name_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- end Apellido -->
+
+
+        <!-- Fecha de nacimiento -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/birth_date_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:hint="fecha nacimiento"
+            app:counterEnabled="true"
+            app:counterMaxLength="10"
+            app:helperText="aaaa-mm-dd"
+            app:helperTextEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/birth_date_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:maxLines="2" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- end Fecha de nacimiento -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="24dp"
-            android:paddingTop="16dp"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:weightSum="2">
 
-
-
-            <!-- Contraseña -->
+            <!-- Edad -->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/password_text_input"
+                android:id="@+id/age_text_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:hint="contraseña"
-                app:endIconMode="password_toggle"
-                app:errorEnabled="true">
+                android:layout_weight="1"
+                android:hint="edad">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/password_edit_text"
+                    android:id="@+id/age_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword"/>
-            </com.google.android.material.textfield.TextInputLayout>
-            <!-- end Contraseña -->
-
-            <!-- Confirmar contraseña -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/confirm_pass_text_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:hint="contraseña"
-                app:endIconMode="password_toggle"
-                app:errorEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/confirm_pass_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword"/>
-            </com.google.android.material.textfield.TextInputLayout>
-            <!-- end Confirmar contraseña -->
-
-            <!-- Nombre -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/first_name_text_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:hint="nombre usuario">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/first_name_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
+                    android:inputType="number"
                     android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
-            <!-- end Nombre -->
+            <!-- end Edad -->
 
-            <!-- Apellido -->
+            <!-- Género -->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/last_name_text_input"
+                android:id="@+id/genre_text_input"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:hint="apellido">
+                android:layout_weight="1"
+                android:hint="genero">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/last_name_edit_text"
+                <AutoCompleteTextView
+                    android:id="@+id/genre_dropdown"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:maxLines="1" />
+                    android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
-            <!-- end Apellido -->
+            <!-- end Género -->
 
-
-
-            <!-- Fecha de nacimiento -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/birth_date_text_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                app:counterEnabled="true"
-                app:counterMaxLength="10"
-                app:helperTextEnabled="true"
-                app:helperText="aaaa-mm-dd"
-                android:hint="fecha nacimiento">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/birth_date_edit_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:maxLines="2" />
-            </com.google.android.material.textfield.TextInputLayout>
-            <!-- end Fecha de nacimiento -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <!-- Edad -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/age_text_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp"
-                    android:hint="edad">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/age_edit_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:maxLines="1" />
-                </com.google.android.material.textfield.TextInputLayout>
-                <!-- end Edad -->
-
-                <!-- Género -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/genre_text_input"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp"
-                    android:hint="genero">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/genre_dropdown"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none"/>
-                </com.google.android.material.textfield.TextInputLayout>
-                <!-- end Género -->
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="2"
-                android:orientation="horizontal">
-
-                <!-- Peso -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/weight_text_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:hint="peso">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/weight_edit_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:maxLines="1" />
-                </com.google.android.material.textfield.TextInputLayout>
-                <!-- end Peso -->
-
-                <!-- Altura -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/height_text_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp"
-                    android:hint="altura">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/height_edit_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:maxLines="1" />
-                </com.google.android.material.textfield.TextInputLayout>
-                <!-- end Altura -->
-
-            </LinearLayout>
-
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <!-- Boton: Siguiente -->
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/bconfirmar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:text="siguiente" />
-                <!-- end Boton: Siguiente -->
-
-                <!-- Boton: Cancelar -->
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/bcancelar"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="-2dp"
-                    android:text="cancelar" />
-                <!-- Boton: Cancelar -->
-            </RelativeLayout>
         </LinearLayout>
 
-</ScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <!-- Peso -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/weight_text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:hint="peso">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/weight_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <!-- end Peso -->
+
+            <!-- Altura -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/height_text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:layout_weight="1"
+                android:hint="altura">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/height_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <!-- end Altura -->
+
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Boton: Siguiente -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bconfirmar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:text="siguiente" />
+            <!-- end Boton: Siguiente -->
+
+            <!-- Boton: Cancelar -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bcancelar"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="5dp"
+                android:text="cancelar" />
+            <!-- Boton: Cancelar -->
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

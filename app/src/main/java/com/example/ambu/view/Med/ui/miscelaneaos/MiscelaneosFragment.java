@@ -58,7 +58,7 @@ public class MiscelaneosFragment extends Fragment {
             language = "es-es";
         }
 
-        sacarSintomas(view);
+
         return view;
     }
 
@@ -68,10 +68,10 @@ public class MiscelaneosFragment extends Fragment {
     }
 
     //metodo para sacar todos los simptomas
-    public void sacarSintomas(View view) {
+  /*  public void sacarSintomas(View view) {
 
         //showProgressDialog();
-        Call<ArrayList<Symptom>> call = api.getAllSymptoms(SharedPreferencesUtils.SacarDatos("ApiMedicToken",view), "json", "es-es");
+       // Call<ArrayList<Symptom>> call = api.getAllSymptoms(SharedPreferencesUtils.SacarDatos("ApiMedicToken",view), "json", "es-es");
         final ArrayList<Symptom> lSimptomas = new ArrayList<>();
 
 
@@ -97,7 +97,7 @@ public class MiscelaneosFragment extends Fragment {
             }
         });
 
-    }
+    } */
 
     //metodo para sacar los simtomas x id
 

@@ -19,7 +19,7 @@ public interface ApiMedicService {
     Call<List<Symptom>> getSymptomsByIds(@Query("token") String token, @Query("format") String format, @Query("language") String language, @Query("symptoms") String symptoms);
 
     @GET("/symptoms")
-    Call<ArrayList<Symptom>> getAllSymptoms(@Query("token") String token, @Query("format") String format, @Query("language") String language);
+    Call<List<Symptom>> getAllSymptoms(@Query("token") String token, @Query("format") String format, @Query("language") String language);
 
     @POST("/login")
     Call<ResponseBody> loginApiMedic(@Header("Authorization") String authorizationApiMedic);

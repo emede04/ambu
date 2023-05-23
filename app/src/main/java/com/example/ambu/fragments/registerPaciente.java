@@ -1,8 +1,11 @@
 package com.example.ambu.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -12,18 +15,31 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.ambu.R;
 import com.example.ambu.models.Paciente;
+import com.example.ambu.models.Symptom;
+import com.example.ambu.utils.Apis;
 import com.example.ambu.utils.BaseDeDatosLocal;
+import com.example.ambu.utils.Interfaces.ApiMedicService;
+import com.example.ambu.utils.SharedPreferencesUtils;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.checkerframework.checker.units.qual.A;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,11 +64,15 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
      TextInputEditText tietWeight;
      TextInputEditText tietHeight;
      TextInputEditText tietBirthDate;
+    ApiMedicService api = Apis.apiMedicServiceData();
+    ArrayAdapter<Symptom> adaptador_sintomas;
     ArrayAdapter<String> genresMenuAdapter;
     int posgenero;
     Button bConfirmar;
     Button bCancelar;
     AutoCompleteTextView genresMenu;
+
+    ListView vListaSintomas;
     public registerPaciente() {
         // Required empty public constructor
     }
@@ -83,10 +103,17 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_register_paciente, container, false);
             setupGenero(view);
             init(view);
-
         bConfirmar.setOnClickListener(this);
         bCancelar.setOnClickListener(this);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        SacarSintomas(view);
+
+
     }
 
     public String parseSintomas(){
@@ -117,6 +144,7 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
          tietBirthDate = view.findViewById(R.id.birth_date_edit_text);
          bCancelar = view.findViewById(R.id.bcancelar);
          bConfirmar = view.findViewById(R.id.bconfirmar);
+         vListaSintomas = view.findViewById(R.id.listaSintomas);
 
     }
 
@@ -189,6 +217,39 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
 
     }
 
+    public void SacarSintomas(View view){
+
+        List<Symptom> listaSintomas = new ArrayList<Symptom>();
+
+        Call<List<Symptom>> listCall = api.getAllSymptoms(SharedPreferencesUtils.SacarDatos("ApiMedicToken", view), "json", "es-es");
+        listCall.enqueue(new Callback<List<Symptom>>() {
+            @Override
+            public void onResponse(Call<List<Symptom>> call, Response<List<Symptom>> response) {
+
+                        for(Symptom symptom : response.body()) {
+                            if (!"".equals(symptom.getName())) ;
+                            listaSintomas.add(symptom);
+                            System.out.println(symptom.getName());
+
+                        }
+                adaptador_sintomas = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1,listaSintomas);
+                        vListaSintomas.setAdapter(adaptador_sintomas);
+                adaptador_sintomas.notifyDataSetChanged();
+
+
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Symptom>> call, Throwable t) {
+
+            }
+        });
+
+
+    }
+
+
 
     @Override
     public void onClick(View view) {
@@ -220,4 +281,12 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
 
 
 
-} }
+}
+
+
+
+
+
+
+
+}
