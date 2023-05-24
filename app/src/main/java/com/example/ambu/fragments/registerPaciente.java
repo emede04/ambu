@@ -1,12 +1,15 @@
 package com.example.ambu.fragments;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,8 +32,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,8 +72,8 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
     Button bConfirmar;
     Button bCancelar;
     AutoCompleteTextView genresMenu;
-
     ListView vListaSintomas;
+    ArrayList<Symptom> listaS;
     public registerPaciente() {
         // Required empty public constructor
     }
@@ -111,7 +112,7 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        SacarSintomas(view);
+     //   SacarSintomas(view);
 
 
     }
@@ -144,8 +145,6 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
          tietBirthDate = view.findViewById(R.id.birth_date_edit_text);
          bCancelar = view.findViewById(R.id.bcancelar);
          bConfirmar = view.findViewById(R.id.bconfirmar);
-         vListaSintomas = view.findViewById(R.id.listaSintomas);
-
     }
 
     public int register(View v) {
@@ -232,7 +231,7 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
                             System.out.println(symptom.getName());
 
                         }
-                adaptador_sintomas = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1,listaSintomas);
+                adaptador_sintomas = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_expandable_list_item_1,listaSintomas);
                         vListaSintomas.setAdapter(adaptador_sintomas);
                 adaptador_sintomas.notifyDataSetChanged();
 
@@ -251,25 +250,28 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
 
 
 
+
     @Override
     public void onClick(View view) {
         switch (view.getId()/*to get clicked view id**/) {
             case R.id.bcancelar:
                 String aux = tietFirstName.getText().toString();
-                borrardocu(aux);
 
                break;
 
 
             case R.id.bconfirmar:
 
-                register(view);
-                Toast.makeText(getActivity(), "Su usario ha sido registrado tanto localmente como online", Toast.LENGTH_LONG + 2).show();
+                                Toast.makeText(getActivity(), "Su usario ha sido registrado tanto localmente como online", Toast.LENGTH_LONG + 2).show();
                 Fragment fragment = new Fragment();
-
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("Paciente", paciente);
                 fragment.setArguments(bundle);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.container, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
                 break;
 
 

@@ -1,6 +1,7 @@
 package com.example.ambu.fragments;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.ambu.R;
 import com.example.ambu.R.*;
+import com.example.ambu.models.Symptom;
 import com.example.ambu.models.User;
 import com.example.ambu.utils.Apis;
 import com.example.ambu.utils.Interfaces.ApiMedicService;
@@ -37,6 +39,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,7 +61,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     Button bLogin;
     Button bRegister;
-
+    ArrayList<Symptom> listaSintomasSeleccionados;
     TextView vUser;
     TextView vPass;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -162,7 +165,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.container, fragment);
                         fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();                    }
+                        fragmentTransaction.commit();
+
+                    }
 
                 }
         }
@@ -266,4 +271,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         return 1;
     }
+
+
+
+
+
 }
