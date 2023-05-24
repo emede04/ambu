@@ -88,6 +88,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -96,8 +97,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         // Inflate the layout for this fragment
         init(view);
-        BD = new BaseDeDatosLocal(view.getContext());
 
+        this.getContext().deleteDatabase("USERS");
+        BD = new BaseDeDatosLocal(view.getContext());
         bLogin.setOnClickListener(this);
         bRegister.setOnClickListener(this);
         api = Apis.apiMedicServiceLogin();

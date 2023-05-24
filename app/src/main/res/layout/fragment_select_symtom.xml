@@ -7,34 +7,52 @@
     android:layout_height="match_parent"
     tools:context=".fragments.FragmentSelectSymtom">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textView4"
         android:layout_width="0dp"
         android:layout_height="59dp"
-        android:layout_marginTop="3dp"
+        android:layout_margin="20dp"
+        android:layout_marginTop="2dp"
         android:layout_marginBottom="1dp"
-        android:text="Seleccione sus sintomas"
+        android:text="Seleccione sus sintomas:"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:barrierMargin="@dimen/cardview_default_radius"
         app:layout_constraintBottom_toTopOf="@+id/vListaSeleccionada"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
-        android:layout_width="match_parent"
         android:id="@+id/vListaSeleccionada"
-        android:layout_height="645dp"
+        android:layout_width="353dp"
+        android:layout_height="605dp"
         android:layout_marginStart="26dp"
         android:layout_marginTop="26dp"
         android:layout_marginEnd="26dp"
         android:layout_marginBottom="26dp"
+        android:choiceMode="multipleChoice"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.206"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        />
+        app:layout_constraintVertical_bias="1.0"></ListView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="62dp"
+        android:layout_height="60dp"
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/common_google_signin_btn_icon_dark"
+        android:id="@+id/bAceptarSintomas"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

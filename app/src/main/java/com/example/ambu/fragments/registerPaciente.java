@@ -251,6 +251,8 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
 
 
 
+
+
     @Override
     public void onClick(View view) {
         switch (view.getId()/*to get clicked view id**/) {
@@ -262,8 +264,8 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
 
             case R.id.bconfirmar:
 
-                                Toast.makeText(getActivity(), "Su usario ha sido registrado tanto localmente como online", Toast.LENGTH_LONG + 2).show();
-                Fragment fragment = new Fragment();
+                Toast.makeText(getActivity(), "Su usario ha sido registrado tanto localmente como online", Toast.LENGTH_LONG + 2).show();
+                Fragment fragment = new FragmentSelectSymtom();
                 Bundle bundle = new Bundle();
                 fragment.setArguments(bundle);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

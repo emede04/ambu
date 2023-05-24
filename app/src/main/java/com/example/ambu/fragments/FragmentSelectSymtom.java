@@ -11,9 +11,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -30,9 +32,13 @@ import com.example.ambu.utils.BaseDeDatosLocal;
 import com.example.ambu.utils.Interfaces.ApiMedicService;
 import com.example.ambu.utils.SharedPreferencesUtils;
 import com.example.ambu.view.Med.ui.miscelaneaos.SintomasAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +56,7 @@ public class FragmentSelectSymtom extends Fragment {
     ArrayAdapter<String> genresMenuAdapter;
     ListView vListaSeleccionada;
     ArrayList<Symptom> listaS;
+    FloatingActionButton boton;
 
     public FragmentSelectSymtom() {
 
@@ -59,6 +66,8 @@ public class FragmentSelectSymtom extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        listaS = new ArrayList<>();
+
 
     }
 
@@ -77,14 +86,41 @@ public class FragmentSelectSymtom extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         String prueba = SharedPreferencesUtils.SacarDatos("ApiMedicToken", view);
+
+
         SacarSintomas(view);
         System.out.println(prueba);
+
+
     }
+
 
     public void init(View view) {
         vListaSeleccionada = view.findViewById(R.id.vListaSeleccionada);
-
+        boton = view.findViewById(R.id.bAceptarSintomas);
     }
+    public String parseSymtom(ArrayList<Symptom> l,View view){
+        //para poder pasar los id de los sintomas como query
+        //ejemplo query
+        //diagnosis?symptoms=[14,20]&
+        String parse = "[";
+        for(int i = 0; i< listaS.size();i++) {
+            if (listaS.size() == i) {
+                parse += listaS.get(i).getID();
+            }
+            else{
+
+                parse += listaS.get(i).getID()+",";
+
+            }
+
+            //todo esta logica la tengo que recargar enfin
+            }
+
+        parse += "]";
+        return parse;
+    }
+
 
     public void SacarSintomas(View view) {
 
@@ -105,6 +141,8 @@ public class FragmentSelectSymtom extends Fragment {
                 vListaSeleccionada.setAdapter(adaptador_sintomas);
                 adaptador_sintomas.notifyDataSetChanged();
 
+                onclick();
+
 
             }
 
@@ -116,4 +154,49 @@ public class FragmentSelectSymtom extends Fragment {
 
 
     }
+
+ public void onclick(){
+
+     vListaSeleccionada.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+         @Override
+         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+             Symptom miSintoma;
+             miSintoma= (Symptom) adapterView.getItemAtPosition(i);
+             Toast.makeText(view.getContext(), miSintoma.getName(), Toast.LENGTH_SHORT).show();
+             //todo que cuanto toque la lista y este vacia no pete xd
+             if(miSintoma!=null){
+                 listaS.add(miSintoma);
+             }else{
+                 System.out.println("auch");
+             }
+
+         }
+
+     });
+
+
+     boton.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View view) {
+             if (listaS.size() != 0) {
+                 Snackbar.make(view, "de vuelta con los sintomas para terminar su registro", Snackbar.LENGTH_LONG)
+                         .setAction("Action", null).show();
+
+                 String SintomasQuery = parseSymtom(listaS, view);
+                 System.out.println(SintomasQuery);
+                 SharedPreferencesUtils.saveData("idSintomas", SintomasQuery, view);
+
+             } else {
+
+                 Snackbar.make(view, "no tienes ningun sintomas selecciado", Snackbar.LENGTH_LONG)
+                         .setAction("Action", null).show();
+
+             }
+         }
+
+
+     });
+ }
+
+
 }
