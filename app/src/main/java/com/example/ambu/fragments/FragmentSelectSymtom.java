@@ -1,47 +1,32 @@
 package com.example.ambu.fragments;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ambu.R;
-import com.example.ambu.models.Paciente;
 import com.example.ambu.models.Symptom;
-import com.example.ambu.models.User;
 import com.example.ambu.utils.Apis;
-import com.example.ambu.utils.BaseDeDatosLocal;
 import com.example.ambu.utils.Interfaces.ApiMedicService;
 import com.example.ambu.utils.SharedPreferencesUtils;
-import com.example.ambu.view.Med.ui.miscelaneaos.SintomasAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,12 +35,16 @@ import retrofit2.Response;
 
 public class FragmentSelectSymtom extends Fragment {
 
-    ;
+
     ApiMedicService api = Apis.apiMedicServiceData();
     ArrayAdapter<Symptom> adaptador_sintomas;
     ArrayAdapter<String> genresMenuAdapter;
     ListView vListaSeleccionada;
     ArrayList<Symptom> listaS;
+    ArrayList<Symptom> listaSeleccionados;
+    ArrayList<Symptom> aux;
+
+
     FloatingActionButton boton;
 
     public FragmentSelectSymtom() {
@@ -67,8 +56,8 @@ public class FragmentSelectSymtom extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         listaS = new ArrayList<>();
-
-
+        listaSeleccionados = new ArrayList<>();
+        aux = new ArrayList<>();
     }
 
     @Override
@@ -94,6 +83,13 @@ public class FragmentSelectSymtom extends Fragment {
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        listaSeleccionados.clear();
+        listaS.clear();
+        adaptador_sintomas.clear();
+    }
 
     public void init(View view) {
         vListaSeleccionada = view.findViewById(R.id.vListaSeleccionada);
@@ -103,21 +99,24 @@ public class FragmentSelectSymtom extends Fragment {
         //para poder pasar los id de los sintomas como query
         //ejemplo query
         //diagnosis?symptoms=[14,20]&
+
+        int incr = 0;
         String parse = "[";
-        for(int i = 0; i< listaS.size();i++) {
-            if (listaS.size() == i) {
-                parse += listaS.get(i).getID();
-            }
-            else{
+        int c = 0;
 
-                parse += listaS.get(i).getID()+",";
-
+        for (Symptom symptom: listaSeleccionados
+        ) {
+            c++;
+            if (listaSeleccionados.size() == c){
+                parse += symptom.getID();
+            }else{
+                parse += symptom.getID() + ",";
             }
+        }
 
-            //todo esta logica la tengo que recargar enfin
-            }
 
         parse += "]";
+        System.out.println(parse);
         return parse;
     }
 
@@ -131,18 +130,19 @@ public class FragmentSelectSymtom extends Fragment {
             @Override
             public void onResponse(Call<List<Symptom>> call, Response<List<Symptom>> response) {
 
-                for (Symptom symptom : response.body()) {
-                    if (!"".equals(symptom.getName())) ;
-                    listaSintomas.add(symptom);
-                    System.out.println(symptom.getName());
+                if(response.isSuccessful()) {
+                    for (Symptom symptom : response.body()) {
+                        if (!"".equals(symptom.getName())) ;
+                        listaSintomas.add(symptom);
+                        System.out.println(symptom.getName());
 
+                    }
+                    adaptador_sintomas = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_checked, listaSintomas);
+                    vListaSeleccionada.setAdapter(adaptador_sintomas);
+                    adaptador_sintomas.notifyDataSetChanged();
+
+                    onclick();
                 }
-                adaptador_sintomas = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_checked, listaSintomas);
-                vListaSeleccionada.setAdapter(adaptador_sintomas);
-                adaptador_sintomas.notifyDataSetChanged();
-
-                onclick();
-
 
             }
 
@@ -160,15 +160,18 @@ public class FragmentSelectSymtom extends Fragment {
      vListaSeleccionada.setOnItemClickListener(new AdapterView.OnItemClickListener() {
          @Override
          public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-             Symptom miSintoma;
-             miSintoma= (Symptom) adapterView.getItemAtPosition(i);
-             Toast.makeText(view.getContext(), miSintoma.getName(), Toast.LENGTH_SHORT).show();
-             //todo que cuanto toque la lista y este vacia no pete xd
-             if(miSintoma!=null){
-                 listaS.add(miSintoma);
-             }else{
-                 System.out.println("auch");
-             }
+             ArrayList<Symptom> auxiliar = new ArrayList<>();
+             ArrayList<Symptom> fin = new ArrayList<>();
+             Symptom ultimoClick;
+             ultimoClick= (Symptom) adapterView.getItemAtPosition(i);
+             Toast.makeText(view.getContext(), ultimoClick.getName(), Toast.LENGTH_SHORT).show();
+
+                     aux.add(ultimoClick);
+                //añado todos los items
+             System.out.println("lista final"+aux.size());
+
+             System.out.println("lista final"+ultimoClick.getName());
+
 
          }
 
@@ -178,13 +181,19 @@ public class FragmentSelectSymtom extends Fragment {
      boton.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View view) {
-             if (listaS.size() != 0) {
+             ArrayList<Symptom> symptomArraylist;
+             if (!aux.isEmpty()) {
                  Snackbar.make(view, "de vuelta con los sintomas para terminar su registro", Snackbar.LENGTH_LONG)
                          .setAction("Action", null).show();
 
-                 String SintomasQuery = parseSymtom(listaS, view);
+                    //limpio la lista de los duplicados
+                 listaSeleccionados =   quitarduplicados(aux);
+
+                 String SintomasQuery = "";
+                 SintomasQuery = parseSymtom(listaSeleccionados, view);
                  System.out.println(SintomasQuery);
                  SharedPreferencesUtils.saveData("idSintomas", SintomasQuery, view);
+
 
              } else {
 
@@ -199,4 +208,18 @@ public class FragmentSelectSymtom extends Fragment {
  }
 
 
+    public ArrayList<Symptom> quitarduplicados(ArrayList<Symptom> prueba) {
+            ArrayList<Symptom> limpio = new ArrayList<>();
+
+        Set<String> nombre = new HashSet<>();
+         limpio = (ArrayList<Symptom>) prueba.stream()
+                .filter(e -> nombre.add(e.getName()))
+                .collect(Collectors.toList());
+        return limpio;
+    }
+
+
 }
+
+
+
