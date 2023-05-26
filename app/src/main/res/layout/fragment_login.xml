@@ -35,71 +35,78 @@
             app:layout_constraintTop_toBottomOf="@+id/txtPass"
             app:layout_constraintVertical_bias="1.0" />
 
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="244sp"
-            android:layout_height="126sp"
-            android:layout_marginStart="98sp"
-            android:layout_marginTop="68sp"
-            android:layout_marginEnd="99sp"
-            android:src="@drawable/logo"
-            android:textSize="48sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/txtUsuario"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="332dp"
+        android:layout_height="195dp"
+        android:layout_marginStart="98sp"
+        android:layout_marginTop="68sp"
+        android:layout_marginEnd="99sp"
+        android:src="@drawable/logo"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/txtUsuario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/txtUsuario"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20sp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name"
-            app:layout_constraintBottom_toTopOf="@+id/txtPass"
-            app:layout_constraintEnd_toEndOf="@+id/txtPass"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/txtPass"
-            app:layout_constraintTop_toBottomOf="@+id/logo" />
+    <EditText
+        android:id="@+id/txtUsuario"
+        android:layout_width="176dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="20sp"
+        android:layout_marginEnd="29dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintBottom_toTopOf="@+id/txtPass"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/txtPass"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
 
-        <EditText
-            android:id="@+id/txtPass"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15sp"
-            android:layout_marginTop="28sp"
-            android:layout_marginEnd="84sp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView3"
-            app:layout_constraintTop_toBottomOf="@+id/txtUsuario" />
+    <EditText
+        android:id="@+id/txtPass"
+        android:layout_width="164dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="400dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/txtUsuario" />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Identificacion"
-            app:autoSizeMaxTextSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/txtUsuario"
-            app:layout_constraintEnd_toStartOf="@+id/txtUsuario"
-            app:layout_constraintHorizontal_bias="0.75"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/txtUsuario" />
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20sp"
+        android:layout_marginStart="40dp"
+        android:text="Identificacion"
+        app:autoSizeMaxTextSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/txtUsuario"
+        app:layout_constraintEnd_toEndOf="@+id/logo"
+        app:layout_constraintHorizontal_bias="0.123"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txtUsuario"
+        app:layout_constraintVertical_bias="0.0" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="12sp"
-            android:text="Contraseña"
-            app:layout_constraintBottom_toBottomOf="@+id/txtPass"
-            app:layout_constraintEnd_toStartOf="@+id/txtPass"
-            app:layout_constraintStart_toStartOf="@+id/textView2"
-            app:layout_constraintTop_toTopOf="@+id/txtPass" />
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20sp"
+        android:text="Contraseña"
+
+        app:layout_constraintBottom_toBottomOf="@+id/txtPass"
+        app:layout_constraintEnd_toEndOf="@+id/textView2"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="@+id/txtPass" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

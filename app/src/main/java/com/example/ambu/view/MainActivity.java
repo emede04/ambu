@@ -24,8 +24,6 @@ public class MainActivity extends AppCompatActivity implements  Navigation {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = preferencias.edit();
 
 
         if (savedInstanceState == null) {

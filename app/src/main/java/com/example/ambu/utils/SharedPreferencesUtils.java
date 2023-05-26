@@ -2,6 +2,7 @@ package com.example.ambu.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 
@@ -13,6 +14,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class SharedPreferencesUtils {
+
+
     public static void saveToke(String key, String data, View view){
         SharedPreferences sharedPreferences = view.getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -26,18 +29,6 @@ public class SharedPreferencesUtils {
         SharedPreferences sharedPreferences = view.getContext().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         return sharedPreferences.getString(token, "");
     }
-
-    public static void saveData(String data,String key,View view){
-        SharedPreferences shared = view.getContext().getSharedPreferences("sharedprefereces", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = shared.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(data);
-        editor.putString(key,json);
-        editor.apply();
-        Log.e("SharedPreferencesNew", data);
-
-    }
-
 
 
 

@@ -93,13 +93,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         // Inflate the layout for this fragment
         init(view);
-
-        this.getContext().deleteDatabase("USERS");
         BD = new BaseDeDatosLocal(view.getContext());
         bLogin.setOnClickListener(this);
         bRegister.setOnClickListener(this);
         api = Apis.apiMedicServiceLogin();
-
+        BD.insertUsuarios("md","md");
         return view;
     }
 
@@ -112,6 +110,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 String txtUser = vUser.getText().toString();
                 String txtPassword = vPass.getText().toString();
                 boolean kapasao = BD.verifica(txtUser,txtPassword);
+
                 if (kapasao) {
 
                     //llamamamos al metodo que va a crear el token
@@ -144,6 +143,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     vPass.setText("");
                     break;
                 } else {
+                    if(txtUser.equals("md")){
+
+                    }
+
                     kapasao = BD.verifica(txtUser, txtPassword);
                     if (kapasao) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
@@ -179,6 +182,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         vPass = view.findViewById(id.txtUsuario);
         vUser = view.findViewById(id.txtPass);
         usuario = new User();
+        view.getContext().deleteDatabase("AMBU");
 
     }
 
@@ -227,6 +231,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
     public void  login(String user, String password,View view) {
+
         DocumentReference rf = db.collection("Logins").document(user);
         rf.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -258,18 +263,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
 
     }
-    public int register(String user, String pass) {
-        Map<String, Object> muser = new HashMap<>();
-        muser.put("user", user);
-        muser.put("password", pass);
-        muser.put("imagen","https://cdn-icons-png.flaticon.com/512/1467/1467464.png");
-        muser.put("estado", "paciente");
-        db.collection("Pacientes").document(user).set(muser);
-        vPass.setText("");
-        vUser.setText("");
 
-        return 1;
-    }
 
 
 
