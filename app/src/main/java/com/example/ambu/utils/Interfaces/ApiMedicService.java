@@ -1,5 +1,6 @@
 package com.example.ambu.utils.Interfaces;
 
+import com.example.ambu.models.Diagnosis;
 import com.example.ambu.models.Issue;
 import com.example.ambu.models.Symptom;
 
@@ -24,6 +25,8 @@ public interface ApiMedicService {
     @POST("/login")
     Call<ResponseBody> loginApiMedic(@Header("Authorization") String authorizationApiMedic);
 
+    @GET("/diagnosis")
+    Call<List<Diagnosis>> getDiagnosis(@Query("token") String token, @Query("format") String format, @Query("language") String language, @Query("Gender") String gender, @Query("year_of_birth") String year, @Query("symptoms") String symptoms);
 
 
     @GET("/issues")

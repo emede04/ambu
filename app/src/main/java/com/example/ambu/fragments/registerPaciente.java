@@ -34,6 +34,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,9 +72,14 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
     int posgenero;
     Button bConfirmar;
     Button bCancelar;
+    ArrayAdapter<String> sintomas_nombre_adapter;
+    AutoCompleteTextView sintomasMenu;
+    Button bSintomas;
     AutoCompleteTextView genresMenu;
     ListView vListaSintomas;
     ArrayList<Symptom> listaS;
+    String sintomas_user;
+    String sintomas_name;
     public registerPaciente() {
         // Required empty public constructor
     }
@@ -91,10 +97,7 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
         Bundle bundle = this.getArguments();
        // usuario =  bundle.getString("usuario");
        // password =  bundle.getString("password");
-
-        if (getArguments() != null) {
-
-        }
+        sintomas_name = "";
     }
 
     @Override
@@ -102,10 +105,19 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_register_paciente, container, false);
-            setupGenero(view);
+        sintomas_user =  SharedPreferencesUtils.SacarDatos("idSintomas",view);
+        sintomas_name =  SharedPreferencesUtils.SacarDatos("nombres",view);
+
+        System.out.println(sintomas_name);
+            setUpSintomas(view);
+        sintomas_nombre_adapter.setNotifyOnChange(true);
+
+        setupGenero(view);
             init(view);
         bConfirmar.setOnClickListener(this);
         bCancelar.setOnClickListener(this);
+        bSintomas.setOnClickListener(this);
+        sintomasMenu.setOnClickListener(this);
         return view;
     }
 
@@ -117,11 +129,10 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
 
     }
 
-    public String parseSintomas(){
-        String sintomas ="";
-        //con este metodo coloco los sintomas para que se puedan usar en la llamada a la api
-    return sintomas;
-    }
+
+
+
+
 
     private void setupGenero(View view) {
         genresMenuAdapter = new ArrayAdapter<String>(
@@ -132,6 +143,29 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
         genresMenu.setThreshold(1);
         genresMenu.setAdapter(genresMenuAdapter);
     }
+
+
+    //TODO QUE SE VEAN LOS SINTOMAS;
+    private void setUpSintomas(View view) {
+        System.out.println(sintomas_name);
+        String[] nombres = sintomas_name.split(",");
+
+        if (nombres.length == 0) {
+
+        } else {
+            sintomas_nombre_adapter = new ArrayAdapter<String>(
+                    view.getContext(),
+                    R.layout.sintomas_dropdown_menu,
+                    nombres);
+            sintomasMenu = (AutoCompleteTextView) view.findViewById(R.id.sintomasAutoCompleteTextView);
+            sintomasMenu.setThreshold(1);
+            sintomasMenu.setAdapter(sintomas_nombre_adapter);
+
+        }
+
+    }
+
+
     private void init(View view){
         tilPassword = view.findViewById(R.id.password_text_input);
         tietPassword = view.findViewById(R.id.password_edit_text);
@@ -145,6 +179,7 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
          tietBirthDate = view.findViewById(R.id.birth_date_edit_text);
          bCancelar = view.findViewById(R.id.bcancelar);
          bConfirmar = view.findViewById(R.id.bconfirmar);
+        bSintomas = view.findViewById(R.id.bSintomas);
     }
 
     public int register(View v) {
@@ -177,7 +212,7 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
         }else{
             Map<String, Object> muser = new HashMap<>();
             Log.d("USUARIO",pass + apedillo);
-            muser.put("user", user);
+            muser.put("nombre", user);
             muser.put("password", pass);
             muser.put("apellido", apedillo);
             muser.put("edad", edad);
@@ -186,7 +221,7 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
             muser.put("genero", genero);
             muser.put("imagen","https://cdn-icons-png.flaticon.com/512/1467/1467464.png");
             muser.put("estado", "paciente");
-            muser.put("sintomas", "10");
+            muser.put("sintomas", sintomas_user);
 
 
             db.collection("Pacientes").document(user).set(muser);
@@ -216,37 +251,6 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
 
     }
 
-    public void SacarSintomas(View view){
-
-        List<Symptom> listaSintomas = new ArrayList<Symptom>();
-
-        Call<List<Symptom>> listCall = api.getAllSymptoms(SharedPreferencesUtils.SacarDatos("ApiMedicToken", view), "json", "es-es");
-        listCall.enqueue(new Callback<List<Symptom>>() {
-            @Override
-            public void onResponse(Call<List<Symptom>> call, Response<List<Symptom>> response) {
-
-                        for(Symptom symptom : response.body()) {
-                            if (!"".equals(symptom.getName())) ;
-                            listaSintomas.add(symptom);
-                            System.out.println(symptom.getName());
-
-                        }
-                adaptador_sintomas = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_expandable_list_item_1,listaSintomas);
-                        vListaSintomas.setAdapter(adaptador_sintomas);
-                adaptador_sintomas.notifyDataSetChanged();
-
-
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Symptom>> call, Throwable t) {
-
-            }
-        });
-
-
-    }
 
 
 
@@ -258,13 +262,18 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
         switch (view.getId()/*to get clicked view id**/) {
             case R.id.bcancelar:
                 String aux = tietFirstName.getText().toString();
-
+                borrardocu(usuario);
                break;
 
 
             case R.id.bconfirmar:
 
                 Toast.makeText(getActivity(), "Su usario ha sido registrado tanto localmente como online", Toast.LENGTH_LONG + 2).show();
+                  register(view);
+
+                break;
+
+            case R.id.bSintomas:
                 Fragment fragment = new FragmentSelectSymtom();
                 Bundle bundle = new Bundle();
                 fragment.setArguments(bundle);
@@ -273,11 +282,11 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
                 fragmentTransaction.replace(R.id.container, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-
                 break;
 
-
-
+            case R.id.sintomasAutoCompleteTextView:
+                    setUpSintomas(view);
+                    break;
         }
 
 
@@ -286,10 +295,6 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
 
 
 }
-
-
-
-
 
 
 

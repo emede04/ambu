@@ -1,10 +1,14 @@
 package com.example.ambu.fragments;
 
+import android.app.FragmentTransaction;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +22,8 @@ import com.example.ambu.models.Symptom;
 import com.example.ambu.utils.Apis;
 import com.example.ambu.utils.Interfaces.ApiMedicService;
 import com.example.ambu.utils.SharedPreferencesUtils;
+import com.example.ambu.view.Med.ui.consulta.Consulta;
+import com.example.ambu.view.Med.ui.pacientes.Pacientes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -43,7 +49,7 @@ public class FragmentSelectSymtom extends Fragment {
     ArrayList<Symptom> listaS;
     ArrayList<Symptom> listaSeleccionados;
     ArrayList<Symptom> aux;
-
+    String sintomasdelusuario = "";
 
     FloatingActionButton boton;
 
@@ -83,6 +89,9 @@ public class FragmentSelectSymtom extends Fragment {
 
     }
 
+
+
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -96,9 +105,12 @@ public class FragmentSelectSymtom extends Fragment {
         boton = view.findViewById(R.id.bAceptarSintomas);
     }
     public String parseSymtom(ArrayList<Symptom> l,View view){
+        SharedPreferencesUtils.saveToke("nombre","",view);
+
         //para poder pasar los id de los sintomas como query
         //ejemplo query
         //diagnosis?symptoms=[14,20]&
+        String sintomasNombre = "";
 
         int incr = 0;
         String parse = "[";
@@ -109,15 +121,31 @@ public class FragmentSelectSymtom extends Fragment {
             c++;
             if (listaSeleccionados.size() == c){
                 parse += symptom.getID();
+
             }else{
                 parse += symptom.getID() + ",";
             }
         }
 
 
+        int x = 0;
+        for (Symptom symptom: listaSeleccionados
+        ) {
+            x++;
+            if (listaSeleccionados.size() == x){
+                sintomasNombre += symptom.getName();
+
+            }else{
+                sintomasNombre += symptom.getName()+",";
+            }
+        }
+        SharedPreferencesUtils.saveToke("nombre",sintomasNombre,view);
+
         parse += "]";
         System.out.println(parse);
+   
         return parse;
+
     }
 
 
@@ -181,6 +209,8 @@ public class FragmentSelectSymtom extends Fragment {
      boton.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View view) {
+             SharedPreferencesUtils.saveToke("idSintomas", "", view);
+
              ArrayList<Symptom> symptomArraylist;
              if (!aux.isEmpty()) {
                  Snackbar.make(view, "de vuelta con los sintomas para terminar su registro", Snackbar.LENGTH_LONG)
@@ -190,9 +220,16 @@ public class FragmentSelectSymtom extends Fragment {
                  listaSeleccionados =   quitarduplicados(aux);
 
                  String SintomasQuery = "";
+
+                 for(int i = 0; i<0;)
+
+                     System.out.println();
                  SintomasQuery = parseSymtom(listaSeleccionados, view);
                  System.out.println(SintomasQuery);
-                 SharedPreferencesUtils.saveData("idSintomas", SintomasQuery, view);
+
+
+                 System.out.println(SintomasQuery);
+                 SharedPreferencesUtils.saveToke("idSintomas", SintomasQuery, view);
 
 
              } else {

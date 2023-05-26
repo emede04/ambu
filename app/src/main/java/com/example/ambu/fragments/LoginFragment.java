@@ -85,11 +85,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -117,6 +113,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 String txtPassword = vPass.getText().toString();
                 boolean kapasao = BD.verifica(txtUser,txtPassword);
                 if (kapasao) {
+
                     //llamamamos al metodo que va a crear el token
                     createToken(ApimedicUserName, ApiMedicPassword, ApiMedicUrl, v);
                     login(txtUser,txtPassword,v);

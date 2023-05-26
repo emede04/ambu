@@ -37,15 +37,7 @@ public class SharedPreferencesUtils {
         Log.e("SharedPreferencesNew", data);
 
     }
-    public static void loadDataSimtomas(String key,View view,ArrayList listaSymtomas ){
-        SharedPreferences shared = view.getContext().getSharedPreferences("sharedprefereces", Context.MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = shared.getString(key,null);
-        Type type = new TypeToken<ArrayList<Symptom>>() {}.getType();
-        listaSymtomas = gson.fromJson(json, type);
-        Log.e("SharedPreferencesNew", "Guardado con exito");
 
-    }
 
 
 

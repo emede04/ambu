@@ -1,97 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="411dp"
-        android:layout_height="143dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
-        app:cardElevation="10dp"
-        app:contentPadding="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.052">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+ android:layout_marginStart="16dp"
+android:layout_height="200dp"
+android:background="@color/white"
+    >
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="199dp">
 
-            <ImageView
-                android:id="@+id/imagenPaciente"
-                android:layout_width="99dp"
-                android:layout_height="110dp"
-                android:layout_marginStart="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/tvPacienteedad"
-                app:layout_constraintHorizontal_bias="0.281"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
 
-            <TextView
-                android:id="@+id/tvPacienteedad"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="136dp"
-                android:gravity="center_horizontal"
-                android:text="Paciente edad: "
-                android:textAlignment="center"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.067"
-                app:layout_constraintStart_toEndOf="@+id/imagenPaciente"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.307" />
 
-            <TextView
-                android:id="@+id/tvPacienteNombre"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="52dp"
-                android:gravity="center_horizontal"
-                android:text="First"
-                android:textAlignment="center"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.072"
-                app:layout_constraintStart_toEndOf="@+id/imagenPaciente"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.767" />
+        <ImageView
+            android:id="@+id/imagenPaciente"
+            android:layout_width="99dp"
+            android:layout_height="110dp"
+            android:layout_alignParentBottom="true"
 
-            <TextView
-                android:id="@+id/PacienteGenero"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="124dp"
-                android:gravity="center_horizontal"
-                android:text="Paciente genero: "
-                android:textAlignment="center"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.78"
-                app:layout_constraintStart_toEndOf="@+id/imagenPaciente"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.757" />
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="29dp" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/PacienteGenero"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/imagenPaciente"
+            android:layout_alignBottom="@+id/imagenPaciente"
+            android:layout_marginEnd="-183dp"
+            android:layout_marginBottom="88dp"
+            android:gravity="center_horizontal"
+            android:text="Paciente genero: "
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvPacienteedad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/PacienteGenero"
+            android:layout_alignBottom="@+id/PacienteGenero"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="-37dp"
+            android:gravity="center_horizontal"
+            android:text="Paciente edad: "
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/tvPacienteNombre"
+            android:layout_width="105dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/PacienteGenero"
+            android:layout_alignStart="@+id/PacienteGenero"
+            android:layout_marginStart="-143dp"
+            android:layout_marginEnd="39dp"
+            android:layout_marginBottom="24dp"
+            android:layout_toStartOf="@+id/tvPacienteedad"
+
+            android:gravity="center_horizontal"
+            android:text="First"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+
 
 
     </androidx.cardview.widget.CardView>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>

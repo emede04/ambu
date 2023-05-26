@@ -9,8 +9,11 @@ import com.example.ambu.fragments.LoginFragment;
 import com.example.ambu.utils.Apis;
 import com.example.ambu.utils.Interfaces.LoginService;
 import com.example.ambu.utils.BaseDeDatosLocal;
+import com.example.ambu.utils.SharedPreferencesUtils;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity implements  Navigation {
@@ -21,6 +24,8 @@ public class MainActivity extends AppCompatActivity implements  Navigation {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferencias.edit();
 
 
         if (savedInstanceState == null) {

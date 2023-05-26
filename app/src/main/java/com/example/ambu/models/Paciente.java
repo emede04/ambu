@@ -3,55 +3,13 @@ package com.example.ambu.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Paciente implements Parcelable {
-    String nombre;
-    String edad;
-    String imagen;
-    String apedillo;
-    String fecha;
-    String peso;
-    String altura;
-    String sintomas;
+import java.io.Serializable;
 
-    protected Paciente(Parcel in) {
-        nombre = in.readString();
-        edad = in.readString();
-        imagen = in.readString();
-        apedillo = in.readString();
-        fecha = in.readString();
-        peso = in.readString();
-        altura = in.readString();
-        sintomas = in.readString();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(nombre);
-        dest.writeString(edad);
-        dest.writeString(imagen);
-        dest.writeString(apedillo);
-        dest.writeString(fecha);
-        dest.writeString(peso);
-        dest.writeString(altura);
-        dest.writeString(sintomas);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<Paciente> CREATOR = new Creator<Paciente>() {
-        @Override
-        public Paciente createFromParcel(Parcel in) {
-            return new Paciente(in);
-        }
-
-        @Override
-        public Paciente[] newArray(int size) {
-            return new Paciente[size];
-        }
-    };
+public class Paciente implements Serializable {
+String nombre;
+String password;
+String apellido;
+String edad, peso, altura, genero, imagen, estado, sintomas;
 
     public String getNombre() {
         return nombre;
@@ -61,36 +19,28 @@ public class Paciente implements Parcelable {
         this.nombre = nombre;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
     public String getEdad() {
         return edad;
     }
 
     public void setEdad(String edad) {
         this.edad = edad;
-    }
-
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
-    }
-
-    public String getApedillo() {
-        return apedillo;
-    }
-
-    public void setApedillo(String apedillo) {
-        this.apedillo = apedillo;
-    }
-
-    public String getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
     }
 
     public String getPeso() {
@@ -109,6 +59,30 @@ public class Paciente implements Parcelable {
         this.altura = altura;
     }
 
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
     public String getSintomas() {
         return sintomas;
     }
@@ -116,4 +90,5 @@ public class Paciente implements Parcelable {
     public void setSintomas(String sintomas) {
         this.sintomas = sintomas;
     }
+
 }

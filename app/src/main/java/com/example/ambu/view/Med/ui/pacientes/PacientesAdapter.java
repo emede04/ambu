@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,10 +19,10 @@ import com.example.ambu.models.Paciente;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
-public class PacientesAdapter extends FirestoreRecyclerAdapter<Paciente,PacientesAdapter.PacientesViewHolder> {
+public class PacientesAdapter extends FirestoreRecyclerAdapter<Paciente,PacientesAdapter.PacientesViewHolder> implements View.OnClickListener{
 
     Context context;
-
+    private View.OnClickListener sensor;
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
      * FirestoreRecyclerOptions} for configuration options.
@@ -38,11 +39,13 @@ public class PacientesAdapter extends FirestoreRecyclerAdapter<Paciente,Paciente
     protected void onBindViewHolder(@NonNull PacientesAdapter.PacientesViewHolder holder, int position, @NonNull Paciente model) {
         holder.username.setText(model.getNombre());
         holder.useredad.setText((model.getEdad()));
+
         Glide.with(context).
                 load(model.getImagen())
                 .error(R.mipmap.ic_launcher)
                 .apply(RequestOptions.bitmapTransform(new RoundedCorners(50)))
                 .into(holder.profile_img);
+
 
     }
 
@@ -50,10 +53,26 @@ public class PacientesAdapter extends FirestoreRecyclerAdapter<Paciente,Paciente
     @Override
     public PacientesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adaptador_pacientes,parent,false);
+        view.setOnClickListener(this);
+
         return  new PacientesViewHolder(view);
     }
 
-    public class PacientesViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void onClick(View view) {
+        if(sensor!=null){
+            sensor.onClick(view);
+
+
+        }
+    }
+
+    public void setOnClickListener(View.OnClickListener sensor) {
+        this.sensor = sensor;
+    }
+
+
+    public class PacientesViewHolder extends RecyclerView.ViewHolder{
         ImageView profile_img;
         TextView username, useredad;
 
@@ -65,9 +84,14 @@ public class PacientesAdapter extends FirestoreRecyclerAdapter<Paciente,Paciente
             super(itemView);
 
             profile_img = itemView.findViewById(R.id.imagenPaciente);
-            username = itemView.findViewById(R.id.tvPacienteNombre);
-            useredad = itemView.findViewById(R.id.tvPacienteedad);
+            username = (TextView) itemView.findViewById(R.id.tvPacienteNombre);
+            useredad =  (TextView)itemView.findViewById(R.id.tvPacienteedad);
+
+
+
 
         }
-    }
-}
+
+
+
+}}
