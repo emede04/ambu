@@ -3,7 +3,10 @@ package com.example.ambu.view.Med;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.ambu.R;
 import com.example.ambu.databinding.ActivityMedBinding;
 import com.example.ambu.models.Symptom;
@@ -26,7 +29,9 @@ public class MedActivity extends AppCompatActivity{
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMedBinding binding;
     private Apis api;
-
+    ImageView med;
+    TextView nombremed;
+    TextView especialidad;
     //Private ArrayList<Pacientes> listaPacientes;
     private  ArrayList<Symptom> listaSintomas;
     //Private ArrayList<Diagnostico> listaDiagnostico
@@ -57,6 +62,27 @@ public class MedActivity extends AppCompatActivity{
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        //metodo para sacar los datos del medico logeado
+
+        cargarMed();
+
+        //NavigationHeader
+        View header = navigationView.getHeaderView(0);
+        med = (ImageView) header.findViewById(R.id.idImagenMedico);
+        nombremed = header.findViewById(R.id.txtnameMed);
+        Glide
+                .with(this.getBaseContext())
+                .load("https://static.vecteezy.com/system/resources/previews/017/196/552/non_2x/doctor-icon-on-transparent-background-free-png.png")
+                .placeholder(R.drawable.logo)
+                .error(R.drawable.logo)
+                .into(med);
+
+
+    }
+
+    private void cargarMed() {
+
+
     }
 
     @Override
@@ -74,18 +100,9 @@ public class MedActivity extends AppCompatActivity{
                 || super.onSupportNavigateUp();
     }
 
-    public int loadBasicData(String id){
-        //carga pacientes
-
-        //carga sintomas
-           // cargaSintomas(listaSintomas);
-        //carga diagnosticos
 
 
 
-
-        return 1;
-    }
 
 
     }

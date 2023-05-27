@@ -31,6 +31,8 @@ import com.example.ambu.utils.BaseDeDatosLocal;
 import com.example.ambu.view.Med.MedActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -59,8 +61,8 @@ import retrofit2.Response;
  */
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
-    Button bLogin;
-    Button bRegister;
+    MaterialButton bLogin;
+    TextView bRegister;
     ArrayList<Symptom> listaSintomasSeleccionados;
     TextView vUser;
     TextView vPass;
@@ -179,8 +181,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public void init(View view) {
         bLogin = view.findViewById(id.botonLogin);
         bRegister = view.findViewById(id.botonRegistar);
-        vPass = view.findViewById(id.txtUsuario);
-        vUser = view.findViewById(id.txtPass);
+        vPass = view.findViewById(id.tvPass);
+        vUser = view.findViewById(id.tvUser);
         usuario = new User();
         view.getContext().deleteDatabase("AMBU");
 

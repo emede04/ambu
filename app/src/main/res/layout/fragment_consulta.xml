@@ -5,35 +5,88 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragmentConsulta"
+    android:paddingTop="?android:attr/actionBarSize"
     tools:context=".view.Med.ui.consulta.Consulta">
+
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
-        android:layout_width="402dp"
-        android:layout_height="160dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="2dp"
-        app:layout_constraintBottom_toTopOf="@+id/RvDiagnostico"
+        android:layout_width="397dp"
+        android:layout_height="240dp"
+        android:layout_margin="20dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@layout/app_bar_med">
 
-        <TextView
-            android:id="@+id/userdiagnostico"
-            android:layout_width="87dp"
-            android:layout_height="42dp"
-            android:text="TextView" />
+        <LinearLayout
+            android:layout_width="381dp"
+            android:layout_height="245dp"
+            android:layout_gravity="top"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <TextView
+                android:id="@+id/tvNombrePaciente"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NombrePaciente"
+                android:textAlignment="center"
+                android:textSize="36sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/tvedad"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:drawablePadding="8dp"
+                android:hint="IcdName"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textColorHighlight="@color/cardview_dark_background" />
+
+            <Spinner
+                android:id="@+id/spinnerSintomas"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+
+                android:drawablePadding="8dp"
+                android:hint="Specialisation"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textColorHighlight="@color/cardview_dark_background" />
+
+
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/RvDiagnostico"
-        android:layout_width="417dp"
-        android:layout_height="525dp"
-        android:layout_marginTop="2dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardRv"
+        android:layout_width="377dp"
+        android:layout_height="619dp"
+        android:layout_margin="30dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginEnd="21dp"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView2">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RvDiagnostico"
+            android:layout_width="361dp"
+            android:layout_height="603dp"
+            android:layout_marginBottom="4dp" />
+    </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

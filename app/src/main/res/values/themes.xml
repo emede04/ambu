@@ -3,6 +3,7 @@
     <style name="Theme.Ambu" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Base application theme. -->
         <!-- Primary brand color. -->
+
         <item name="colorPrimary">@color/azul</item>
         <item name="colorPrimaryVariant">@color/azulClaro</item>
         <item name="colorOnPrimary">@color/white</item>
@@ -20,6 +21,7 @@
     </style>
 
     <style name="Theme.Ambu.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
 
     <style name="Theme.Ambu.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 

@@ -109,13 +109,10 @@ public class Pacientes extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
-                        Fragment consulta = new Consulta();
                         Bundle args = new Bundle();
-                        args.putString("nombreusuario", adapter.getItem(posicion).getNombre());
+                        args.putString("nombre", adapter.getItem(posicion).getNombre());
                         args.putString("sintomas",adapter.getItem(posicion).getSintomas());
                         args.putString("edad",adapter.getItem(posicion).getEdad());
-                        Fragment fragment = new Consulta();
-                        fragment.setArguments(args);
                         Navigation.findNavController(view).navigate(R.id.nav_consulta, args);
 
 
