@@ -6,9 +6,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class Diagnosis {
-    String name;
-    double Accuracy;
-    String cause;
     @SerializedName("Issue")
     @Expose
     private Issue issue;
@@ -16,6 +13,9 @@ public class Diagnosis {
     @Expose
     private List<Specialisation> specialisation = null;
 
+    public Issue getIssue() {
+        return issue;
+    }
 
     public void setIssue(Issue issue) {
         this.issue = issue;
@@ -27,34 +27,6 @@ public class Diagnosis {
 
     public void setSpecialisation(List<Specialisation> specialisation) {
         this.specialisation = specialisation;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getAccuracy() {
-        return Accuracy;
-    }
-
-    public void setAccuracy(double accuracy) {
-        Accuracy = accuracy;
-    }
-
-    public String getCause() {
-        return cause;
-    }
-
-    public void setCause(String cause) {
-        this.cause = cause;
-    }
-
-    public Issue getIssue() {
-        return issue;
     }
 }
 

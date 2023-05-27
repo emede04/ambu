@@ -1,8 +1,6 @@
 package com.example.ambu.fragments;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -34,14 +32,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,15 +49,15 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     BaseDeDatosLocal BD;
      TextInputLayout tilPassword ;
-     TextInputEditText tietPassword;
+     TextInputEditText tvContrasenia;
      TextInputLayout tilConfirmPass;
-     TextInputEditText tietConfirmPass;
-     TextInputEditText tietFirstName;
-     TextInputEditText tietLastName;
+     TextInputEditText tvPass;
+     TextInputEditText tvnombre;
+     TextInputEditText tvapellido;
      TextInputEditText tietAge;
-     TextInputEditText tietWeight;
-     TextInputEditText tietHeight;
-     TextInputEditText tietBirthDate;
+     TextInputEditText tvPeso;
+     TextInputEditText tvAltura;
+     TextInputEditText tvedad;
     ApiMedicService api = Apis.apiMedicServiceData();
     ArrayAdapter<Symptom> adaptador_sintomas;
     ArrayAdapter<String> genresMenuAdapter;
@@ -139,7 +131,7 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
                 view.getContext(),
                 R.layout.genre_dropdown_menu,
                 genres);
-         genresMenu = (AutoCompleteTextView) view.findViewById(R.id.genre_dropdown);
+         genresMenu = (AutoCompleteTextView) view.findViewById(R.id.tvGenero);
         genresMenu.setThreshold(1);
         genresMenu.setAdapter(genresMenuAdapter);
     }
@@ -168,15 +160,15 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
 
     private void init(View view){
         tilPassword = view.findViewById(R.id.password_text_input);
-        tietPassword = view.findViewById(R.id.password_edit_text);
+        tvContrasenia = view.findViewById(R.id.password_edit_text);
         tilConfirmPass = view.findViewById(R.id.confirm_pass_text_input);
-         tietConfirmPass = view.findViewById(R.id.confirm_pass_edit_text);
-         tietFirstName = view.findViewById(R.id.first_name_edit_text);
-         tietLastName = view.findViewById(R.id.last_name_edit_text);
+         tvPass = view.findViewById(R.id.confirm_pass_edit_text);
+         tvnombre = view.findViewById(R.id.first_name_edit_text);
+         tvapellido = view.findViewById(R.id.last_name_edit_text);
          tietAge = view.findViewById(R.id.age_edit_text);
-         tietWeight = view.findViewById(R.id.weight_edit_text);
-         tietHeight = view.findViewById(R.id.height_edit_text);
-         tietBirthDate = view.findViewById(R.id.birth_date_edit_text);
+         tvPeso = view.findViewById(R.id.weight_edit_text);
+         tvAltura = view.findViewById(R.id.height_edit_text);
+         tvedad = view.findViewById(R.id.age_edit_text);
          bCancelar = view.findViewById(R.id.bcancelar);
          bConfirmar = view.findViewById(R.id.bconfirmar);
         bSintomas = view.findViewById(R.id.bSintomas);
@@ -184,13 +176,14 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
 
     public int register(View v) {
         AlertDialog.Builder builder;
-       String user = tietFirstName.getText().toString();
-        String  pass = tietConfirmPass.getText().toString();
-        String  password = tietPassword.getText().toString();
-        String apedillo = tietLastName.getText().toString();
-        String edad = tietBirthDate.getText().toString();
-        String peso = tietWeight.getText().toString();
-        String altura = tietHeight.getText().toString();
+       String user = tvnombre.getText().toString();
+        String  pass = tvPass.getText().toString();
+        String  password = tvContrasenia.getText().toString();
+
+        String apedillo = tvapellido.getText().toString();
+        String edad = tvedad.getText().toString();
+        String peso = tvPeso.getText().toString();
+        String altura = tvAltura.getText().toString();
        String genero = genresMenu.getText().toString();
         if(!pass.equals(password)){
             System.out.println(pass);
@@ -199,8 +192,8 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
             builder.setMessage("las contraseñas no son iguales")
                     .setTitle("Error")
                     .setIcon(android.R.drawable.ic_delete);
-            tietConfirmPass.setText("");
-            tietPassword.setText("");
+            tvPass.setText("");
+            tvContrasenia.setText("");
             builder.show();
             if(user.isEmpty() || pass.isEmpty() || apedillo.isEmpty() || edad.isEmpty()|| peso.isEmpty() || altura.isEmpty() || genero.isEmpty() ){
                 builder = new AlertDialog.Builder(v.getContext());
@@ -241,7 +234,7 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
     }
 
     public void borrardocu(String user){
-         user = tietFirstName.getText().toString();
+         user = tvnombre.getText().toString();
         db.collection("Pacientes").document(user).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
@@ -261,7 +254,7 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()/*to get clicked view id**/) {
             case R.id.bcancelar:
-                String aux = tietFirstName.getText().toString();
+                String aux = tvnombre.getText().toString();
                 borrardocu(usuario);
                break;
 

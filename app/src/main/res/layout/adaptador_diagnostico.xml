@@ -9,9 +9,11 @@
         app:cardElevation="20dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="346dp"
+            android:layout_height="436dp"
             android:layout_gravity="top"
+            android:background="@drawable/side_nav_bar"
+
             android:orientation="vertical"
             android:padding="24dp">
 
@@ -21,26 +23,49 @@
                 android:layout_height="wrap_content"
                 android:text="Diagnostico"
                 android:textAlignment="center"
-                android:textSize="36sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvIssue"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:drawablePadding="8dp"
                 android:hint="Issue"
                 android:padding="8dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background" />
+
             <TextView
                 android:id="@+id/IcdName"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:drawablePadding="8dp"
                 android:hint="IcdName"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textColorHighlight="@color/cardview_dark_background" />
+
+            <TextView
+                android:id="@+id/tvprofname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="8dp"
+                android:hint="profname"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textColorHighlight="@color/cardview_dark_background" />
+
+            <TextView
+                android:id="@+id/tvacurracy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="8dp"
+                android:hint="acurracy"
                 android:padding="8dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background" />
@@ -49,9 +74,9 @@
                 android:id="@+id/tvSpecialisation"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:drawablePadding="8dp"
-            android:hint="Specialisation"
+                android:hint="Specialisation"
                 android:padding="8dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background" />

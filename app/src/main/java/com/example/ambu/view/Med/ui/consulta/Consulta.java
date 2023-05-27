@@ -1,11 +1,15 @@
 package com.example.ambu.view.Med.ui.consulta;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ambu.R;
@@ -24,6 +30,7 @@ import com.example.ambu.utils.Interfaces.ApiMedicService;
 import com.example.ambu.utils.SharedPreferencesUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -39,18 +46,20 @@ public class Consulta extends Fragment {
 
   //  private FragmentGalleryBinding binding;
 
-  String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6Im1hcmlhZG9sb3Jlc3BlcnNvbmFsQGdtYWlsLmNvbSIsInJvbGUiOiJVc2VyIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvc2lkIjoiMTE0NzIiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3ZlcnNpb24iOiIyMDAiLCJodHRwOi8vZXhhbXBsZS5vcmcvY2xhaW1zL2xpbWl0IjoiOTk5OTk5OTk5IiwiaHR0cDovL2V4YW1wbGUub3JnL2NsYWltcy9tZW1iZXJzaGlwIjoiUHJlbWl1bSIsImh0dHA6Ly9leGFtcGxlLm9yZy9jbGFpbXMvbGFuZ3VhZ2UiOiJlbi1nYiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvZXhwaXJhdGlvbiI6IjIwOTktMTItMzEiLCJodHRwOi8vZXhhbXBsZS5vcmcvY2xhaW1zL21lbWJlcnNoaXBzdGFydCI6IjIwMjItMTEtMjgiLCJpc3MiOiJodHRwczovL3NhbmRib3gtYXV0aHNlcnZpY2UucHJpYWlkLmNoIiwiYXVkIjoiaHR0cHM6Ly9oZWFsdGhzZXJ2aWNlLnByaWFpZC5jaCIsImV4cCI6MTY4NTA3MjgzOCwibmJmIjoxNjg1MDY1NjM4fQ.CS8tl0knhqna1fkAgOX4_b8EMN2sIhf1QId_qoxt1AY";
   FirebaseFirestore db = FirebaseFirestore.getInstance();
-  TextView tvpaciente;
-  TextView tvedad;
+  EditText tvpaciente;
+  EditText tvedad;
+  EditText tvgenero;
   Spinner spSintomas;
-
+  Context contexto;
   ApiMedicService api;
   ArrayList<Diagnosis> listaDiagnostico;
   String nombrePaciente ="";
   String sintomas ="";
+  String genero = "";
   String edad ="";
   RecyclerView rvdiagnositco;
+  ConsultaAdapter adapter;
 
   public Consulta() {
   }
@@ -58,10 +67,11 @@ public class Consulta extends Fragment {
   public View onCreateView(@NonNull LayoutInflater inflater,
                            ViewGroup container, Bundle savedInstanceState) {
 
-    api = Apis.apiMedicServiceData();
+
     db = FirebaseFirestore.getInstance();
     View view = inflater.inflate(R.layout.fragment_consulta, container, false);
-    listaDiagnostico = new ArrayList<>();
+     this.contexto = view.getContext();
+   listaDiagnostico = new ArrayList<Diagnosis>();
     init(view);
     return view;
   }
@@ -72,12 +82,19 @@ public class Consulta extends Fragment {
 
 
     if(getArguments() == null || getArguments().isEmpty()) {
-      Toast.makeText(getContext(), "no se han podido conseguir los datos del paciente", Toast.LENGTH_SHORT).show();
+      Snackbar.make(view, "Realiza una consulta manual", Snackbar.LENGTH_LONG)
+              .setAction("Action", null).show();
+
+
     }
     else{
       cargarDatosPac();
-      tvedad.setText(edad);
-      tvpaciente.setText(nombrePaciente);
+      tvedad.setEnabled(false);
+      tvpaciente.setEnabled(false);
+      tvgenero.setEnabled(false);
+      tvedad.setText("edad: "+edad);
+      tvpaciente.setText("paciente: "+nombrePaciente);
+      tvgenero.setText("genero:");
       generarConsulta(nombrePaciente,view);
       Toast.makeText(view.getContext(), nombrePaciente, Toast.LENGTH_SHORT).show();
     }
@@ -99,7 +116,7 @@ public class Consulta extends Fragment {
     spSintomas = view.findViewById(R.id.spinnerSintomas);
     tvpaciente = view.findViewById(R.id.tvNombrePaciente);
     tvedad = view.findViewById(R.id.tvedad);
-
+    tvgenero = view.findViewById(R.id.tvGenero);
   }
 
   public void generarConsulta(String nombreUsuario,View view) {
@@ -133,7 +150,8 @@ public class Consulta extends Fragment {
 
           if (task.isComplete() && task.isSuccessful()) {
             pd.dismiss();
-            generarDiagnostico();
+            System.out.println("voy por aqui");
+            generarDiagnostico(view,edad,sintomas,genero);
           }
 
         }
@@ -145,22 +163,63 @@ public class Consulta extends Fragment {
     this.nombrePaciente = getArguments().getString("nombre");
     this.edad = getArguments().getString("edad");
     this.sintomas = getArguments().getString("sintomas");
+    this.genero = (String) getArguments().get("genero");
   }
 
-  public void generarDiagnostico(){
-    Call<List<Diagnosis>> call = api.getDiagnosis(token, "json","es-es", "female", "1982","[9,10]");
+  public void generarDiagnostico(View view,String edad,String sintomas,String genero){
+    ProgressDialog pd = new ProgressDialog(view.getContext());
+    pd.setMessage("cargando diagnosticos");
+    Apis aqui = new Apis();
+    api = aqui.apiMedicServiceData();
+    System.out.println("por aqui ");
+    pd.show();
+    Call<List<Diagnosis>> call = api.getDiagnosis(SharedPreferencesUtils.SacarDatos("ApiMedicToken",view), "json","es-es", genero, edad,sintomas);
     call.enqueue(new Callback<List<Diagnosis>>() {
       @Override
       public void onResponse(Call<List<Diagnosis>> call, Response<List<Diagnosis>> response) {
-            if(response.isSuccessful()){
+          if(response.body().isEmpty()){
+            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+            builder.setMessage("Su sintomologia no ha generado ningun diagnostico");
 
+
+          }else{
+           ProgressDialog pd = ProgressDialog.show(view.getContext(), "loading", "estamos generando su diagnostico");
+            if(response.isSuccessful()){
+              pd.cancel();
             }
 
+          if (!response.body().isEmpty()) {
+
+            for(int i = 0; i< response.body().size();){
+
+              listaDiagnostico.add(response.body().get(i));
+              i++;
+            }
+            adapter = new ConsultaAdapter(contexto, listaDiagnostico);
+            rvdiagnositco.setLayoutManager(new LinearLayoutManager(contexto,LinearLayoutManager.HORIZONTAL, false));
+            rvdiagnositco.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
 
 
-      }
 
-      @Override
+          }
+
+          else{
+            Toast.makeText(view.getContext(), "no se ha podido generar consulta", Toast.LENGTH_SHORT).show();
+            pd.dismiss();
+
+          }
+
+
+
+
+
+      }}
+
+
+
+
+    @Override
       public void onFailure(Call<List<Diagnosis>> call, Throwable t) {
 
       }

@@ -207,7 +207,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     try {
                         JSONObject jsonObject = new JSONObject(response.body().string());
-                        SharedPreferencesUtils.saveToke("ApiMedicToken", jsonObject.getString("Token".toString()), view);
+                        SharedPreferencesUtils.saveToke("ApiMedicToken", jsonObject.getString("Token"), view);
                         Log.d("data", SharedPreferencesUtils.SacarDatos("ApiMedicToken", view));
                         Toast.makeText(getActivity(), "dentro", Toast.LENGTH_SHORT).show();
                     } catch (JSONException exception) {

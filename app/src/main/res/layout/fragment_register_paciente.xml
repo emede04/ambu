@@ -93,26 +93,6 @@
         <!-- end Apellido -->
 
 
-        <!-- Fecha de nacimiento -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/birth_date_text_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:hint="fecha nacimiento"
-            app:counterEnabled="true"
-            app:counterMaxLength="10"
-            app:helperText="aaaa-mm-dd"
-            app:helperTextEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/birth_date_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                android:maxLines="2" />
-        </com.google.android.material.textfield.TextInputLayout>
-        <!-- end Fecha de nacimiento -->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -149,7 +129,7 @@
                 android:hint="genero">
 
                 <AutoCompleteTextView
-                    android:id="@+id/genre_dropdown"
+                    android:id="@+id/tvGenero"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="none" />

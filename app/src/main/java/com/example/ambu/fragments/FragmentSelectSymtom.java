@@ -1,5 +1,6 @@
 package com.example.ambu.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -148,6 +149,23 @@ public class FragmentSelectSymtom extends Fragment {
 
     }
 
+    public String parseNombre(ArrayList<Symptom> l,View view){
+        String sintomasNombre = "";
+
+        int x = 0;
+        for (Symptom symptom: listaSeleccionados
+        ) {
+            x++;
+            if (listaSeleccionados.size() == x){
+                sintomasNombre += symptom.getName();
+
+            }else{
+                sintomasNombre += symptom.getName()+",";
+            }
+        }
+
+        return sintomasNombre;
+    }
 
     public void SacarSintomas(View view) {
 
@@ -207,6 +225,7 @@ public class FragmentSelectSymtom extends Fragment {
 
 
      boton.setOnClickListener(new View.OnClickListener() {
+         @SuppressLint("ResourceType")
          @Override
          public void onClick(View view) {
              SharedPreferencesUtils.saveToke("idSintomas", "", view);
@@ -215,21 +234,22 @@ public class FragmentSelectSymtom extends Fragment {
              if (!aux.isEmpty()) {
                  Snackbar.make(view, "de vuelta con los sintomas para terminar su registro", Snackbar.LENGTH_LONG)
                          .setAction("Action", null).show();
+                 Navigation.findNavController(view).navigate(R.layout.fragment_register_paciente);
 
                     //limpio la lista de los duplicados
                  listaSeleccionados =   quitarduplicados(aux);
 
                  String SintomasQuery = "";
 
-                 for(int i = 0; i<0;)
 
-                     System.out.println();
+                 System.out.println();
                  SintomasQuery = parseSymtom(listaSeleccionados, view);
                  System.out.println(SintomasQuery);
 
-
+                 sintomasdelusuario = parseNombre(listaSeleccionados,view);
                  System.out.println(SintomasQuery);
                  SharedPreferencesUtils.saveToke("idSintomas", SintomasQuery, view);
+                 SharedPreferencesUtils.saveToke("sintomasdelusuario", sintomasdelusuario, view);
 
 
              } else {

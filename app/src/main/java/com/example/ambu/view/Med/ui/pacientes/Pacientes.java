@@ -113,6 +113,8 @@ public class Pacientes extends Fragment {
                         args.putString("nombre", adapter.getItem(posicion).getNombre());
                         args.putString("sintomas",adapter.getItem(posicion).getSintomas());
                         args.putString("edad",adapter.getItem(posicion).getEdad());
+                        args.putString("genero",adapter.getItem(posicion).getEdad());
+
                         Navigation.findNavController(view).navigate(R.id.nav_consulta, args);
 
 
@@ -120,7 +122,7 @@ public class Pacientes extends Fragment {
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
-                        String nombre = adapter.getItem(posicion).getNombre().toString();
+                        String nombre = adapter.getItem(posicion).getNombre();
                         Toast.makeText(view.getContext(), nombre, Toast.LENGTH_SHORT).show();
                         break;
                 }

@@ -16,7 +16,7 @@ public class BaseDeDatosLocal extends SQLiteOpenHelper {
 
     //Database version must be >= 1
     private static final int DB_VERSION = 1;
-    private Context miContexto;
+    private final Context miContexto;
     //Columns
     private static final String USER_NAME_COLUMN = "CUSER";
 
