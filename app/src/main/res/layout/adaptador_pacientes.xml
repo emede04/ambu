@@ -1,80 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
- android:layout_marginStart="16dp"
-android:layout_height="200dp"
-android:background="@color/white"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="300sp"
+    android:layout_height="174dp"
+    android:layout_margin="10dp"
+    android:padding="10dp"
+    android:layout_marginStart="16dp"
+    app:cardCornerRadius="30dp"
+    app:cardElevation="20dp">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="199dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="300sp"
+        android:layout_height="174dp"
+        android:layout_gravity="center_horizontal"
 
+        android:background="@drawable/pac"
+
+        >
 
 
         <ImageView
             android:id="@+id/imagenPaciente"
             android:layout_width="99dp"
             android:layout_height="110dp"
-            android:layout_alignParentBottom="true"
 
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="29dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.119"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.764" />
 
         <TextView
             android:id="@+id/PacienteGenero"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/imagenPaciente"
-            android:layout_alignBottom="@+id/imagenPaciente"
-            android:layout_marginEnd="-183dp"
-            android:layout_marginBottom="88dp"
             android:gravity="center_horizontal"
-            android:text="Paciente genero: "
+            android:text=""
             android:textAlignment="center"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvPacienteedad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/PacienteGenero"
-            android:layout_alignBottom="@+id/PacienteGenero"
-            android:layout_marginEnd="16dp"
             android:layout_marginBottom="-37dp"
             android:gravity="center_horizontal"
             android:text="Paciente edad: "
             android:textAlignment="center"
             android:textSize="18sp"
-            android:textStyle="bold" />
-
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.604"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.207" />
 
         <TextView
             android:id="@+id/tvPacienteNombre"
             android:layout_width="105dp"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/PacienteGenero"
-            android:layout_alignStart="@+id/PacienteGenero"
-            android:layout_marginStart="-143dp"
-            android:layout_marginEnd="39dp"
-            android:layout_marginBottom="24dp"
-            android:layout_toStartOf="@+id/tvPacienteedad"
 
             android:gravity="center_horizontal"
             android:text="First"
             android:textAlignment="center"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.122"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.182" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-
-    </androidx.cardview.widget.CardView>
+</androidx.cardview.widget.CardView>
 
 

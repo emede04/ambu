@@ -7,7 +7,9 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -234,7 +236,8 @@ public class FragmentSelectSymtom extends Fragment {
              if (!aux.isEmpty()) {
                  Snackbar.make(view, "de vuelta con los sintomas para terminar su registro", Snackbar.LENGTH_LONG)
                          .setAction("Action", null).show();
-                 Navigation.findNavController(view).navigate(R.layout.fragment_register_paciente);
+
+
 
                     //limpio la lista de los duplicados
                  listaSeleccionados =   quitarduplicados(aux);

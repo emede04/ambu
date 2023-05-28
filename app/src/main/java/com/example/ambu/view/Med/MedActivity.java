@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.ambu.R;
-import com.example.ambu.databinding.ActivityMedBinding;
+import com.example.ambu.databinding.*;
 import com.example.ambu.models.Symptom;
 import com.example.ambu.utils.Apis;
 import com.example.ambu.utils.Interfaces.ApiMedicService;
@@ -17,6 +17,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -43,13 +44,7 @@ public class MedActivity extends AppCompatActivity{
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMed.toolbar);
-        binding.appBarMed.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Tenga un buen chat", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
@@ -63,11 +58,11 @@ public class MedActivity extends AppCompatActivity{
         NavigationUI.setupWithNavController(navigationView, navController);
 
         //metodo para sacar los datos del medico logeado
-
-        cargarMed();
-
-        //NavigationHeader
+        //para tener los iconos coloridos
+        navigationView.setItemIconTintList(null);
+              //NavigationHeader
         View header = navigationView.getHeaderView(0);
+        cargarMed();
         med = (ImageView) header.findViewById(R.id.idImagenMedico);
         nombremed = header.findViewById(R.id.txtnameMed);
         Glide

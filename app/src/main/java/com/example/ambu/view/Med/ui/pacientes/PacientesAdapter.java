@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -18,8 +19,9 @@ import com.example.ambu.R;
 import com.example.ambu.models.Paciente;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentSnapshot;
 
-public class PacientesAdapter extends FirestoreRecyclerAdapter<Paciente,PacientesAdapter.PacientesViewHolder> implements View.OnClickListener{
+public class PacientesAdapter extends FirestoreRecyclerAdapter<Paciente,PacientesAdapter.PacientesViewHolder> implements View.OnClickListener {
 
     Context context;
     private View.OnClickListener sensor;
@@ -70,11 +72,19 @@ public class PacientesAdapter extends FirestoreRecyclerAdapter<Paciente,Paciente
     public void setOnClickListener(View.OnClickListener sensor) {
         this.sensor = sensor;
     }
+    public void deletePaciente(int position){
+        getSnapshots().getSnapshot(position).getReference().delete();
+
+    }
+    public DocumentSnapshot getName(int position){
+        return getSnapshots().getSnapshot(position);
+    }
+
 
 
     public class PacientesViewHolder extends RecyclerView.ViewHolder{
         ImageView profile_img;
-        TextView username, useredad;
+        TextView username, useredad, genero, sintomas;
 
 
 
@@ -86,6 +96,7 @@ public class PacientesAdapter extends FirestoreRecyclerAdapter<Paciente,Paciente
             profile_img = itemView.findViewById(R.id.imagenPaciente);
             username = (TextView) itemView.findViewById(R.id.tvPacienteNombre);
             useredad =  (TextView)itemView.findViewById(R.id.tvPacienteedad);
+            genero =  (TextView)itemView.findViewById(R.id.PacienteGenero);
 
 
 
@@ -94,4 +105,6 @@ public class PacientesAdapter extends FirestoreRecyclerAdapter<Paciente,Paciente
 
 
 
-}}
+
+
+    }}

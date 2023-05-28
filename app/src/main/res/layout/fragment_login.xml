@@ -75,10 +75,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="Not yet registered? SignUp Now"
-        android:textSize="14sp"
+        android:text="¿aun no estas registrado?, clicka aqui"
+        android:textSize="18sp"
         android:textAlignment="center"
         android:id="@+id/botonRegistar"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:layout_marginBottom="20dp"/>
 </LinearLayout>

@@ -18,6 +18,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,6 +30,7 @@ import com.example.ambu.models.Paciente;
 import com.example.ambu.view.Med.ui.consulta.Consulta;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -55,6 +57,7 @@ public class Pacientes extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         init();
+        new ItemTouchHelper(itemTouchHelper).attachToRecyclerView(recyclerView);
 
     }
     @Override
@@ -134,6 +137,20 @@ public class Pacientes extends Fragment {
                 .setNegativeButton("No", dialogClickListener).show();
 
     }
+    ItemTouchHelper.SimpleCallback itemTouchHelper = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @SuppressLint("NotifyDataSetChanged")
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            adapter.deletePaciente(viewHolder.getBindingAdapterPosition());
+            DocumentSnapshot nombre = adapter.getName(viewHolder.getBindingAdapterPosition());
+            String nombre_paciente = nombre.getString("nombre");
+        }
+    };
 
 
     }
