@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -69,17 +71,17 @@ public class Consulta extends Fragment {
     String edad = "";
     RecyclerView rvdiagnositco;
     ConsultaAdapter adapter;
-
     public Consulta() {
     }
 
+    @SuppressLint("MissingInflatedId")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
 
         db = FirebaseFirestore.getInstance();
         View view = inflater.inflate(R.layout.fragment_consulta, container, false);
         this.contexto = view.getContext();
+
         listaDiagnostico = new ArrayList<Diagnosis>();
         init(view);
         return view;

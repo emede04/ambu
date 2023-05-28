@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="?android:attr/actionBarSize"
-    android:background="@drawable/paper_like_texture"
+    android:background="@drawable/background1"
     tools:context=".view.Med.ui.consulta.Consulta">
 
 

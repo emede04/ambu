@@ -1,5 +1,7 @@
 package com.example.ambu.view.Med;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -62,6 +64,10 @@ public class MedActivity extends AppCompatActivity{
         navigationView.setItemIconTintList(null);
               //NavigationHeader
         View header = navigationView.getHeaderView(0);
+        ColorDrawable colorDrawable
+                = new ColorDrawable(Color.parseColor("#DCF0ED"));
+        binding.appBarMed.toolbar.setBackgroundColor(colorDrawable.getColor()); //<-- metodo para dejar los colores bonitos;
+
         cargarMed();
         med = (ImageView) header.findViewById(R.id.idImagenMedico);
         nombremed = header.findViewById(R.id.txtnameMed);
