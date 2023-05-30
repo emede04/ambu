@@ -1,10 +1,12 @@
 package com.example.ambu.view.Med.ui.consulta;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +23,6 @@ import android.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,12 +30,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ambu.R;
 import com.example.ambu.databinding.*;
 import com.example.ambu.models.Diagnosis;
+import com.example.ambu.models.Specialisation;
 import com.example.ambu.models.Symptom;
 import com.example.ambu.utils.Apis;
 import com.example.ambu.utils.Interfaces.ApiMedicService;
 import com.example.ambu.utils.SharedPreferencesUtils;
+import com.example.ambu.view.Navigation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -52,7 +56,7 @@ public class Consulta extends Fragment {
 
     //  private FragmentGalleryBinding binding;
     String[] genres = new String[]{"Masculino", "Femenino"};
-
+    String[] nombres_sintomas;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     EditText tvpaciente;
     EditText tvedad;
@@ -69,6 +73,8 @@ public class Consulta extends Fragment {
     String sintomas = "";
     String genero = "";
     String edad = "";
+    Toolbar toolbar;
+    FloatingActionButton button;
     RecyclerView rvdiagnositco;
     ConsultaAdapter adapter;
     public Consulta() {
@@ -78,10 +84,11 @@ public class Consulta extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
+
+
         db = FirebaseFirestore.getInstance();
         View view = inflater.inflate(R.layout.fragment_consulta, container, false);
         this.contexto = view.getContext();
-
         listaDiagnostico = new ArrayList<Diagnosis>();
         init(view);
         return view;
@@ -96,8 +103,21 @@ public class Consulta extends Fragment {
             Snackbar.make(view, "Realiza una consulta manual", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
 
+
             setupGenero(view);
             setUpSpinnerCall(view);
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String edad = String.valueOf(tvedad.getText());
+                    String genero = String.valueOf(tvgenero.getText());
+
+
+                   // generarDiagnostico(view, edad,sintomas,genero);
+
+                }
+            });
         } else {
             cargarDatosPac();
             tvedad.setEnabled(false);
@@ -154,9 +174,13 @@ public class Consulta extends Fragment {
         rvdiagnositco = view.findViewById(R.id.RvDiagnostico);
         spSintomas = view.findViewById(R.id.spinnerSintomas);
         tvpaciente = view.findViewById(R.id.tvNombre);
+        tvgenero = view.findViewById(R.id.tvGeneroConsulta);
         tvedad = view.findViewById(R.id.tvedad);
+        button = view.findViewById(R.id.floatingActionButton);
     }
 
+
+    //metodo para generar consulta desde la base de datos
     public void generarConsulta(String nombreUsuario, View view) {
 
         DocumentReference rf = db.collection("Pacientes").document(nombreUsuario);
@@ -204,8 +228,9 @@ public class Consulta extends Fragment {
         this.genero = (String) getArguments().get("genero");
 
     }
-
+        //metodo para generar la consulta desde la base de datos o pasar los datos desde la consulta directa
     public void generarDiagnostico(View view, String edad, String sintomas, String genero) {
+        ArrayList<Specialisation> listaspec;
         ProgressDialog pd = new ProgressDialog(view.getContext());
         pd.setMessage("cargando diagnosticos");
         Apis aqui = new Apis();
@@ -303,7 +328,7 @@ public class Consulta extends Fragment {
                 }
 
 
-                ArrayAdapter adapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, listaSintomas_consulta);
+                ArrayAdapter adapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_multiple_choice, listaSintomas_consulta);
                 spSintomas.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
 
@@ -326,6 +351,49 @@ public class Consulta extends Fragment {
 
     }
 
+    public String parseSymtom(ArrayList<Symptom> l,View view){
+        SharedPreferencesUtils.saveToke("nombre","",view);
+
+        //para poder pasar los id de los sintomas como query
+        //ejemplo query
+        //diagnosis?symptoms=[14,20]&
+        String sintomasNombre = "";
+
+        int incr = 0;
+        String parse = "[";
+        int c = 0;
+
+        for (Symptom symptom: listaSintomas_consulta
+        ) {
+            c++;
+            if (listaSintomas_consulta.size() == c){
+                parse += symptom.getID();
+
+            }else{
+                parse += symptom.getID() + ",";
+            }
+        }
+
+
+        int x = 0;
+        for (Symptom symptom: listaSintomas_consulta
+        ) {
+            x++;
+            if (listaSintomas_consulta.size() == x){
+                sintomasNombre += symptom.getName();
+
+            }else{
+                sintomasNombre += symptom.getName()+",";
+            }
+        }
+        SharedPreferencesUtils.saveToke("nombre",sintomasNombre,view);
+
+        parse += "]";
+        System.out.println(parse);
+
+        return parse;
+
+    }
 
 
 }

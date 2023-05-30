@@ -48,7 +48,6 @@ public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.Adapta
         holder.tvissue.setText("Molestia : "+ listaDiagnosis.get(position).getIssue().getName());
         holder.tvicdName.setText("Descripcion: "+ listaDiagnosis.get(position).getIssue().getIcdName());
         holder.tvAcurracy.setText("fiabilidad: "+ listaDiagnosis.get(position).getIssue().getAccuracy());
-
         holder.spspecialization.setPrompt("Especializaciones");
 
 
@@ -91,4 +90,9 @@ public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.Adapta
 
 
     }
+
+    public void setSpinnerUp(ArrayList<Specialisation> l){
+
+    }
+
 }

@@ -46,7 +46,7 @@ public class MedActivity extends AppCompatActivity{
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMed.toolbar);
-
+        binding.appBarMed.toolbar.hideOverflowMenu();
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
@@ -62,11 +62,12 @@ public class MedActivity extends AppCompatActivity{
         //metodo para sacar los datos del medico logeado
         //para tener los iconos coloridos
         navigationView.setItemIconTintList(null);
-              //NavigationHeader
+
+        //NavigationHeader
         View header = navigationView.getHeaderView(0);
-        ColorDrawable colorDrawable
-                = new ColorDrawable(Color.parseColor("#DCF0ED"));
-        binding.appBarMed.toolbar.setBackgroundColor(colorDrawable.getColor()); //<-- metodo para dejar los colores bonitos;
+      //  ColorDrawable colorDrawable
+      //          = new ColorDrawable(Color.parseColor("#DCF0ED"));
+      //  binding.appBarMed.toolbar.setBackgroundColor(colorDrawable.getColor()); //<-- metodo para dejar los colores bonitos;
 
         cargarMed();
         med = (ImageView) header.findViewById(R.id.idImagenMedico);
