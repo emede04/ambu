@@ -57,7 +57,7 @@
                 app:layout_constraintVertical_bias="1.0" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/genero_texto"
+                android:id="@+id/genero_input"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
                 app:layout_constraintVertical_bias="0.469">
 
                 <AutoCompleteTextView
-                    android:id="@+id/tvGeneroConsulta"
+                    android:id="@+id/txtGeneroConsulta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="none" />
@@ -103,7 +103,7 @@
                 android:padding="8dp"
                 android:textColor="@color/black"
                 android:textColorHighlight="@color/cardview_dark_background"
-                app:layout_constraintBottom_toBottomOf="@+id/genero_texto"
+                app:layout_constraintBottom_toBottomOf="@+id/genero_input"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.088"
                 app:layout_constraintStart_toStartOf="parent"

@@ -185,6 +185,11 @@ public class FragmentSelectSymtom extends Fragment {
                         System.out.println(symptom.getName());
 
                     }
+                    for(Symptom s :response.body()){
+                        if(s.getID() ==56){
+                            listaSintomas.remove(s);
+                        }
+                    }
                     adaptador_sintomas = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_checked, listaSintomas);
                     vListaSeleccionada.setAdapter(adaptador_sintomas);
                     adaptador_sintomas.notifyDataSetChanged();

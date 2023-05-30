@@ -1,51 +1,45 @@
 package com.example.ambu.view.Med.ui.consulta;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ambu.R;
-import com.example.ambu.databinding.*;
 import com.example.ambu.models.Diagnosis;
 import com.example.ambu.models.Specialisation;
 import com.example.ambu.models.Symptom;
 import com.example.ambu.utils.Apis;
 import com.example.ambu.utils.Interfaces.ApiMedicService;
 import com.example.ambu.utils.SharedPreferencesUtils;
-import com.example.ambu.view.Navigation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -58,6 +52,7 @@ public class Consulta extends Fragment {
     String[] genres = new String[]{"Masculino", "Femenino"};
     String[] nombres_sintomas;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    boolean enable = false;
     EditText tvpaciente;
     EditText tvedad;
     EditText tvgenero;
@@ -68,6 +63,7 @@ public class Consulta extends Fragment {
     AutoCompleteTextView genresMenu;
     ArrayList<Diagnosis> listaDiagnostico;
     ArrayList<Symptom> listaSintomas;
+    ArrayList<Symptom> ListaSintomasConsultaManual = new ArrayList<>();
     ArrayList<Symptom> listaSintomas_consulta;
     String nombrePaciente = "";
     String sintomas = "";
@@ -106,24 +102,67 @@ public class Consulta extends Fragment {
 
             setupGenero(view);
             setUpSpinnerCall(view);
+            spSintomas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+                    Symptom s = new Symptom();
+                     s = (Symptom) adapterView.getItemAtPosition(i);
+                    if(s!= null && i !=0) {
+                        ListaSintomasConsultaManual.add(s);
+                        System.out.println(ListaSintomasConsultaManual.size());
+                         enable = true;
+
+                    }
+                    if(enable){
+                        listaSintomas.add(s);
+                        System.out.println(ListaSintomasConsultaManual.size());
+
+                    }
+
+                    Toast.makeText(contexto, "s:"+s.getID(), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            } );
+
 
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    String sintomas = "";
                     String edad = String.valueOf(tvedad.getText());
                     String genero = String.valueOf(tvgenero.getText());
+                     sintomas = parseSymtom(ListaSintomasConsultaManual,view);
+                    System.out.println(ListaSintomasConsultaManual.size());
+                    if (genero.equals("Masculino")) {
+                        genero = "male";
+                    } else if (genero.equals("Femenino")) {
+                        genero = "female";
+                    }
+                    System.out.println(sintomas);
+                    if(sintomas.equals("")){
+                        Toast.makeText(contexto, "no has seleccionado ningun sintoma", Toast.LENGTH_SHORT).show();
+                    }else {
+                        generarDiagnostico(view, edad, sintomas, genero);
 
-
-                   // generarDiagnostico(view, edad,sintomas,genero);
-
+                    }
+                    ListaSintomasConsultaManual.clear();
+                    ;
                 }
             });
         } else {
+            setupGenero(view);
             cargarDatosPac();
             tvedad.setEnabled(false);
             tvpaciente.setEnabled(false);
             tvedad.setText(edad);
             tvpaciente.setText(nombrePaciente);
+            genresMenu.setText(genero);
             generarConsulta(nombrePaciente, view);
             Toast.makeText(view.getContext(), nombrePaciente, Toast.LENGTH_SHORT).show();
         }
@@ -142,11 +181,17 @@ public class Consulta extends Fragment {
 
                 if (response.isSuccessful()) {
                     for (Symptom symptom : response.body()) {
-                        if (!"".equals(symptom.getName())) ;
+                        if (symptom.getID()!=56) ;
                         listaSintomas.add(symptom);
                         System.out.println(symptom.getName());
-
                     }
+
+                    for(Symptom s :response.body()){
+                        if(s.getID() ==56){
+                            listaSintomas.remove(s);
+                        }
+                    }
+
                     ArrayAdapter adapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_checked, listaSintomas);
                     spSintomas.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
@@ -174,7 +219,7 @@ public class Consulta extends Fragment {
         rvdiagnositco = view.findViewById(R.id.RvDiagnostico);
         spSintomas = view.findViewById(R.id.spinnerSintomas);
         tvpaciente = view.findViewById(R.id.tvNombre);
-        tvgenero = view.findViewById(R.id.tvGeneroConsulta);
+        tvgenero = view.findViewById(R.id.txtGeneroConsulta);
         tvedad = view.findViewById(R.id.tvedad);
         button = view.findViewById(R.id.floatingActionButton);
     }
@@ -230,21 +275,18 @@ public class Consulta extends Fragment {
     }
         //metodo para generar la consulta desde la base de datos o pasar los datos desde la consulta directa
     public void generarDiagnostico(View view, String edad, String sintomas, String genero) {
-        ArrayList<Specialisation> listaspec;
-        ProgressDialog pd = new ProgressDialog(view.getContext());
-        pd.setMessage("cargando diagnosticos");
         Apis aqui = new Apis();
         api = aqui.apiMedicServiceData();
         System.out.println("por aqui ");
-        pd.show();
         Call<List<Diagnosis>> call = api.getDiagnosis(SharedPreferencesUtils.SacarDatos("ApiMedicToken", view), "json", "es-es", genero, edad, sintomas);
         call.enqueue(new Callback<List<Diagnosis>>() {
             @Override
             public void onResponse(Call<List<Diagnosis>> call, Response<List<Diagnosis>> response) {
-                assert response.body() != null;
-                if (response.body().isEmpty()) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                    builder.setMessage("Su sintomologia no ha generado ningun diagnostico");
+                if (response.body() ==null) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
+                    builder.setMessage("no se ha podido conectar con la base de datos ");
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
 
 
                 } else {
@@ -260,6 +302,9 @@ public class Consulta extends Fragment {
                             listaDiagnostico.add(response.body().get(i));
                             i++;
                         }
+                        if(listaDiagnostico.isEmpty()){
+                            Toast.makeText(contexto, "NO HAY DIAGNOSTICO", Toast.LENGTH_SHORT).show();
+                        }
                         adapter = new ConsultaAdapter(contexto, listaDiagnostico);
                         rvdiagnositco.setLayoutManager(new LinearLayoutManager(contexto, LinearLayoutManager.HORIZONTAL, false));
                         rvdiagnositco.setAdapter(adapter);
@@ -271,8 +316,12 @@ public class Consulta extends Fragment {
                         String[] sint = sintomasparseao2.split(",");
                         setupSintomasConsulta(sint, view);
                     } else {
-                        Toast.makeText(view.getContext(), "no se ha podido generar consulta", Toast.LENGTH_SHORT).show();
-                        pd.dismiss();
+                        System.out.println();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
+                        builder.setMessage("no se ha podido generar su diagnostico con los sintomas establecidos");
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+
 
                     }
 
@@ -294,7 +343,7 @@ public class Consulta extends Fragment {
                 view.getContext(),
                 R.layout.genre_dropdown_menu,
                 genres);
-        genresMenu = (AutoCompleteTextView) view.findViewById(R.id.tvGeneroConsulta);
+        genresMenu = (AutoCompleteTextView) view.findViewById(R.id.txtGeneroConsulta);
         genresMenu.setThreshold(1);
         genresMenu.setAdapter(genresMenuAdapter);
 
@@ -328,7 +377,7 @@ public class Consulta extends Fragment {
                 }
 
 
-                ArrayAdapter adapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_multiple_choice, listaSintomas_consulta);
+                ArrayAdapter adapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, listaSintomas_consulta);
                 spSintomas.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
 
@@ -348,8 +397,13 @@ public class Consulta extends Fragment {
     private void setUpSpinnerSpecialidades(ArrayList Specialidades){
 
 
-
     }
+
+
+
+
+
+
 
     public String parseSymtom(ArrayList<Symptom> l,View view){
         SharedPreferencesUtils.saveToke("nombre","",view);
@@ -363,10 +417,10 @@ public class Consulta extends Fragment {
         String parse = "[";
         int c = 0;
 
-        for (Symptom symptom: listaSintomas_consulta
+        for (Symptom symptom: l
         ) {
             c++;
-            if (listaSintomas_consulta.size() == c){
+            if (l.size() == c){
                 parse += symptom.getID();
 
             }else{
@@ -376,10 +430,10 @@ public class Consulta extends Fragment {
 
 
         int x = 0;
-        for (Symptom symptom: listaSintomas_consulta
+        for (Symptom symptom: l
         ) {
             x++;
-            if (listaSintomas_consulta.size() == x){
+            if (l.size() == x){
                 sintomasNombre += symptom.getName();
 
             }else{

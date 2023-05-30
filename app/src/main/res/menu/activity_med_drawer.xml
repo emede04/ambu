@@ -7,6 +7,7 @@
         <item
             android:id="@+id/nav_pacientes"
             android:icon="@drawable/paciente"
+            android:menuCategory="secondary"
             android:title="@string/menu_pacientes" />
         <item
             android:id="@+id/nav_consulta"

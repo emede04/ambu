@@ -9,7 +9,11 @@
         android:id="@+id/nav_pacientes"
         android:name="com.example.ambu.view.Med.ui.pacientes.Pacientes"
         android:label="@string/menu_pacientes"
-        tools:layout="@layout/fragment_pacientes" />
+        tools:layout="@layout/fragment_pacientes" >
+        <action
+            android:id="@+id/action_nav_pacientes_to_nav_consulta"
+            app:destination="@id/nav_consulta" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_consulta"
