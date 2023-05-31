@@ -7,11 +7,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -51,7 +53,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Consulta extends Fragment {
+public class Consulta extends Fragment{
 
     //  private FragmentGalleryBinding binding;
     String[] genres = new String[]{"Masculino", "Femenino"};
@@ -79,6 +81,7 @@ public class Consulta extends Fragment {
     RecyclerView rvdiagnositco;
     ConsultaAdapter adapter;
     ArrayList<Specialisation> listaEspecialidades;
+    Button vermas;
     public Consulta() {
     }
 
@@ -92,6 +95,7 @@ public class Consulta extends Fragment {
         View view = inflater.inflate(R.layout.fragment_consulta, container, false);
         this.contexto = view.getContext();
         listaDiagnostico = new ArrayList<Diagnosis>();
+
         init(view);
         return view;
     }
@@ -99,6 +103,7 @@ public class Consulta extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
 
 
         if (getArguments() == null || getArguments().isEmpty()) {
@@ -159,8 +164,18 @@ public class Consulta extends Fragment {
                     }
                     ListaSintomasConsultaManual.clear();
 
+
                 }
             });
+
+
+
+
+
+
+
+
+
         } else {
             setupGenero(view);
             cargarDatosPac();
@@ -173,6 +188,9 @@ public class Consulta extends Fragment {
             Toast.makeText(view.getContext(), nombrePaciente, Toast.LENGTH_SHORT).show();
 
         }
+
+
+
 
 
     }
@@ -229,6 +247,7 @@ public class Consulta extends Fragment {
         tvgenero = view.findViewById(R.id.txtGeneroConsulta);
         tvedad = view.findViewById(R.id.tvedad);
         button = view.findViewById(R.id.floatingActionButton);
+
     }
 
 
@@ -291,7 +310,7 @@ public class Consulta extends Fragment {
             public void onResponse(Call<List<Diagnosis>> call, Response<List<Diagnosis>> response) {
                 if (response.body() ==null) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
-                    builder.setMessage("no se ha podido conectar con la base de datos ");
+                    builder.setMessage("no se ha podido conectar con la API ");
 
                     AlertDialog dialog = builder.create();
                     dialog.show();
@@ -326,8 +345,14 @@ public class Consulta extends Fragment {
                         rvdiagnositco.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
 
-
-
+                     /*   adapter.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                int pos = rvdiagnositco.getChildAdapterPosition(view);
+                                String nombre =    listaDiagnostico.get(pos).getIssue().getName();
+                                Toast.makeText(contexto, nombre, Toast.LENGTH_SHORT).show();
+                            }
+                        }); */
 
                         String sintomasparseao = sintomas.replace("[", "");
                         String sintomasparseao2 = sintomasparseao.replace("]", "");
@@ -335,6 +360,11 @@ public class Consulta extends Fragment {
                         String[] sint = sintomasparseao2.split(",");
                         System.out.println("tamaño de sintomas"+sint.length);
                         setupSintomasConsulta(sint, view);
+
+
+
+
+
                     } else {
                         System.out.println();
                         AlertDialog.Builder builder = new AlertDialog.Builder(contexto);

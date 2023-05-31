@@ -7,7 +7,6 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.ambu.R;
 import com.example.ambu.fragments.LoginFragment;
 import com.example.ambu.utils.Apis;
-import com.example.ambu.utils.Interfaces.LoginService;
 import com.example.ambu.utils.BaseDeDatosLocal;
 import com.example.ambu.utils.SharedPreferencesUtils;
 
@@ -17,7 +16,6 @@ import android.preference.PreferenceManager;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity implements  Navigation {
-    LoginService Ilogin;
     Apis api;
     BaseDeDatosLocal DB;
     @Override

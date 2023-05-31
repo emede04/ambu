@@ -82,7 +82,7 @@
                 android:textColorHighlight="@color/cardview_dark_background" />
 
             <Button
-                android:id="@+id/botonLogin"
+                android:id="@+id/botonVerMas"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
