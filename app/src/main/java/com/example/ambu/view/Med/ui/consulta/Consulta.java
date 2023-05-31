@@ -40,7 +40,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -96,8 +101,7 @@ public class Consulta extends Fragment {
 
 
         if (getArguments() == null || getArguments().isEmpty()) {
-            Snackbar.make(view, "Realiza una consulta manual", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
+            Toast.makeText(contexto, "Haz una conulta manual", Toast.LENGTH_SHORT).show();
 
 
             setupGenero(view);
@@ -109,14 +113,14 @@ public class Consulta extends Fragment {
 
                     Symptom s = new Symptom();
                      s = (Symptom) adapterView.getItemAtPosition(i);
-                    if(s!= null && i !=0) {
+                    if(s!= null && i !=0 && enable !=true) {
                         ListaSintomasConsultaManual.add(s);
                         System.out.println(ListaSintomasConsultaManual.size());
                          enable = true;
 
                     }
                     if(enable){
-                        listaSintomas.add(s);
+                        ListaSintomasConsultaManual.add(s);
                         System.out.println(ListaSintomasConsultaManual.size());
 
                     }
@@ -148,11 +152,12 @@ public class Consulta extends Fragment {
                     if(sintomas.equals("")){
                         Toast.makeText(contexto, "no has seleccionado ningun sintoma", Toast.LENGTH_SHORT).show();
                     }else {
+                        spSintomas.setAdapter(null);
                         generarDiagnostico(view, edad, sintomas, genero);
 
                     }
                     ListaSintomasConsultaManual.clear();
-                    ;
+
                 }
             });
         } else {
@@ -165,6 +170,7 @@ public class Consulta extends Fragment {
             genresMenu.setText(genero);
             generarConsulta(nombrePaciente, view);
             Toast.makeText(view.getContext(), nombrePaciente, Toast.LENGTH_SHORT).show();
+
         }
 
 
@@ -285,8 +291,15 @@ public class Consulta extends Fragment {
                 if (response.body() ==null) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
                     builder.setMessage("no se ha podido conectar con la base de datos ");
+
                     AlertDialog dialog = builder.create();
                     dialog.show();
+                    String sintomasparseao = sintomas.replace("[", "");
+                    String sintomasparseao2 = sintomasparseao.replace("]", "");
+
+                    String[] sint = sintomasparseao2.split(",");
+                    System.out.println(sint.length);
+                    setupSintomasConsulta(sint, view);
 
 
                 } else {
@@ -314,6 +327,7 @@ public class Consulta extends Fragment {
                         String sintomasparseao2 = sintomasparseao.replace("]", "");
 
                         String[] sint = sintomasparseao2.split(",");
+                        System.out.println("tamaño de sintomas"+sint.length);
                         setupSintomasConsulta(sint, view);
                     } else {
                         System.out.println();
@@ -352,37 +366,37 @@ public class Consulta extends Fragment {
     private void setupSintomasConsulta(String[] ids, View view) {
 
         listaSintomas_consulta = new ArrayList<Symptom>();
-        ArrayList<Symptom> listaaux = new ArrayList<Symptom>();
-
+        ArrayList<Symptom> aux = new ArrayList<>();
         Call<List<Symptom>> listCall = api.getAllSymptoms(SharedPreferencesUtils.SacarDatos("ApiMedicToken", view), "json", "es-es");
         listCall.enqueue(new Callback<List<Symptom>>() {
             @Override
             public void onResponse(Call<List<Symptom>> call, Response<List<Symptom>> response) {
                 if (response.isSuccessful()) {
-                    if (ids.length == 1) {
+
+
+                    int i = 0;
+                    while (i < ids.length) {
                         for (Symptom s : response.body()) {
 
-                            if (String.valueOf(s.getID()).equals(ids[0])) {
-                                listaSintomas_consulta.add(s);
+                            if (String.valueOf(s.getID()).equals(ids[i])) {
+                                aux.add(s);
                             }
-                        }
-
-
-                    } else {
-
-                        //todo llenar spinner para cuando se seleccionen varios sintomas tanto en consulta como en registrar paciente;
 
                         }
+                        i++;
 
-                }
+                    }
+
+                    listaSintomas_consulta = quitarduplicados(aux);
+
+                    ArrayAdapter adapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, listaSintomas_consulta);
 
 
-                ArrayAdapter adapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, listaSintomas_consulta);
-                spSintomas.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
 
+                    spSintomas.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
 
-            }
+                }}
 
 
             @Override
@@ -447,6 +461,15 @@ public class Consulta extends Fragment {
 
         return parse;
 
+    }
+    public ArrayList<Symptom> quitarduplicados(ArrayList<Symptom> prueba) {
+        ArrayList<Symptom> limpio = new ArrayList<>();
+
+        Set<String> nombre = new HashSet<>();
+        limpio = (ArrayList<Symptom>) prueba.stream()
+                .filter(e -> nombre.add(e.getName()))
+                .collect(Collectors.toList());
+        return limpio;
     }
 
 
