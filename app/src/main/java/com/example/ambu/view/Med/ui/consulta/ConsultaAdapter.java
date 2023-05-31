@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -15,6 +16,7 @@ import com.example.ambu.models.Diagnosis;
 import com.example.ambu.models.Specialisation;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.AdaptadorDiagnostico> implements View.OnClickListener {
 
@@ -26,8 +28,9 @@ public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.Adapta
     ArrayList<Specialisation> listaEspecialidades;
 
 
-    public ConsultaAdapter(Context contex, ArrayList<Diagnosis> listaDiagnosis){
+    public ConsultaAdapter(Context contex, ArrayList<Diagnosis> listaDiagnosis,ArrayList<Specialisation> listaEspecialidades){
         this.listaDiagnosis = listaDiagnosis;
+        this.listaEspecialidades = listaEspecialidades;
         this.context = contex;
     }
 
@@ -43,15 +46,21 @@ public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.Adapta
 
     @Override
     public void onBindViewHolder(@NonNull AdaptadorDiagnostico holder, int position) {
+        ArrayList<Specialisation> spc = new ArrayList<>();
+
         holder.tvDiagnostico.setText("Diagnositco: "+ position);
         holder.tvprofname.setText("Nombre clinico : "+ listaDiagnosis.get(position).getIssue().getProfName());
         holder.tvissue.setText("Molestia : "+ listaDiagnosis.get(position).getIssue().getName());
         holder.tvicdName.setText("Descripcion: "+ listaDiagnosis.get(position).getIssue().getIcdName());
         holder.tvAcurracy.setText("fiabilidad: "+ listaDiagnosis.get(position).getIssue().getAccuracy());
-        holder.spspecialization.setPrompt("Especializaciones");
+
+        spc.addAll(listaDiagnosis.get(position).getSpecialisation());
+        ArrayAdapter arrayAdapter = new ArrayAdapter(context, android.R.layout.simple_list_item_1, spc);
+        holder.spspecialization.setAdapter(arrayAdapter);
 
 
     }
+
 
     @Override
     public int getItemCount() {
@@ -91,8 +100,6 @@ public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.Adapta
 
     }
 
-    public void setSpinnerUp(ArrayList<Specialisation> l){
 
-    }
 
 }

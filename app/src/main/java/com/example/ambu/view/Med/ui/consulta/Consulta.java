@@ -78,6 +78,7 @@ public class Consulta extends Fragment {
     FloatingActionButton button;
     RecyclerView rvdiagnositco;
     ConsultaAdapter adapter;
+    ArrayList<Specialisation> listaEspecialidades;
     public Consulta() {
     }
 
@@ -113,7 +114,7 @@ public class Consulta extends Fragment {
 
                     Symptom s = new Symptom();
                      s = (Symptom) adapterView.getItemAtPosition(i);
-                    if(s!= null && i !=0 && enable !=true) {
+                    if(s!= null && i !=0) {
                         ListaSintomasConsultaManual.add(s);
                         System.out.println(ListaSintomasConsultaManual.size());
                          enable = true;
@@ -318,10 +319,15 @@ public class Consulta extends Fragment {
                         if(listaDiagnostico.isEmpty()){
                             Toast.makeText(contexto, "NO HAY DIAGNOSTICO", Toast.LENGTH_SHORT).show();
                         }
-                        adapter = new ConsultaAdapter(contexto, listaDiagnostico);
+
+
+                        adapter = new ConsultaAdapter(contexto, listaDiagnostico,listaEspecialidades);
                         rvdiagnositco.setLayoutManager(new LinearLayoutManager(contexto, LinearLayoutManager.HORIZONTAL, false));
                         rvdiagnositco.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
+
+
+
 
                         String sintomasparseao = sintomas.replace("[", "");
                         String sintomasparseao2 = sintomasparseao.replace("]", "");
