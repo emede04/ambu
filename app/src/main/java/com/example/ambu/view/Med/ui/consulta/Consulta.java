@@ -170,6 +170,8 @@ public class Consulta extends Fragment{
                     }
                     ListaSintomasConsultaManual.clear();
 
+                    //TODO bloquear el boton para ejecutar el diagnostico hasta que no se hayan rellenado todo los campos
+
 
                 }
             });

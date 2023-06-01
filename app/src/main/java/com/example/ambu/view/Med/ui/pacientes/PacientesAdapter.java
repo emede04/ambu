@@ -84,7 +84,7 @@ public class PacientesAdapter extends FirestoreRecyclerAdapter<Paciente,Paciente
 
     public class PacientesViewHolder extends RecyclerView.ViewHolder{
         ImageView profile_img;
-        TextView username, useredad, genero, sintomas;
+        TextView username, useredad, genero, sintomas,apellidos;
 
 
 
@@ -97,6 +97,7 @@ public class PacientesAdapter extends FirestoreRecyclerAdapter<Paciente,Paciente
             username = (TextView) itemView.findViewById(R.id.text_nombre_paciente);
             useredad =  (TextView)itemView.findViewById(R.id.text_edad_paciente);
             genero =  (TextView)itemView.findViewById(R.id.text_genero_paciente);
+            apellidos =  (TextView)itemView.findViewById(R.id.txtLastName);
 
 
 

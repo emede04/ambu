@@ -191,22 +191,13 @@
         android:orientation="horizontal"
        >
         <!-- Género -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/symtominput"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        <!-- end Género -->
+
+        <Spinner
+            android:id="@+id/spinner_registerSintomas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="4dp"
-            android:layout_weight="1"
-            android:hint="sintomas seleccionados">
-
-            <AutoCompleteTextView
-                android:id="@+id/sintomasAutoCompleteTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none" />
-        </com.google.android.material.textfield.TextInputLayout>
-        <!-- end Género -->
+            android:layout_weight="3" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/bSintomas"

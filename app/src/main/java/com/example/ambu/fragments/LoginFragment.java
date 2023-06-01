@@ -95,6 +95,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         bLogin.setOnClickListener(this);
         bRegister.setOnClickListener(this);
         api = Apis.apiMedicServiceLogin();
+        view.getContext().getSharedPreferences("MyPref", 0).edit().clear().commit();
    return view;
     }
 

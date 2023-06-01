@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements  Navigation {
         setContentView(R.layout.activity_main);
 
 
+
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()

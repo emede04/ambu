@@ -1,62 +1,63 @@
-<!-- item_paciente.xml -->
+<!-- item_layout.xml -->
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:layout_height="130dp"
+    android:layout_margin="8dp"
+    android:elevation="8dp"
+    android:background="@drawable/bandaid"
+    android:cardCornerRadius="20dp"
+
+    android:radius="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/shape_pastilla">
+
+        android:layout_height="130dp"
+        android:orientation="horizontal"
+        android:padding="8dp">
 
         <ImageView
             android:id="@+id/image_paciente"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:scaleType="centerCrop"
-             />
+            android:layout_width="121dp"
+            android:layout_height="78dp"
+            android:scaleType="centerCrop" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:layout_marginStart="8dp"
             android:orientation="vertical">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_nombre_paciente"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Nombre"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
-                android:text="Nombre del Paciente" />
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/text_apellido_paciente"
+                android:id="@+id/txtLastName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@android:color/darker_gray"
-                android:text="Apellidos del Paciente"
-                android:layout_marginTop="8dp" />
+                android:text="Apellidos"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/text_edad_paciente"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@android:color/darker_gray"
-                android:text="gnero del paciente"
-                android:layout_marginTop="8dp" />
+                android:text="Edad"
+                android:textSize="14sp" />
+
+
             <TextView
                 android:id="@+id/text_genero_paciente"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@android:color/darker_gray"
-                android:text="Edad del Paciente"
-                android:layout_marginTop="8dp" />
+                android:text="Apellidos"
+                android:textSize="14sp" />
 
         </LinearLayout>
 
