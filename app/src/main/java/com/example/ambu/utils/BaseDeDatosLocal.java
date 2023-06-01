@@ -21,6 +21,7 @@ public class BaseDeDatosLocal extends SQLiteOpenHelper {
     private static final String USER_NAME_COLUMN = "CUSER";
 
     private static final String USER_PASSWORD_COLUMN = "CPASS";
+    private static final String USER_ESTADO = "ESTADO";
 
 
     public BaseDeDatosLocal(Context context) {
@@ -32,7 +33,7 @@ public class BaseDeDatosLocal extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String CREATE_USER_TABLE = "CREATE TABLE " + DB_TABLE_NAME + "("
-                + USER_NAME_COLUMN + " TEXT ," + USER_PASSWORD_COLUMN + " TEXT " + ")";
+                + USER_NAME_COLUMN + " TEXT ," + USER_PASSWORD_COLUMN + " TEXT, " +  USER_ESTADO + " TEXT "+")";
 
         sqLiteDatabase.execSQL(CREATE_USER_TABLE);
         Log.d("base de datos", "tablas creadas");
@@ -78,8 +79,18 @@ public class BaseDeDatosLocal extends SQLiteOpenHelper {
 
         values.put(USER_NAME_COLUMN, name);
         values.put(USER_PASSWORD_COLUMN, pass);
+
+        String data = "";
+        if(name.equals("md") || name.equals("admin")){
+            data = "medico";
+        }else{
+            data = "paciente";
+
+        }
+        values.put(USER_ESTADO, data);
+        System.out.println(name + ":"+ data);
         Log.d("base de datos", "usuario creado");
-        Toast.makeText(miContexto, "USUARIO CREADO", Toast.LENGTH_LONG + 2).show();
+        Log.d("base de datos",name);
         result = db.insert(DB_TABLE_NAME, null, values);
 
         //cerramos las conexion
@@ -88,4 +99,27 @@ public class BaseDeDatosLocal extends SQLiteOpenHelper {
         return result;
 
     }
+
+    public boolean verificaEstado(String txtUser) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursorpass;
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DB_TABLE_NAME + " WHERE " + USER_NAME_COLUMN + "= ?", new String[]{txtUser});
+        if (cursor.getCount() >= 1) {
+            cursorpass = db.rawQuery("SELECT '" + txtUser + "' FROM " + DB_TABLE_NAME + " WHERE " + USER_ESTADO + " = ? ", new String[]{"paciente"});
+            if (cursorpass.getCount() >= 1) {
+                Log.d("base de datos", "el usuario existe como paciente , entra, o se ha pulsado el boton de registrar por tanto no hace nada");
+                cursor.close();
+
+                return true;
+            } else {
+                Log.d("base de datos", "usuario existe, pero no es un paciente");
+                cursor.close();
+                return false;
+            }
+
+        }
+        return false;
+    }
+
+
 }

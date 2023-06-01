@@ -126,7 +126,7 @@ public class Pacientes extends Fragment {
 
                     case DialogInterface.BUTTON_NEGATIVE:
                         String nombre = adapter.getItem(posicion).getNombre();
-                        Toast.makeText(view.getContext(), nombre, Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(view.getContext(), nombre, Toast.LENGTH_SHORT).show();
                         break;
                 }
             }

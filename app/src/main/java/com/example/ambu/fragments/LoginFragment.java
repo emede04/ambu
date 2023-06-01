@@ -1,7 +1,6 @@
 package com.example.ambu.fragments;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,7 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +30,6 @@ import com.example.ambu.view.Med.MedActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -43,8 +40,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -68,7 +63,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     TextView vPass;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     BaseDeDatosLocal BD;
-    String estado = "";
+    String estadopaciente = "";
 
     User usuario;
     ApiMedicService api;
@@ -94,43 +89,68 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         // Inflate the layout for this fragment
+        view.getContext().deleteDatabase("AMBU");
         init(view);
         BD = new BaseDeDatosLocal(view.getContext());
         bLogin.setOnClickListener(this);
         bRegister.setOnClickListener(this);
         api = Apis.apiMedicServiceLogin();
-        BD.insertUsuarios("md","md");
-        return view;
+   return view;
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void onClick(View v) {    //metodo para poner todos los lisenter de la de golpe
-
         switch (v.getId()/*to get clicked view id**/) {
             case id.botonLogin:
                 String txtUser = vUser.getText().toString();
                 String txtPassword = vPass.getText().toString();
-                boolean kapasao = BD.verifica(txtUser,txtPassword);
+                    //verifico que estan en la base de datos registrados
+                  boolean kapasao = BD.verifica(txtUser,txtPassword);
+                    if(!kapasao){
 
-                if (kapasao) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                        builder.setMessage("Su usuario no se encuentra registrado en la base de datos")
+                                .setTitle("Error")
+                                .setIcon(android.R.drawable.ic_delete);
+                        builder.show();
 
-                    //llamamamos al metodo que va a crear el token
-                    createToken(ApimedicUserName, ApiMedicPassword, ApiMedicUrl, v);
-                    login(txtUser,txtPassword,v);
-                    Toast.makeText(this.getActivity(), "Pa dentro", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(this.getActivity(), MedActivity.class);
-                    estado =  SharedPreferencesUtils.SacarDatos("usuario-estado",v);
 
-                    startActivity(intent);
+                    }else{
 
-                } else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
-                    builder.setMessage("los datos son incorrectos")
-                            .setTitle("Error");
-                    builder.show();
 
-                }
+                        if(BD.verificaEstado(txtUser)){
+                            Bundle bundle = new Bundle();
+                            bundle.putString("usuario",txtUser);
+                            bundle.putString("password",txtPassword); // Put anything what you want
+                            Fragment fragment = new PacienteProfile_Fragment();
+                            fragment.setArguments(bundle);
+                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.container, fragment);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+
+                        }else{
+
+
+                            Intent intent = new Intent(this.getActivity(), MedActivity.class);
+                            createToken(ApimedicUserName, ApiMedicPassword, ApiMedicUrl, v);
+                            login(txtUser,txtPassword,v);
+                            startActivity(intent);
+
+
+
+                        }
+
+
+
+
+                    }
+
+
+
+
 
 
                 break;
@@ -145,11 +165,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     vPass.setText("");
                     break;
                 } else {
-                    if(txtUser.equals("md")){
-
-                    }
 
                     kapasao = BD.verifica(txtUser, txtPassword);
+
                     if (kapasao) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                         builder.setMessage("Ya existen los datos que desea registrar")
@@ -158,24 +176,32 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         builder.show();
                     } else {
                         BD.insertUsuarios(txtUser, txtPassword);
-                        Toast.makeText(getActivity(), "Su usario ha sido registrado tanto localmente como online", Toast.LENGTH_LONG + 2).show();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("usuario",txtUser);
-                        bundle.putString("password",txtPassword); // Put anything what you want
-                        Fragment fragment = new registerPaciente();
+                        boolean estado = BD.verificaEstado(txtUser);
 
-                        fragment.setArguments(bundle);
-                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.container, fragment);
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
+                        if(!estado) {
 
-                    }
+                            Toast.makeText(getContext(), "entra como medico", Toast.LENGTH_SHORT).show();
+
+                            //si el usuario no esta registrado se manda a que se registre y genere una consulta
+                        }else{
+                            Toast.makeText(getContext(), "su usuario es un paciente", Toast.LENGTH_SHORT).show();
+                            Bundle bundle = new Bundle();
+                            bundle.putString("usuario",txtUser);
+                            bundle.putString("password",txtPassword); // Put anything what you want
+                            Fragment fragment = new registerPaciente();
+                            fragment.setArguments(bundle);
+                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.container, fragment);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+
+                        }
+                    }}}
 
                 }
-        }
-    }
+
+
 
 
     public void init(View view) {
@@ -184,7 +210,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         vPass = view.findViewById(id.tvPass);
         vUser = view.findViewById(id.tvUser);
         usuario = new User();
-        view.getContext().deleteDatabase("AMBU");
 
     }
 
@@ -233,35 +258,81 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
     public void  login(String user, String password,View view) {
+           boolean kapasao = BD.verificaEstado(user);
+        if(!kapasao){
 
-        DocumentReference rf = db.collection("Logins").document(user);
-        rf.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                DocumentSnapshot docu = task.getResult();
-                if(docu.exists()){
-                    String xpassword = (String) docu.getData().get("password");
+            DocumentReference rf = db.collection("Pacientes").document(user);
+            rf.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    DocumentSnapshot docu = task.getResult();
+                    if(docu.exists()){
+                        String xpassword = (String) docu.getData().get("password");
 
-                    if(password.equals(xpassword)){
-                        Toast.makeText(view.getContext(), "adentro", Toast.LENGTH_SHORT).show();
-                        estado = (String) docu.getData().get("estado");
-                        SharedPreferencesUtils.saveToke("usuario-estado",estado,view);
-                        SharedPreferencesUtils.saveToke("usuario-nombre",user,view);
+                        if(password.equals(xpassword)){
 
+                            SharedPreferencesUtils.saveToke("usuario-nombre",user,view);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("usuario",user);
+                            bundle.putString("password",password);
+                            Fragment fragment = new PacienteProfile_Fragment();
+
+                            fragment.setArguments(bundle);
+                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                            fragmentTransaction.replace(R.id.container, fragment);
+                            fragmentTransaction.addToBackStack(null);
+                            fragmentTransaction.commit();
+
+                        }else{
+                            Toast.makeText(view.getContext(), "contraseña incorrecta", Toast.LENGTH_SHORT).show();
+
+                        }
 
                     }else{
-                        Toast.makeText(view.getContext(), "contraseña incorrecta", Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(view.getContext(), "el usuario no existe", Toast.LENGTH_SHORT).show();
                     }
+                    vPass.setText("");
+                    vUser.setText("");
 
-                }else{
-                    Toast.makeText(view.getContext(), "el usuario no existe", Toast.LENGTH_SHORT).show();
                 }
-                vPass.setText("");
-                vUser.setText("");
+            });
 
-            }
-        });
+        }else{
+            DocumentReference rf = db.collection("Logins").document(user);
+            rf.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    DocumentSnapshot docu = task.getResult();
+                    if(docu.exists()){
+                        String xpassword = (String) docu.getData().get("password");
+
+                        if(password.equals(xpassword)){
+                            Toast.makeText(view.getContext(), "adentro", Toast.LENGTH_SHORT).show();
+                            estadopaciente = (String) docu.getData().get("estado");
+                            SharedPreferencesUtils.saveToke("usuario-estado", estadopaciente,view);
+                            SharedPreferencesUtils.saveToke("usuario-nombre",user,view);
+
+
+                        }else{
+                            Toast.makeText(view.getContext(), "contraseña incorrecta", Toast.LENGTH_SHORT).show();
+
+                        }
+
+                    }else{
+                        Toast.makeText(view.getContext(), "el usuario no existe", Toast.LENGTH_SHORT).show();
+                    }
+                    vPass.setText("");
+                    vUser.setText("");
+
+                }
+            });
+
+
+
+
+        }
+
 
 
     }

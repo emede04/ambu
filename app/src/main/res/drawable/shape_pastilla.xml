@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- shape_pastilla.xml -->
+
+<!-- shape_pastilla.xml -->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Fondo azul -->
+    <solid android:color="#4287f5" />
+
+    <!-- Borde blanco -->
+    <stroke
+        android:width="2dp"
+        android:color="#FFFFFF" />
+
+    <!-- Esquinas redondeadas -->
+    <corners android:radius="50dp" />
+
+    <!-- Tamaño de la pastilla -->
+    <size
+        android:width="200dp"
+        android:height="100dp" />
+
+</shape>

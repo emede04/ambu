@@ -87,9 +87,10 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
-       // usuario =  bundle.getString("usuario");
-       // password =  bundle.getString("password");
+        usuario =  bundle.getString("usuario");
+       password = bundle.getString("password");
         sintomas_name = "";
+
     }
 
     @Override
@@ -110,6 +111,12 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
         bCancelar.setOnClickListener(this);
         bSintomas.setOnClickListener(this);
         sintomasMenu.setOnClickListener(this);
+
+        tvnombre.setText(usuario);
+        tvPass.setText(password);
+        tvnombre.setEnabled(false);
+        tvPass.setEnabled(false);
+
         return view;
     }
 
@@ -179,7 +186,6 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
        String user = tvnombre.getText().toString();
         String  pass = tvPass.getText().toString();
         String  password = tvContrasenia.getText().toString();
-
         String apedillo = tvapellido.getText().toString();
         String edad = tvedad.getText().toString();
         String peso = tvPeso.getText().toString();
@@ -218,6 +224,9 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
 
 
             db.collection("Pacientes").document(user).set(muser);
+            System.out.println(user);
+
+
         }
 
 
@@ -254,7 +263,6 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()/*to get clicked view id**/) {
             case R.id.bcancelar:
-                String aux = tvnombre.getText().toString();
                 borrardocu(usuario);
                break;
 
@@ -263,6 +271,7 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
 
                 Toast.makeText(getActivity(), "Su usario ha sido registrado tanto localmente como online", Toast.LENGTH_LONG + 2).show();
                   register(view);
+
 
                 break;
 
