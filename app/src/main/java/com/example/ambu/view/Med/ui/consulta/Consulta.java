@@ -22,6 +22,7 @@ import android.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,9 +44,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -57,7 +62,8 @@ public class Consulta extends Fragment{
 
     //  private FragmentGalleryBinding binding;
     String[] genres = new String[]{"Masculino", "Femenino"};
-    String[] nombres_sintomas;
+    String sintomasNombre = "";
+    String nombres_sintomas;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     boolean enable = false;
     EditText tvpaciente;
@@ -345,14 +351,7 @@ public class Consulta extends Fragment{
                         rvdiagnositco.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
 
-                     /*   adapter.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                int pos = rvdiagnositco.getChildAdapterPosition(view);
-                                String nombre =    listaDiagnostico.get(pos).getIssue().getName();
-                                Toast.makeText(contexto, nombre, Toast.LENGTH_SHORT).show();
-                            }
-                        }); */
+
 
                         String sintomasparseao = sintomas.replace("[", "");
                         String sintomasparseao2 = sintomasparseao.replace("]", "");
@@ -361,7 +360,13 @@ public class Consulta extends Fragment{
                         System.out.println("tamaño de sintomas"+sint.length);
                         setupSintomasConsulta(sint, view);
 
-
+                        adapter.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                int pos = rvdiagnositco.getChildAdapterPosition(view);
+                                setUpOnClickDiagnostico(view,pos);
+                            }
+                        });
 
 
 
@@ -403,6 +408,7 @@ public class Consulta extends Fragment{
 
         listaSintomas_consulta = new ArrayList<Symptom>();
         ArrayList<Symptom> aux = new ArrayList<>();
+
         Call<List<Symptom>> listCall = api.getAllSymptoms(SharedPreferencesUtils.SacarDatos("ApiMedicToken", view), "json", "es-es");
         listCall.enqueue(new Callback<List<Symptom>>() {
             @Override
@@ -416,6 +422,7 @@ public class Consulta extends Fragment{
 
                             if (String.valueOf(s.getID()).equals(ids[i])) {
                                 aux.add(s);
+
                             }
 
                         }
@@ -427,7 +434,7 @@ public class Consulta extends Fragment{
 
                     ArrayAdapter adapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, listaSintomas_consulta);
 
-
+                    nombres_sintomas = parseSymtom(listaSintomas_consulta,view);
 
                     spSintomas.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
@@ -461,8 +468,6 @@ public class Consulta extends Fragment{
         //para poder pasar los id de los sintomas como query
         //ejemplo query
         //diagnosis?symptoms=[14,20]&
-        String sintomasNombre = "";
-
         int incr = 0;
         String parse = "[";
         int c = 0;
@@ -484,13 +489,14 @@ public class Consulta extends Fragment{
         ) {
             x++;
             if (l.size() == x){
-                sintomasNombre += symptom.getName();
+                this.sintomasNombre += symptom.getName();
 
             }else{
-                sintomasNombre += symptom.getName()+",";
+                this.sintomasNombre += symptom.getName()+",";
             }
         }
-        SharedPreferencesUtils.saveToke("nombre",sintomasNombre,view);
+
+        System.out.println("mis sintomas"+ sintomasNombre);
 
         parse += "]";
         System.out.println(parse);
@@ -507,7 +513,43 @@ public class Consulta extends Fragment{
                 .collect(Collectors.toList());
         return limpio;
     }
+    public void setUpOnClickDiagnostico(View view, int posicion) {
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        System.out.println(sintomasNombre);
+                            Date currentTime = Calendar.getInstance().getTime();
+                        Map<String, Object> diagnostico = new HashMap<>();
+                        diagnostico.put("Issue", listaDiagnostico.get(posicion).getIssue().getName());
+                        diagnostico.put("Acurracy", listaDiagnostico.get(posicion).getIssue().getAccuracy());
+                        diagnostico.put("idcName", listaDiagnostico.get(posicion).getIssue().getIcdName());
+                        diagnostico.put("fecha",currentTime.toString());
+                        diagnostico.put("sintomas_presentado", sintomasNombre);
+                        diagnostico.put("specialidad", listaDiagnostico.get(posicion).getSpecialisation().toString());
 
+
+                        //generar una subcollecion para el la base de datos donde añado el diagnositco al nombre del usuario
+                            db.collection("Pacientes").document(nombrePaciente).collection("Diagnosticos").document(listaDiagnostico.get(posicion).getIssue().getName()+": "+currentTime.toString()).set(diagnostico);
+                       // Navigation.findNavController(view).navigate(R.id.nav_consulta, args);
+
+                        Toast.makeText(contexto, "se ha añadido su diagnostico para el paciente: "+nombrePaciente, Toast.LENGTH_LONG).show();
+
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        Toast.makeText(view.getContext(), "no se ha generado el diagnostico", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+        builder.setMessage("Quieres realizar el diagnosito de este paciente?").setPositiveButton("Si", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
+
+    }
 
 }
 
