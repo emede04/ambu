@@ -515,6 +515,8 @@ public class Consulta extends Fragment{
                 .collect(Collectors.toList());
         return limpio;
     }
+
+    /*todo esto es un string, o por lo menos tiene que cargarse como uno si no peta jaja */
     public void setUpOnClickDiagnostico(View view, int posicion) {
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
@@ -524,12 +526,12 @@ public class Consulta extends Fragment{
                         System.out.println(sintomasNombre);
                             Date currentTime = Calendar.getInstance().getTime();
                         Map<String, Object> diagnostico = new HashMap<>();
-                        diagnostico.put("Issue", listaDiagnostico.get(posicion).getIssue().getName());
-                        diagnostico.put("Acurracy", listaDiagnostico.get(posicion).getIssue().getAccuracy());
-                        diagnostico.put("idcName", listaDiagnostico.get(posicion).getIssue().getIcdName());
-                        diagnostico.put("fecha",currentTime.toString());
-                        diagnostico.put("sintomas_presentado", sintomasNombre);
-                        diagnostico.put("specialidad", listaDiagnostico.get(posicion).getSpecialisation().toString());
+                        diagnostico.put("Issue", listaDiagnostico.get(posicion).getIssue().getName()).toString();
+                        diagnostico.put("Acurracy", listaDiagnostico.get(posicion).getIssue().getAccuracy()).toString();
+                        diagnostico.put("idcName", listaDiagnostico.get(posicion).getIssue().getIcdName()).toString();
+                        diagnostico.put("fecha",currentTime.toString().toString());
+                        diagnostico.put("sintomas_presentado", sintomasNombre.toString());
+                        diagnostico.put("specialidad", listaDiagnostico.get(posicion).getSpecialisation().toString().toString());
 
 
                         //generar una subcollecion para el la base de datos donde añado el diagnositco al nombre del usuario

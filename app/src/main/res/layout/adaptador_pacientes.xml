@@ -6,8 +6,6 @@
     android:layout_margin="8dp"
     android:elevation="8dp"
     android:background="@drawable/bandaid"
-    android:cardCornerRadius="20dp"
-
     android:radius="20dp">
 
     <LinearLayout

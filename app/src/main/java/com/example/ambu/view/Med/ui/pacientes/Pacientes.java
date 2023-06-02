@@ -39,6 +39,7 @@ import org.checkerframework.checker.units.qual.A;
 public class Pacientes extends Fragment {
     PacientesAdapter  adapter;
     RecyclerView recyclerView;
+
     private FirebaseFirestore db;
 
 
