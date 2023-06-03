@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ambu.R;
@@ -33,6 +34,7 @@ public class PacienteProfile_Fragment extends Fragment {
     RecyclerView recyclerViewDiagnostico;
     private FirebaseFirestore db;
     String documento;
+    TextView nombrepac;
 
     public static PacienteProfile_Fragment newInstance() {
         PacienteProfile_Fragment fragment = new PacienteProfile_Fragment();
@@ -56,6 +58,8 @@ public class PacienteProfile_Fragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        nombrepac = view.findViewById(R.id.nombre_paciente);
+        nombrepac.setText(documento);
         init(documento);
 
     }

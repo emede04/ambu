@@ -40,14 +40,14 @@ public class AdaptadorDiagnostico extends FirestoreRecyclerAdapter<DiagnosisFire
     @NonNull
     @Override
     public AdaptadorDiagnostico.DiagnosisViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adaptador_pacientes,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adaptador_diagnostico_paciente,parent,false);
         return  new AdaptadorDiagnostico.DiagnosisViewHolder(view);
     }
 
     @Override
     protected void onBindViewHolder(@NonNull DiagnosisViewHolder holder, int position, @NonNull DiagnosisFirestore model) {
-        holder.username.setText(model.getIssue());
-       holder.fecha.setText((model.getFecha()));
+        holder.molestia.setText(model.getIssue());
+       // holder.fecha.setText((model.getFecha()));
 
 
     }
@@ -55,7 +55,7 @@ public class AdaptadorDiagnostico extends FirestoreRecyclerAdapter<DiagnosisFire
 
     public class DiagnosisViewHolder extends RecyclerView.ViewHolder{
         Spinner espcialidades;
-        TextView username, fecha, fiabilidad, molestia;
+        TextView icdname, fecha, fiabilidad, molestia;
 
 
 
@@ -64,8 +64,8 @@ public class AdaptadorDiagnostico extends FirestoreRecyclerAdapter<DiagnosisFire
         public DiagnosisViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            //espcialidades = itemView.findViewById(R.id.spinnerEspecialidades);
-            username = (TextView) itemView.findViewById(R.id.textViewNombre);
+            espcialidades = itemView.findViewById(R.id.spinnerEspecialidades);
+            icdname = (TextView) itemView.findViewById(R.id.txICDName);
             fecha =  (TextView)itemView.findViewById(R.id.textViewFecha);
             fiabilidad =  (TextView)itemView.findViewById(R.id.textViewFiabilidad);
             molestia =  (TextView)itemView.findViewById(R.id.textViewMolestia);

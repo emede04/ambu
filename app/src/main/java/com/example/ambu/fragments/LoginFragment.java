@@ -89,13 +89,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         // Inflate the layout for this fragment
-        view.getContext().deleteDatabase("AMBU");
         init(view);
+       view.getContext().deleteDatabase("AMBU");
+        view.getContext().deleteSharedPreferences("MyPref");
         BD = new BaseDeDatosLocal(view.getContext());
+        //insertamos un usuario medico.
+       BD.insertMedico("md","md");
+
+
         bLogin.setOnClickListener(this);
         bRegister.setOnClickListener(this);
         api = Apis.apiMedicServiceLogin();
-        view.getContext().getSharedPreferences("MyPref", 0).edit().clear().commit();
    return view;
     }
 
@@ -119,32 +123,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
                     }else{
 
-
-                        if(BD.verificaEstado(txtUser)){
-                            Bundle bundle = new Bundle();
-                            bundle.putString("usuario",txtUser);
-                            bundle.putString("password",txtPassword); // Put anything what you want
-                            Fragment fragment = new PacienteProfile_Fragment();
-                            fragment.setArguments(bundle);
-                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.container, fragment);
-                            fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.commit();
-
-                        }else{
-
-
-                            Intent intent = new Intent(this.getActivity(), MedActivity.class);
-                            createToken(ApimedicUserName, ApiMedicPassword, ApiMedicUrl, v);
-                            login(txtUser,txtPassword,v);
-                            startActivity(intent);
-
-
-
-                        }
-
-
+                        login(txtUser,txtPassword,v);
 
 
                     }
@@ -176,31 +155,24 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                                 .setIcon(android.R.drawable.ic_delete);
                         builder.show();
                     } else {
-                        BD.insertUsuarios(txtUser, txtPassword);
-                        boolean estado = BD.verificaEstado(txtUser);
 
-                        if(!estado) {
+                        //solamente te puedes registar como medico por tanto se envia al paciente al fragmento correspondiente
+                        Bundle bundle = new Bundle();
+                        bundle.putString("usuario",txtUser);
+                        bundle.putString("password",txtPassword); // Put anything what you want
+                        Fragment fragment = new registerPaciente();
+                        fragment.setArguments(bundle);
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.container, fragment);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
 
-                            Toast.makeText(getContext(), "entra como medico", Toast.LENGTH_SHORT).show();
-
-                            //si el usuario no esta registrado se manda a que se registre y genere una consulta
-                        }else{
-                            Toast.makeText(getContext(), "su usuario es un paciente", Toast.LENGTH_SHORT).show();
-                            Bundle bundle = new Bundle();
-                            bundle.putString("usuario",txtUser);
-                            bundle.putString("password",txtPassword); // Put anything what you want
-                            Fragment fragment = new registerPaciente();
-                            fragment.setArguments(bundle);
-                            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                            fragmentTransaction.replace(R.id.container, fragment);
-                            fragmentTransaction.addToBackStack(null);
-                            fragmentTransaction.commit();
-
-                        }
-                    }}}
+                    }
 
                 }
+        }
+    }
 
 
 
@@ -259,8 +231,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     }
 
     public void  login(String user, String password,View view) {
-           boolean kapasao = BD.verificaEstado(user);
-        if(!kapasao){
+        boolean bPaciente = BD.verificaEstado(user);
+        if(bPaciente){
 
             DocumentReference rf = db.collection("Pacientes").document(user);
             rf.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -274,10 +246,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
                             SharedPreferencesUtils.saveToke("usuario-nombre",user,view);
                             Bundle bundle = new Bundle();
-                            bundle.putString("usuario",user);
+                            bundle.putString("documento",user);
                             bundle.putString("password",password);
                             Fragment fragment = new PacienteProfile_Fragment();
-
                             fragment.setArguments(bundle);
                             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -291,7 +262,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         }
 
                     }else{
-                        Toast.makeText(view.getContext(), "el usuario no existe", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(view.getContext(), "el usuario es un medico", Toast.LENGTH_SHORT).show();
                     }
                     vPass.setText("");
                     vUser.setText("");
@@ -302,6 +273,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         }else{
             DocumentReference rf = db.collection("Logins").document(user);
             rf.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     DocumentSnapshot docu = task.getResult();
@@ -309,10 +281,15 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         String xpassword = (String) docu.getData().get("password");
 
                         if(password.equals(xpassword)){
-                            Toast.makeText(view.getContext(), "adentro", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(view.getContext(), "Adentro Medico", Toast.LENGTH_SHORT).show();
                             estadopaciente = (String) docu.getData().get("estado");
                             SharedPreferencesUtils.saveToke("usuario-estado", estadopaciente,view);
                             SharedPreferencesUtils.saveToke("usuario-nombre",user,view);
+
+                            Intent intent = new Intent(getActivity(), MedActivity.class);
+                             createToken(ApimedicUserName, ApiMedicPassword, ApiMedicUrl, view);
+
+                            startActivity(intent);
 
 
                         }else{
@@ -321,7 +298,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         }
 
                     }else{
-                        Toast.makeText(view.getContext(), "el usuario no existe", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(view.getContext(), "el usuario no exite", Toast.LENGTH_SHORT).show();
                     }
                     vPass.setText("");
                     vUser.setText("");

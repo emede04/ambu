@@ -267,7 +267,7 @@ public class Consulta extends Fragment{
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 DocumentSnapshot docu = task.getResult();
-                if (docu.exists()) {
+                if (docu.exists() && task.isSuccessful()) {
                     ProgressDialog pd = new ProgressDialog(view.getContext());
                     pd.setMessage("loading");
                     pd.show();
@@ -295,8 +295,13 @@ public class Consulta extends Fragment{
                     }
 
 
+                }else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
+                    builder.setMessage("Ha habido un error sacando los datos ");
                 }
             }
+
+
         });
     }
 
@@ -526,12 +531,12 @@ public class Consulta extends Fragment{
                         System.out.println(sintomasNombre);
                             Date currentTime = Calendar.getInstance().getTime();
                         Map<String, Object> diagnostico = new HashMap<>();
-                        diagnostico.put("Issue", listaDiagnostico.get(posicion).getIssue().getName()).toString();
-                        diagnostico.put("Acurracy", listaDiagnostico.get(posicion).getIssue().getAccuracy()).toString();
-                        diagnostico.put("idcName", listaDiagnostico.get(posicion).getIssue().getIcdName()).toString();
+                        diagnostico.put("Issue", listaDiagnostico.get(posicion).getIssue().getName());
+                        diagnostico.put("Acurracy", String.valueOf(listaDiagnostico.get(posicion).getIssue().getAccuracy()));
+                        diagnostico.put("idcName", listaDiagnostico.get(posicion).getIssue().getIcdName());
                         diagnostico.put("fecha",currentTime.toString().toString());
-                        diagnostico.put("sintomas_presentado", sintomasNombre.toString());
-                        diagnostico.put("specialidad", listaDiagnostico.get(posicion).getSpecialisation().toString().toString());
+                        diagnostico.put("sintomas_presentado", sintomasNombre);
+                        diagnostico.put("specialidad", listaDiagnostico.get(posicion).getSpecialisation().toString());
 
 
                         //generar una subcollecion para el la base de datos donde añado el diagnositco al nombre del usuario

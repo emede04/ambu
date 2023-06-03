@@ -103,7 +103,7 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
         usuario =  bundle.getString("usuario");
        password = bundle.getString("password");
         sintomas_name = "";
-
+      BD = new BaseDeDatosLocal(getContext());
     }
 
     @Override
@@ -225,7 +225,7 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
 
     public int register(View v) {
         AlertDialog.Builder builder;
-        user = tvnombre.getText().toString();
+        usuario = tvnombre.getText().toString();
         String  pass = tvPass.getText().toString();
         String  password = tvContrasenia.getText().toString();
         String apedillo = tvapellido.getText().toString();
@@ -240,10 +240,9 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
             builder.setMessage("las contraseñas no son iguales")
                     .setTitle("Error")
                     .setIcon(android.R.drawable.ic_delete);
-            tvPass.setText("");
             tvContrasenia.setText("");
             builder.show();
-            if(user.isEmpty() || pass.isEmpty() || apedillo.isEmpty() || edad.isEmpty()|| peso.isEmpty() || altura.isEmpty() || genero.isEmpty() ){
+            if(usuario.isEmpty() || pass.isEmpty() || apedillo.isEmpty() || edad.isEmpty()|| peso.isEmpty() || altura.isEmpty() || genero.isEmpty() ){
                 builder = new AlertDialog.Builder(v.getContext());
                 builder.setMessage("alguno de los campos esta vacio")
                         .setTitle("Error")
@@ -253,7 +252,7 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
         }else{
             Map<String, Object> muser = new HashMap<>();
             Log.d("USUARIO",pass + apedillo);
-            muser.put("nombre", user);
+            muser.put("nombre", usuario);
             muser.put("password", pass);
             muser.put("apellido", apedillo);
             muser.put("edad", edad);
@@ -265,8 +264,11 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
             muser.put("sintomas", sintomasraw);
 
 
-            db.collection("Pacientes").document(user).set(muser);
-            System.out.println(user);
+            db.collection("Pacientes").document(usuario).set(muser);
+            System.out.println(usuario);
+            BD.insertUsuarios(usuario, pass);
+
+            System.out.println(usuario);
 
 
         }
@@ -310,10 +312,10 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
             case R.id.bconfirmar:
 
                 Toast.makeText(getActivity(), "Su usario ha sido registrado tanto localmente como online", Toast.LENGTH_LONG + 2).show();
-                  register(view);
+                register(view);
                 Fragment fragment = new PacienteProfile_Fragment();
                 Bundle bundle = new Bundle();
-                bundle.putString("documento",user);
+                bundle.putString("documento",usuario);
                 fragment.setArguments(bundle);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

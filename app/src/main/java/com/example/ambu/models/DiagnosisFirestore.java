@@ -1,10 +1,23 @@
 package com.example.ambu.models;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class DiagnosisFirestore implements Serializable
 {
-    String Acurracy, Issue, fecha, idcName, sintomas_presentado, specialidad;
+    String Acurracy, Issue, fecha, idcName, sintomas_presentado;
+
+    public String getSpecialidad() {
+        return specialidad;
+    }
+
+    public void setSpecialidad(String specialidad) {
+        this.specialidad = specialidad;
+    }
+
+    String specialidad;
+
+
 
     public String getAcurracy() {
         return Acurracy;
@@ -46,11 +59,5 @@ public class DiagnosisFirestore implements Serializable
         this.sintomas_presentado = sintomas_presentado;
     }
 
-    public String getSpecialidad() {
-        return specialidad;
-    }
 
-    public void setSpecialidad(String specialidad) {
-        this.specialidad = specialidad;
-    }
 }
