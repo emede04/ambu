@@ -532,11 +532,15 @@ public class Consulta extends Fragment{
                         System.out.println(sintomasNombre);
                             Date currentTime = Calendar.getInstance().getTime();
                         Map<String, Object> diagnostico = new HashMap<>();
-                        diagnostico.put("Issue", listaDiagnostico.get(posicion).getIssue().getName());
+                        diagnostico.put("Issue", listaDiagnostico.get(posicion).getIssue2().getName());
                         diagnostico.put("Acurracy", String.valueOf(listaDiagnostico.get(posicion).getIssue().getAccuracy()));
-                        diagnostico.put("idcName", listaDiagnostico.get(posicion).getIssue().getIcdName());
+                        diagnostico.put("medical_condition", listaDiagnostico.get(posicion).getIssue2().getMedicalCondition());
                         diagnostico.put("fecha",currentTime.toString().toString());
                         diagnostico.put("sintomas_presentado", sintomasNombre);
+                        diagnostico.put("specialidad", listaDiagnostico.get(posicion).getSpecialisation().toString());
+                        diagnostico.put("descripcion_larga", listaDiagnostico.get(posicion).getIssue2().getDescription().toString());
+                        diagnostico.put("tratamiento", listaDiagnostico.get(posicion).getIssue2().getTreatmentDescription());
+
                         diagnostico.put("specialidad", listaDiagnostico.get(posicion).getSpecialisation().toString());
 
 

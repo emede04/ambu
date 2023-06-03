@@ -288,7 +288,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
                             Intent intent = new Intent(getActivity(), MedActivity.class);
                              createToken(ApimedicUserName, ApiMedicPassword, ApiMedicUrl, view);
-
+                            intent.putExtra("nombremedio",user);
+                            intent.putExtra("especialidad","medicina general");
                             startActivity(intent);
 
 

@@ -61,13 +61,8 @@ public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.Adapta
     @Override
     public void onBindViewHolder(@NonNull AdaptadorDiagnostico holder, @SuppressLint("RecyclerView") int position) {
         ArrayList<Specialisation> spc = new ArrayList<>();
-
-        holder.tvDiagnostico.setText("Diagnositco: "+ position);
-        holder.MedicalCondition.setText("Nombre clinico : "+ listaDiagnosis.get(position).getIssue().getProfName());
-        holder.tvissue.setText("Molestia : "+ listaDiagnosis.get(position).getIssue().getName());
-        holder.descripcion.setText("Descripcion: "+ listaDiagnosis.get(position).getIssue().getIcdName());
-        holder.tvAcurracy.setText("fiabilidad: "+ listaDiagnosis.get(position).getIssue().getAccuracy());
-        cargarIssue(listaDiagnosis, holder.descripcion.getRootView(),holder, position);
+        View view = holder.name.getRootView();
+        cargarIssue(listaDiagnosis, view,holder, position);
 
 
         spc.addAll(listaDiagnosis.get(position).getSpecialisation());
@@ -150,7 +145,12 @@ public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.Adapta
                         System.out.println(aux.getDescription());
 
                         listaDiagnostico.get(position).setIssue2(aux);
-                        holder.MedicalCondition.setText("Nombre clinico : "+ listaDiagnosis.get(position).getIssue2().getMedicalCondition());
+                        holder.descripcionCorta.setText("descripcion: "+ listaDiagnosis.get(position).getIssue2().getDescriptionShort());
+                        holder.MedicalContion.setText("condicion medica : "+ listaDiagnosis.get(position).getIssue2().getMedicalCondition());
+                        holder.name.setText("nombre : "+ listaDiagnosis.get(position).getIssue2().getName());
+                        holder.acurracy.setText("fiabilidad : "+ listaDiagnosis.get(position).getIssue().getAccuracy());
+                        holder.TreatmentDescription.setText("tratamiento : "+ listaDiagnosis.get(position).getIssue2().getTreatmentDescription());
+                        holder.name.setText("nombre : "+ listaDiagnosis.get(position).getIssue2().getProfName());
 
 
                     }
@@ -173,11 +173,13 @@ public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.Adapta
 
 
     public class AdaptadorDiagnostico extends RecyclerView.ViewHolder{
-        TextView tvissue;
-        TextView descripcion;
-        TextView MedicalCondition;
-        TextView tvAcurracy;
-        TextView tvDiagnostico;
+
+        TextView descripcionCorta;
+        TextView descripcionLarga;
+        TextView acurracy;
+        TextView MedicalContion;
+        TextView name;
+        TextView TreatmentDescription;
         Spinner spspecialization;
 
         Button vermas;
@@ -185,13 +187,14 @@ public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.Adapta
 
         public AdaptadorDiagnostico(@NonNull View itemView) {
             super(itemView);
-            tvDiagnostico = itemView.findViewById(R.id.tvDiagnostico);
-            tvissue = itemView.findViewById(R.id.tvIssue);
-            descripcion = itemView.findViewById(R.id.IcdName);
-            MedicalCondition = itemView.findViewById(R.id.tvprofname);
+            name = itemView.findViewById(R.id.tvname);
+            acurracy = itemView.findViewById(R.id.tvAcurracy);
+            descripcionCorta = itemView.findViewById(R.id.tvDescripcionCorta);
+            MedicalContion = itemView.findViewById(R.id.tvMedicalContion);
+            TreatmentDescription = itemView.findViewById(R.id.tvTreatmentDescription);
             spspecialization = itemView.findViewById(R.id.spSpecialisation);
-            tvAcurracy = itemView.findViewById(R.id.tvacurracy);
-            vermas = itemView.findViewById(R.id.botonVerMas);
+            vermas =  itemView.findViewById(R.id.botonVerMas);
+
         }
 
 

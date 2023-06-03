@@ -42,8 +42,13 @@ public class MedActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+        String nombre = savedInstanceState.getString("nombremedio");
+        String especialidad = savedInstanceState.getString("especialidad");
+
         binding = ActivityMedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
         setSupportActionBar(binding.appBarMed.toolbar);
         binding.appBarMed.toolbar.hideOverflowMenu();
@@ -63,6 +68,8 @@ public class MedActivity extends AppCompatActivity{
         //para tener los iconos coloridos
         navigationView.setItemIconTintList(null);
 
+
+
         //NavigationHeader
         View header = navigationView.getHeaderView(0);
       //  ColorDrawable colorDrawable
@@ -72,6 +79,7 @@ public class MedActivity extends AppCompatActivity{
         cargarMed();
         med = (ImageView) header.findViewById(R.id.idImagenMedico);
         nombremed = header.findViewById(R.id.txtnameMed);
+        nombremed.setText(nombre);
         Glide
                 .with(this.getBaseContext())
                 .load("https://static.vecteezy.com/system/resources/previews/017/196/552/non_2x/doctor-icon-on-transparent-background-free-png.png")
