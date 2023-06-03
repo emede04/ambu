@@ -1,54 +1,159 @@
-<!-- item_diagnostico.xml -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- item_layout.xml -->
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp">
-
-    <TextView
-        android:id="@+id/txICDName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/textViewFecha"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/textViewSintomas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp" />
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+    app:cardUseCompatPadding="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:background="@color/naranjaClaro"
 
-        <TextView
-            android:id="@+id/textViewFiabilidad"
-            android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/fechaTextView"
+            android:layout_width="match_parent"
+            android:textColor="@color/black"
+            android:textStyle="bold|italic"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Fiabilidad:" />
+            android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/textViewMolestia"
-            android:layout_width="wrap_content"
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputicd"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="@color/naranjaClaro"
             android:layout_weight="1"
-            android:text="Molestia:" />
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+
+            android:textColorHint="@color/azulOscuro"
+            android:hint="icdName">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/icdNameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:textColor="@color/black"
+                android:textStyle="bold|italic"
+                android:background="@color/naranjaClaro"
+
+                 />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputsin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="@color/naranjaClaro"
+            android:layout_weight="1"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            android:inputType="textMultiLine"
+            android:textColorHint="@color/azulOscuro"
+            android:hint="sintomas">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sintomasTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textStyle="bold|italic"
+                android:inputType="textMultiLine"
+                android:background="@color/naranjaClaro"
+ />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fiabilidad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="@color/naranjaClaro"
+            android:layout_weight="1"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+
+            android:textColorHint="@color/azulOscuro"
+            android:hint="fiabilidad">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fiabilidadTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:textColor="@color/black"
+                android:textStyle="bold|italic"
+                android:background="@color/naranjaClaro"
+
+                 />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="@color/naranjaClaro"
+            android:layout_weight="1"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+
+            android:textColorHint="@color/azulOscuro"
+            android:hint="molestia">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/molestiaTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:textColor="@color/black"
+                android:textStyle="bold|italic"
+                android:background="@color/naranjaClaro"
+
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+        <Spinner
+            android:id="@+id/especialidadesSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
-
-    <Spinner
-        android:id="@+id/spinnerEspecialidades"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-</LinearLayout>
+</androidx.cardview.widget.CardView>

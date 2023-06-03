@@ -207,16 +207,16 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
 
 
     private void init(View view){
-        tilPassword = view.findViewById(R.id.password_text_input);
-        tvContrasenia = view.findViewById(R.id.password_edit_text);
+        tilPassword = view.findViewById(R.id.rpassword);
+        tvContrasenia = view.findViewById(R.id.rpassword2);
         tilConfirmPass = view.findViewById(R.id.confirm_pass_text_input);
          tvPass = view.findViewById(R.id.confirm_pass_edit_text);
-         tvnombre = view.findViewById(R.id.first_name_edit_text);
-         tvapellido = view.findViewById(R.id.last_name_edit_text);
-         tietAge = view.findViewById(R.id.age_edit_text);
-         tvPeso = view.findViewById(R.id.weight_edit_text);
-         tvAltura = view.findViewById(R.id.height_edit_text);
-         tvedad = view.findViewById(R.id.age_edit_text);
+         tvnombre = view.findViewById(R.id.Rusername);
+         tvapellido = view.findViewById(R.id.rApellido);
+         tietAge = view.findViewById(R.id.rEdad);
+         tvPeso = view.findViewById(R.id.rPeso);
+         tvAltura = view.findViewById(R.id.rAltura);
+         tvedad = view.findViewById(R.id.rEdad);
          bCancelar = view.findViewById(R.id.bcancelar);
          bConfirmar = view.findViewById(R.id.bconfirmar);
         spSintomasSeleccionados = view.findViewById(R.id.spinner_registerSintomas);

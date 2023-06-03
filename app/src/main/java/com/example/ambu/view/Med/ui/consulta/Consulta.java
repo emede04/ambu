@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,6 +29,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ambu.R;
 import com.example.ambu.models.Diagnosis;
+import com.example.ambu.models.FullIssue;
+import com.example.ambu.models.Issue;
 import com.example.ambu.models.Specialisation;
 import com.example.ambu.models.Symptom;
 import com.example.ambu.utils.Apis;
@@ -54,6 +57,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -352,6 +356,15 @@ public class Consulta extends Fragment{
                             Toast.makeText(contexto, "NO HAY DIAGNOSTICO", Toast.LENGTH_SHORT).show();
                         }
 
+                        //sacar la informacion completa de la enfermedad y remplezarla por el objeto actual;
+
+                          cargarIssue(listaDiagnostico,view);
+
+
+
+
+
+
 
                         adapter = new ConsultaAdapter(contexto, listaDiagnostico,listaEspecialidades);
                         rvdiagnositco.setLayoutManager(new LinearLayoutManager(contexto, LinearLayoutManager.HORIZONTAL, false));
@@ -399,6 +412,38 @@ public class Consulta extends Fragment{
         });
 
     }
+
+    private void cargarIssue(ArrayList<Diagnosis> listaDiagnostico,View view) {
+
+
+        int id = 357;
+        FullIssue issue;
+
+
+
+            Call<FullIssue> call = api.getIssuesbyid(357, SharedPreferencesUtils.SacarDatos("ApiMedicToken", view), "json", "es-es");
+            call.enqueue(new Callback<FullIssue>() {
+                @Override
+                public void onResponse(Call<FullIssue> call, Response<FullIssue> response) {
+
+                    if(response == null){
+
+                    }else{
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<FullIssue> call, Throwable t) {
+
+                }
+            });
+
+
+    }
+
+
+
 
     private void setupGenero(View view) {
         genresMenuAdapter = new ArrayAdapter<String>(
@@ -457,12 +502,6 @@ public class Consulta extends Fragment{
 
         });
     }
-
-    private void setUpSpinnerSpecialidades(ArrayList Specialidades){
-
-
-    }
-
 
 
 

@@ -46,9 +46,14 @@ public class AdaptadorDiagnostico extends FirestoreRecyclerAdapter<DiagnosisFire
 
     @Override
     protected void onBindViewHolder(@NonNull DiagnosisViewHolder holder, int position, @NonNull DiagnosisFirestore model) {
-        holder.molestia.setText(model.getIssue());
-       // holder.fecha.setText((model.getFecha()));
+        holder.molestia.setText(model.getIdcName());
+        holder.fecha.setText((model.getFecha()));
+        holder.fiabilidad.setText(model.getAcurracy());
+        holder.icdname.setText(model.getIssue());
 
+        holder.fiabilidad.setEnabled(false);
+        holder.icdname.setEnabled(false);
+        holder.icdname.setElegantTextHeight(true);
 
     }
 
@@ -64,11 +69,11 @@ public class AdaptadorDiagnostico extends FirestoreRecyclerAdapter<DiagnosisFire
         public DiagnosisViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            espcialidades = itemView.findViewById(R.id.spinnerEspecialidades);
-            icdname = (TextView) itemView.findViewById(R.id.txICDName);
-            fecha =  (TextView)itemView.findViewById(R.id.textViewFecha);
-            fiabilidad =  (TextView)itemView.findViewById(R.id.textViewFiabilidad);
-            molestia =  (TextView)itemView.findViewById(R.id.textViewMolestia);
+            espcialidades = itemView.findViewById(R.id.especialidadesSpinner);
+            icdname = (TextView) itemView.findViewById(R.id.icdNameTextView);
+            fecha =  (TextView)itemView.findViewById(R.id.fechaTextView);
+            fiabilidad =  (TextView)itemView.findViewById(R.id.fiabilidadTextView);
+            molestia =  (TextView)itemView.findViewById(R.id.molestiaTextView);
 
 
 

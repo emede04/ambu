@@ -24,7 +24,7 @@
         <!-- Contraseña -->
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/password_text_input"
+            android:id="@+id/rpassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
@@ -33,7 +33,7 @@
             app:errorEnabled="true">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/password_edit_text"
+                android:id="@+id/rpassword2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword" />
@@ -67,7 +67,7 @@
             android:hint="nombre usuario">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/first_name_edit_text"
+                android:id="@+id/Rusername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
@@ -84,7 +84,7 @@
             android:hint="apellido">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/last_name_edit_text"
+                android:id="@+id/rApellido"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
@@ -110,7 +110,7 @@
                 android:hint="edad">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/age_edit_text"
+                    android:id="@+id/rEdad"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
@@ -156,7 +156,7 @@
                 android:hint="peso">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/weight_edit_text"
+                    android:id="@+id/rPeso"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
@@ -174,7 +174,7 @@
                 android:hint="altura">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/height_edit_text"
+                    android:id="@+id/rAltura"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"

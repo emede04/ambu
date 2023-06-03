@@ -10,25 +10,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ambu.R;
-import com.example.ambu.fragments.FragmentSelectSymtom;
 import com.example.ambu.fragments.internetoFragment;
 import com.example.ambu.models.Diagnosis;
-import com.example.ambu.models.Paciente;
 import com.example.ambu.models.Specialisation;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.AdaptadorDiagnostico>  implements View.OnClickListener {
 
@@ -61,9 +54,9 @@ public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.Adapta
         ArrayList<Specialisation> spc = new ArrayList<>();
 
         holder.tvDiagnostico.setText("Diagnositco: "+ position);
-        holder.tvprofname.setText("Nombre clinico : "+ listaDiagnosis.get(position).getIssue().getProfName());
+        holder.MedicalCondition.setText("Nombre clinico : "+ listaDiagnosis.get(position).getIssue().getProfName());
         holder.tvissue.setText("Molestia : "+ listaDiagnosis.get(position).getIssue().getName());
-        holder.tvicdName.setText("Descripcion: "+ listaDiagnosis.get(position).getIssue().getIcdName());
+        holder.descripcion.setText("Descripcion: "+ listaDiagnosis.get(position).getIssue().getIcdName());
         holder.tvAcurracy.setText("fiabilidad: "+ listaDiagnosis.get(position).getIssue().getAccuracy());
 
         spc.addAll(listaDiagnosis.get(position).getSpecialisation());
@@ -131,8 +124,8 @@ public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.Adapta
 
     public class AdaptadorDiagnostico extends RecyclerView.ViewHolder{
         TextView tvissue;
-        TextView tvicdName;
-        TextView tvprofname;
+        TextView descripcion;
+        TextView MedicalCondition;
         TextView tvAcurracy;
         TextView tvDiagnostico;
         Spinner spspecialization;
@@ -144,8 +137,8 @@ public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.Adapta
             super(itemView);
             tvDiagnostico = itemView.findViewById(R.id.tvDiagnostico);
             tvissue = itemView.findViewById(R.id.tvIssue);
-            tvicdName = itemView.findViewById(R.id.IcdName);
-            tvprofname = itemView.findViewById(R.id.tvprofname);
+            descripcion = itemView.findViewById(R.id.IcdName);
+            MedicalCondition = itemView.findViewById(R.id.tvprofname);
             spspecialization = itemView.findViewById(R.id.spSpecialisation);
             tvAcurracy = itemView.findViewById(R.id.tvacurracy);
             vermas = itemView.findViewById(R.id.botonVerMas);

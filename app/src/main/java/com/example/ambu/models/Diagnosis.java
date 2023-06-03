@@ -8,6 +8,7 @@ import java.util.List;
 public class Diagnosis {
 
 
+
     @SerializedName("Issue")
     @Expose
     private Issue issue;
@@ -30,5 +31,7 @@ public class Diagnosis {
     public void setSpecialisation(List<Specialisation> specialisation) {
         this.specialisation = specialisation;
     }
+
+
 }
 

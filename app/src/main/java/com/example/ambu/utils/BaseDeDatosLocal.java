@@ -1,5 +1,6 @@
 package com.example.ambu.utils;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -126,6 +127,7 @@ public class BaseDeDatosLocal extends SQLiteOpenHelper {
 
     }
 
+    @SuppressLint("SuspiciousIndentation")
     public boolean verificaEstado(String txtUser) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor_estado;
