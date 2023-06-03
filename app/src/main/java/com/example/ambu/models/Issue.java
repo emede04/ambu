@@ -27,6 +27,9 @@ public class Issue {
     @Expose
     private int ranking;
 
+
+
+    FullIssue issue2;
     public int getID() {
         return iD;
     }

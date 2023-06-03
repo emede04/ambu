@@ -6,9 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,14 +21,12 @@ import android.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ambu.R;
 import com.example.ambu.models.Diagnosis;
 import com.example.ambu.models.FullIssue;
-import com.example.ambu.models.Issue;
 import com.example.ambu.models.Specialisation;
 import com.example.ambu.models.Symptom;
 import com.example.ambu.utils.Apis;
@@ -39,25 +35,20 @@ import com.example.ambu.utils.SharedPreferencesUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationBarView;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -92,6 +83,9 @@ public class Consulta extends Fragment{
     ConsultaAdapter adapter;
     ArrayList<Specialisation> listaEspecialidades;
     Button vermas;
+    FullIssue miIssue;
+    ArrayList<FullIssue> listaMiFullIssues  = new ArrayList<>();
+
     public Consulta() {
     }
 
@@ -320,11 +314,13 @@ public class Consulta extends Fragment{
     public void generarDiagnostico(View view, String edad, String sintomas, String genero) {
         Apis aqui = new Apis();
         api = aqui.apiMedicServiceData();
+
         System.out.println("por aqui ");
         Call<List<Diagnosis>> call = api.getDiagnosis(SharedPreferencesUtils.SacarDatos("ApiMedicToken", view), "json", "es-es", genero, edad, sintomas);
         call.enqueue(new Callback<List<Diagnosis>>() {
             @Override
             public void onResponse(Call<List<Diagnosis>> call, Response<List<Diagnosis>> response) {
+
                 if (response.body() ==null) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
                     builder.setMessage("no se ha podido conectar con la API ");
@@ -355,12 +351,6 @@ public class Consulta extends Fragment{
                         if(listaDiagnostico.isEmpty()){
                             Toast.makeText(contexto, "NO HAY DIAGNOSTICO", Toast.LENGTH_SHORT).show();
                         }
-
-                        //sacar la informacion completa de la enfermedad y remplezarla por el objeto actual;
-
-                          cargarIssue(listaDiagnostico,view);
-
-
 
 
 
@@ -413,34 +403,6 @@ public class Consulta extends Fragment{
 
     }
 
-    private void cargarIssue(ArrayList<Diagnosis> listaDiagnostico,View view) {
-
-
-        int id = 357;
-        FullIssue issue;
-
-
-
-            Call<FullIssue> call = api.getIssuesbyid(357, SharedPreferencesUtils.SacarDatos("ApiMedicToken", view), "json", "es-es");
-            call.enqueue(new Callback<FullIssue>() {
-                @Override
-                public void onResponse(Call<FullIssue> call, Response<FullIssue> response) {
-
-                    if(response == null){
-
-                    }else{
-
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<FullIssue> call, Throwable t) {
-
-                }
-            });
-
-
-    }
 
 
 

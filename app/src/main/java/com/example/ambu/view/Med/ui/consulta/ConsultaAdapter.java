@@ -19,12 +19,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.ambu.R;
 import com.example.ambu.fragments.internetoFragment;
 import com.example.ambu.models.Diagnosis;
+import com.example.ambu.models.FullIssue;
 import com.example.ambu.models.Specialisation;
+import com.example.ambu.utils.Apis;
+import com.example.ambu.utils.Interfaces.ApiMedicService;
+import com.example.ambu.utils.SharedPreferencesUtils;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.AdaptadorDiagnostico>  implements View.OnClickListener {
 
+    ApiMedicService api = Apis.apiMedicServiceData();
 
     private View.OnClickListener sensor;
     Context context;
@@ -58,6 +67,8 @@ public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.Adapta
         holder.tvissue.setText("Molestia : "+ listaDiagnosis.get(position).getIssue().getName());
         holder.descripcion.setText("Descripcion: "+ listaDiagnosis.get(position).getIssue().getIcdName());
         holder.tvAcurracy.setText("fiabilidad: "+ listaDiagnosis.get(position).getIssue().getAccuracy());
+        cargarIssue(listaDiagnosis, holder.descripcion.getRootView(),holder, position);
+
 
         spc.addAll(listaDiagnosis.get(position).getSpecialisation());
         ArrayAdapter arrayAdapter = new ArrayAdapter(context, android.R.layout.simple_list_item_1, spc);
@@ -120,6 +131,45 @@ public class ConsultaAdapter extends RecyclerView.Adapter<ConsultaAdapter.Adapta
 
         }
     }
+
+    private void cargarIssue(ArrayList<Diagnosis> listaDiagnostico,View view,AdaptadorDiagnostico holder,int position) {
+             int id = listaDiagnostico.get(position).getIssue().getID();
+            Call<FullIssue> call = api.getIssuesbyid(id, SharedPreferencesUtils.SacarDatos("ApiMedicToken", view), "json", "es-es");
+
+            call.enqueue(new Callback<FullIssue>() {
+                FullIssue aux;
+
+                @Override
+                public void onResponse(Call<FullIssue> call, Response<FullIssue> response) {
+
+                    if (response == null) {
+
+                    } else {
+
+                        aux = response.body();
+                        System.out.println(aux.getDescription());
+
+                        listaDiagnostico.get(position).setIssue2(aux);
+                        holder.MedicalCondition.setText("Nombre clinico : "+ listaDiagnosis.get(position).getIssue2().getMedicalCondition());
+
+
+                    }
+
+                    System.out.println(listaDiagnostico.get(position).getIssue2().getMedicalCondition());
+
+                }
+
+                @Override
+                public void onFailure(Call<FullIssue> call, Throwable t) {
+
+                }
+            });
+        }
+
+
+
+
+
 
 
     public class AdaptadorDiagnostico extends RecyclerView.ViewHolder{

@@ -16,6 +16,7 @@ public class Diagnosis {
     @Expose
     private List<Specialisation> specialisation = null;
 
+    FullIssue issue2;
     public Issue getIssue() {
         return issue;
     }
@@ -32,6 +33,12 @@ public class Diagnosis {
         this.specialisation = specialisation;
     }
 
+    public FullIssue getIssue2() {
+        return issue2;
+    }
 
+    public void setIssue2(FullIssue issue2) {
+        this.issue2 = issue2;
+    }
 }
 
