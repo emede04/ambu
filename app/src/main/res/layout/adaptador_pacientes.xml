@@ -17,8 +17,8 @@
 
         <ImageView
             android:id="@+id/image_paciente"
-            android:layout_width="121dp"
-            android:layout_height="78dp"
+            android:layout_width="110dp"
+            android:layout_height="104dp"
             android:scaleType="centerCrop" />
 
         <LinearLayout

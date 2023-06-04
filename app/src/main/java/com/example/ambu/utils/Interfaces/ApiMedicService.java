@@ -32,7 +32,7 @@ public interface ApiMedicService {
 
 
     @GET("/issues")
-    Call<ArrayList<Issue>> getAllIssues(@Query("token") String token,  @Query("language") String language,@Query("format") String format);
+    Call<List<Issue>> getAllIssues(@Query("token") String token, @Query("format") String format, @Query("language") String language);
 
 
 

@@ -541,7 +541,6 @@ public class Consulta extends Fragment{
                         diagnostico.put("descripcion_larga", listaDiagnostico.get(posicion).getIssue2().getDescription().toString());
                         diagnostico.put("tratamiento", listaDiagnostico.get(posicion).getIssue2().getTreatmentDescription());
 
-                        diagnostico.put("specialidad", listaDiagnostico.get(posicion).getSpecialisation().toString());
 
 
                         //generar una subcollecion para el la base de datos donde añado el diagnositco al nombre del usuario

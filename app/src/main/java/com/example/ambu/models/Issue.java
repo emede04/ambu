@@ -85,4 +85,9 @@ public class Issue {
     public void setRanking(int ranking) {
         this.ranking = ranking;
     }
+
+    @Override
+    public String toString() {
+        return getName();
+    }
 }

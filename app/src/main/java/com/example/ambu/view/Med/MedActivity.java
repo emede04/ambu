@@ -43,8 +43,8 @@ public class MedActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
 
 
-        String nombre = savedInstanceState.getString("nombremedio");
-        String especialidad = savedInstanceState.getString("especialidad");
+        //String nombre = savedInstanceState.getString("nombremedio");
+        //String especialidad = savedInstanceState.getString("especialidad");
 
         binding = ActivityMedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -79,7 +79,7 @@ public class MedActivity extends AppCompatActivity{
         cargarMed();
         med = (ImageView) header.findViewById(R.id.idImagenMedico);
         nombremed = header.findViewById(R.id.txtnameMed);
-        nombremed.setText(nombre);
+      //  nombremed.setText(nombre);
         Glide
                 .with(this.getBaseContext())
                 .load("https://static.vecteezy.com/system/resources/previews/017/196/552/non_2x/doctor-icon-on-transparent-background-free-png.png")
