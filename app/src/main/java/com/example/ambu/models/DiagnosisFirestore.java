@@ -5,19 +5,7 @@ import java.util.List;
 
 public class DiagnosisFirestore implements Serializable
 {
-    String Acurracy, Issue, fecha, idcName, sintomas_presentado;
-
-    public String getSpecialidad() {
-        return specialidad;
-    }
-
-    public void setSpecialidad(String specialidad) {
-        this.specialidad = specialidad;
-    }
-
-    String specialidad;
-
-
+    String Acurracy, Issue, descripcion_larga, fecha, medical_condition,sintomas_presentado,specialidad, tratamiento;
 
     public String getAcurracy() {
         return Acurracy;
@@ -35,6 +23,14 @@ public class DiagnosisFirestore implements Serializable
         Issue = issue;
     }
 
+    public String getDescripcion_larga() {
+        return descripcion_larga;
+    }
+
+    public void setDescripcion_larga(String descripcion_larga) {
+        this.descripcion_larga = descripcion_larga;
+    }
+
     public String getFecha() {
         return fecha;
     }
@@ -43,12 +39,12 @@ public class DiagnosisFirestore implements Serializable
         this.fecha = fecha;
     }
 
-    public String getIdcName() {
-        return idcName;
+    public String getMedical_condition() {
+        return medical_condition;
     }
 
-    public void setIdcName(String idcName) {
-        this.idcName = idcName;
+    public void setMedical_condition(String medical_condition) {
+        this.medical_condition = medical_condition;
     }
 
     public String getSintomas_presentado() {
@@ -59,5 +55,19 @@ public class DiagnosisFirestore implements Serializable
         this.sintomas_presentado = sintomas_presentado;
     }
 
+    public String getSpecialidad() {
+        return specialidad;
+    }
 
+    public void setSpecialidad(String specialidad) {
+        this.specialidad = specialidad;
+    }
+
+    public String getTratamiento() {
+        return tratamiento;
+    }
+
+    public void setTratamiento(String tratamiento) {
+        this.tratamiento = tratamiento;
+    }
 }

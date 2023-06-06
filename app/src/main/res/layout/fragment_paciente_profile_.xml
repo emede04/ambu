@@ -6,31 +6,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Encabezado del perfil -->
-
-    <!-- RecyclerView de diagnósticos -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/encabezado_perfil"
         android:layout_width="match_parent"
         android:layout_height="229dp"
-        android:paddingTop="?android:attr/actionBarSize"
+        android:background="@color/azulClaro"
+        >
 
-        android:background="@color/azulClaro">
-
-        <ImageView
-            android:id="@+id/foto_paciente"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toTopOf="@+id/nombre_paciente"
-            app:layout_constraintEnd_toEndOf="@+id/tv_apellido"
-            app:layout_constraintHorizontal_bias="0.0"
+        <EditText
+            android:id="@+id/edad_paciente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="edad"
+            android:text="Edad del Paciente"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:boxBackgroundMode="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.776"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.831">
+
+        </EditText>
 
         <TextView
             android:id="@+id/nombre_paciente"
@@ -40,92 +39,98 @@
             android:text="Nombre del Paciente"
             android:textColor="@android:color/white"
             android:textSize="18sp"
+
             app:layout_constraintBottom_toTopOf="@+id/edad_paciente"
             app:layout_constraintEnd_toStartOf="@+id/edad_paciente"
+            app:layout_constraintHorizontal_bias="0.457"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/foto_paciente" />
 
-        <TextView
+        <EditText
+            android:id="@+id/rtvaltura"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="altura"
+            android:text="altura"
+            android:textColor="@android:color/white"
+
+            android:textSize="18sp"
+            app:boxBackgroundMode="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.051"
+            app:layout_constraintStart_toStartOf="@+id/edad_paciente"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.586">
+
+        </EditText>
+
+        <EditText
+            android:id="@+id/Profile_genero"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="genero"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:boxBackgroundMode="none"
+            android:hint="genero"
+
+            app:layout_constraintBottom_toTopOf="@+id/rtvaltura"
+            app:layout_constraintEnd_toEndOf="@+id/rtvaltura"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/rtvaltura"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.88">
+
+        </EditText>
+
+
+        <EditText
             android:id="@+id/tv_apellido"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:hint="apellido"
             android:text="apellido"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
 
+            android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toEndOf="@+id/nombre_paciente"
             app:layout_constraintStart_toStartOf="@+id/nombre_paciente"
-            app:layout_constraintTop_toBottomOf="@+id/nombre_paciente"
-            app:layout_constraintVertical_bias="0.387" />
+            app:layout_constraintTop_toBottomOf="@+id/nombre_paciente" />
 
-        <TextView
-            android:id="@+id/edad_paciente"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Edad del Paciente"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/rtvaltura"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.682">
-
-        </TextView>
-
-        <TextView
+        <EditText
             android:id="@+id/tvpeso"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:text="peso"
             android:textColor="@android:color/white"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:boxBackgroundMode="none"
+            android:hint="peso"
+
+            app:layout_constraintBottom_toTopOf="@+id/Profile_genero"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.042"
             app:layout_constraintStart_toStartOf="@+id/Profile_genero"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.13">
-    </TextView>
+            app:layout_constraintVertical_bias="1.0" />
 
-        <TextView
-            android:id="@+id/Profile_genero"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text="genero"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.648"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.281">
-
-        </TextView>
-
-        <TextView
-            android:id="@+id/rtvaltura"
-            android:layout_width="wrap_content"
-            android:layout_height="27dp"
-            android:text="altura"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/Profile_genero"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.425">
-
-        </TextView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
+        <ImageView
+        android:id="@+id/foto_paciente"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/nombre_paciente"
+        app:layout_constraintEnd_toEndOf="@+id/tv_apellido"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_diagnosticos"
         android:layout_width="match_parent"
@@ -134,5 +139,33 @@
         android:layout_marginTop="5dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/bmodificarPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="27dp"
+        android:layout_marginBottom="55dp"
+        android:clickable="true"
+        android:src="?android:attr/fingerprintAuthDrawable"
+        android:tint="@color/azul"
+        app:backgroundTint="@color/azulClaro"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/bNuevosSintomas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="27dp"
+        android:layout_marginBottom="48dp"
+        android:clickable="true"
+        android:src="@drawable/pills"
+        android:tint="@null"
+        app:backgroundTint="@color/white"
+         />
 
 </RelativeLayout>

@@ -48,11 +48,6 @@ public class MainActivity extends AppCompatActivity implements  Navigation {
     }
 
 
-    public void init(View view){
-
-    }
-
-
     public BaseDeDatosLocal getDB() {
         return DB;
     }

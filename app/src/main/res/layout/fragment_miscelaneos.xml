@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradiente"
+    android:background="@drawable/background1"
     android:orientation="vertical"
     tools:context=".view.Med.ui.miscelaneaos.MiscelaneosFragment">
 
@@ -22,31 +22,42 @@
         android:layout_height="415dp"
         android:layout_margin="10dp"
         android:layout_marginTop="10dp"
-        android:background="@color/azul">
+        android:background="@android:color/transparent"
+
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="417dp">
+            android:background="@android:color/transparent"
+
+            android:layout_height="406dp">
 
             <androidx.core.widget.NestedScrollView
 
                 android:layout_width="match_parent"
+                android:background="@android:color/transparent"
+
+
                 android:layout_height="match_parent">
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
+
+                    android:background="@android:color/transparent"
+
                     android:layout_height="match_parent">
 
                     <TextView
                         android:id="@+id/tvTexto"
-                        android:layout_width="match_parent"
+                        android:layout_width="324dp"
                         android:layout_height="wrap_content"
                         android:layout_margin="10dp"
                         android:autoSizeMaxTextSize="100sp"
                         android:autoSizeMinTextSize="16sp"
                         android:autoSizeTextType="uniform"
-                        android:text="Name" />
+                        android:background="@android:color/transparent"
+                        android:text="" />
 
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>

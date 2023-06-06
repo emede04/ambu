@@ -41,6 +41,8 @@ public class PacientesAdapter extends FirestoreRecyclerAdapter<Paciente,Paciente
     protected void onBindViewHolder(@NonNull PacientesAdapter.PacientesViewHolder holder, int position, @NonNull Paciente model) {
         holder.username.setText(model.getNombre());
         holder.useredad.setText((model.getEdad()));
+        holder.apellidos.setText(model.getApellido());
+        holder.genero.setText(model.getGenero());
 
         Glide.with(context).
                 load(model.getImagen())

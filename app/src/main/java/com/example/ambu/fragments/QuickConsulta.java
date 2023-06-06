@@ -1,17 +1,11 @@
 package com.example.ambu.fragments;
 
 import android.annotation.SuppressLint;
-import android.app.FragmentTransaction;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,15 +19,15 @@ import com.example.ambu.models.Symptom;
 import com.example.ambu.utils.Apis;
 import com.example.ambu.utils.Interfaces.ApiMedicService;
 import com.example.ambu.utils.SharedPreferencesUtils;
-import com.example.ambu.view.Med.ui.consulta.Consulta;
-import com.example.ambu.view.Med.ui.pacientes.Pacientes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,70 +36,65 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class FragmentSelectSymtom extends Fragment {
-
+public class QuickConsulta extends Fragment {
 
     ApiMedicService api = Apis.apiMedicServiceData();
-    ArrayAdapter<Symptom> adaptador_sintomas;
+    ArrayAdapter<Symptom> adaptador_nuevos_sintomas;
     ArrayAdapter<String> genresMenuAdapter;
     ListView vListaSeleccionada;
     ArrayList<Symptom> listaS;
     ArrayList<Symptom> listaSeleccionados;
     ArrayList<Symptom> aux;
     String sintomasdelusuario = "";
+    FloatingActionButton baceptar;
+    String documento;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    FloatingActionButton boton;
-
-    public FragmentSelectSymtom() {
-
+    public QuickConsulta() {
+        // Required empty public constructor
     }
+
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        listaS = new ArrayList<>();
-        listaSeleccionados = new ArrayList<>();
-        aux = new ArrayList<>();
+        if (getArguments() != null) {
+          documento   = getArguments().getString("nombre");
+            listaS = new ArrayList<>();
+            listaSeleccionados = new ArrayList<>();
+            aux = new ArrayList<>();
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_select_symtom, container, false);
+        View view = inflater.inflate(R.layout.fragment_quick_consulta, container, false);
         init(view);
-        String prueba = SharedPreferencesUtils.SacarDatos("ApiMedicToken", view);
         return view;
     }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+         api = Apis.apiMedicServiceData();
 
         String prueba = SharedPreferencesUtils.SacarDatos("ApiMedicToken", view);
 
 
         SacarSintomas(view);
-        System.out.println(prueba);
+        System.out.println("hola"+prueba);
 
 
     }
 
-
-
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        listaSeleccionados.clear();
-        listaS.clear();
-        adaptador_sintomas.clear();
-    }
 
     public void init(View view) {
-        vListaSeleccionada = view.findViewById(R.id.vListaSeleccionada);
-        boton = view.findViewById(R.id.bAceptarSintomas);
+        vListaSeleccionada = view.findViewById(R.id.vListaSeleccionadaConsulta);
+        baceptar = view.findViewById(R.id.bAceptar);
     }
     public String parseSymtom(ArrayList<Symptom> l,View view){
         SharedPreferencesUtils.saveToke("nombre","",view);
@@ -146,10 +135,13 @@ public class FragmentSelectSymtom extends Fragment {
 
         parse += "]";
         System.out.println(parse);
-   
+
         return parse;
 
     }
+
+
+
 
     public String parseNombre(ArrayList<Symptom> l,View view){
         String sintomasNombre = "";
@@ -190,9 +182,9 @@ public class FragmentSelectSymtom extends Fragment {
                             listaSintomas.remove(s);
                         }
                     }
-                    adaptador_sintomas = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_multiple_choice, listaSintomas);
-                    vListaSeleccionada.setAdapter(adaptador_sintomas);
-                    adaptador_sintomas.notifyDataSetChanged();
+                    adaptador_nuevos_sintomas = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_checked, listaSintomas);
+                    vListaSeleccionada.setAdapter(adaptador_nuevos_sintomas);
+                    adaptador_nuevos_sintomas.notifyDataSetChanged();
 
                     onclick();
                 }
@@ -208,76 +200,77 @@ public class FragmentSelectSymtom extends Fragment {
 
     }
 
- public void onclick(){
+    public void onclick(){
 
-     vListaSeleccionada.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-         @Override
-         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-             ArrayList<Symptom> auxiliar = new ArrayList<>();
-             ArrayList<Symptom> fin = new ArrayList<>();
-             Symptom ultimoClick;
-             ultimoClick= (Symptom) adapterView.getItemAtPosition(i);
-             Toast.makeText(view.getContext(), ultimoClick.getName(), Toast.LENGTH_SHORT).show();
+        vListaSeleccionada.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ArrayList<Symptom> auxiliar = new ArrayList<>();
+                ArrayList<Symptom> fin = new ArrayList<>();
+                Symptom ultimoClick;
+                ultimoClick= (Symptom) adapterView.getItemAtPosition(i);
+                Toast.makeText(view.getContext(), ultimoClick.getName(), Toast.LENGTH_SHORT).show();
 
-                     aux.add(ultimoClick);
+                aux.add(ultimoClick);
                 //añado todos los items
-             System.out.println("lista final"+aux.size());
+                System.out.println("lista final"+aux.size());
 
-             System.out.println("lista final"+ultimoClick.getName());
-
-
-         }
-
-     });
+                System.out.println("lista final"+ultimoClick.getName());
 
 
-     boton.setOnClickListener(new View.OnClickListener() {
-         @SuppressLint("ResourceType")
-         @Override
-         public void onClick(View view) {
-             SharedPreferencesUtils.saveToke("idSintomas", "", view);
+            }
 
-             ArrayList<Symptom> symptomArraylist;
-             if (!aux.isEmpty()) {
-                 Snackbar.make(view, "de vuelta con los sintomas para terminar su registro", Snackbar.LENGTH_LONG)
-                         .setAction("Action", null).show();
+        });
+
+
+        baceptar.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceType")
+            @Override
+            public void onClick(View view) {
+                SharedPreferencesUtils.saveToke("idSintomas", "", view);
+
+                ArrayList<Symptom> symptomArraylist;
+                if (!aux.isEmpty()) {
+                    Snackbar.make(view, "Se han añadido sus sintomas nuevos", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
 
 
 
                     //limpio la lista de los duplicados
-                 listaSeleccionados =   quitarduplicados(aux);
+                    listaSeleccionados =   quitarduplicados(aux);
 
-                 String SintomasQuery = "";
-
-
-                 System.out.println();
-                 SintomasQuery = parseSymtom(listaSeleccionados, view);
-                 System.out.println(SintomasQuery);
-
-                 sintomasdelusuario = parseNombre(listaSeleccionados,view);
-                 System.out.println(SintomasQuery);
-                 SharedPreferencesUtils.saveToke("idSintomas", SintomasQuery, view);
-                 SharedPreferencesUtils.saveToke("sintomasdelusuario", sintomasdelusuario, view);
+                    String SintomasQuery = "";
 
 
-             } else {
+                    System.out.println();
+                    SintomasQuery = parseSymtom(listaSeleccionados, view);
+                    System.out.println(SintomasQuery);
 
-                 Snackbar.make(view, "no tienes ningun sintomas selecciado", Snackbar.LENGTH_LONG)
-                         .setAction("Action", null).show();
-
-             }
-         }
+                    sintomasdelusuario = parseNombre(listaSeleccionados,view);
+                    System.out.println(SintomasQuery);
+                    db.collection("Pacientes").document(documento).update("sintomas", SintomasQuery);
 
 
-     });
- }
+                } else {
+
+                    Snackbar.make(view, "no tienes ningun sintomas selecciado", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+
+                }
+            }
+
+
+        });
+    }
+
+
 
 
     public ArrayList<Symptom> quitarduplicados(ArrayList<Symptom> prueba) {
-            ArrayList<Symptom> limpio = new ArrayList<>();
+        ArrayList<Symptom> limpio = new ArrayList<>();
 
         Set<String> nombre = new HashSet<>();
-         limpio = (ArrayList<Symptom>) prueba.stream()
+        limpio = (ArrayList<Symptom>) prueba.stream()
                 .filter(e -> nombre.add(e.getName()))
                 .collect(Collectors.toList());
         return limpio;
@@ -285,6 +278,3 @@ public class FragmentSelectSymtom extends Fragment {
 
 
 }
-
-
-

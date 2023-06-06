@@ -4,30 +4,28 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.ambu.R;
-import com.example.ambu.models.Diagnosis;
 import com.example.ambu.models.DiagnosisFirestore;
-import com.example.ambu.models.Paciente;
-import com.example.ambu.view.Med.ui.pacientes.PacientesAdapter;
+import com.example.ambu.models.Symptom;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
-public class AdaptadorDiagnostico extends FirestoreRecyclerAdapter<DiagnosisFirestore, AdaptadorDiagnostico.DiagnosisViewHolder> implements View.OnClickListener {
+import java.util.ArrayList;
 
+public class AdaptadorDiagnostico extends FirestoreRecyclerAdapter<DiagnosisFirestore, AdaptadorDiagnostico.DiagnosisViewHolder> implements View.OnClickListener {
+    ArrayList<String> spc;
     Context context;
     public AdaptadorDiagnostico(FirestoreRecyclerOptions<DiagnosisFirestore> options, Context contex) {
         super(options);
         this.context = contex;
+
     }
 
     @Override
@@ -46,21 +44,59 @@ public class AdaptadorDiagnostico extends FirestoreRecyclerAdapter<DiagnosisFire
 
     @Override
     protected void onBindViewHolder(@NonNull DiagnosisViewHolder holder, int position, @NonNull DiagnosisFirestore model) {
-        holder.molestia.setText(model.getIdcName());
+
+        holder.espcialidades.setAdapter(null);
+        String especialidad = model.getSpecialidad();
+        System.out.println(especialidad);
+        String output1 = especialidad.replace("[", "");
+        String output2 = output1.replace("]", "");
+
+        String[] output = output2.split(",");
+
+        setUpSpecialidad(output,holder,model);
+
+
+        holder.sintomaspresentados.setText(model.getSintomas_presentado());
+        holder.molestia.setText(model.getIssue());
         holder.fecha.setText((model.getFecha()));
         holder.fiabilidad.setText(model.getAcurracy());
-        holder.icdname.setText(model.getIssue());
+        holder.tratamiento.setText(model.getTratamiento());
+        holder.descripcion.setText(model.getDescripcion_larga());
 
         holder.fiabilidad.setEnabled(false);
-        holder.icdname.setEnabled(false);
-        holder.icdname.setElegantTextHeight(true);
+        holder.fecha.setEnabled(false);
+        holder.molestia.setEnabled(false);
+        holder.sintomaspresentados.setEnabled(false);
+        holder.tratamiento.setEnabled(false);
+        holder.descripcion.setEnabled(false);
+
+        holder.tratamiento.setElegantTextHeight(true);
+
+    }
+
+    private void setUpSpecialidad(String[] output, DiagnosisViewHolder holder, DiagnosisFirestore model) {
+        spc = new ArrayList<>();
+        spc.clear();
+        System.out.println(output.length);
+
+        for(int i = 0; i < output.length;){
+            spc.add(output[i]);
+            i++;
+        }
+
+
+
+
+        ArrayAdapter adapter = new ArrayAdapter<>(holder.espcialidades.getContext(), android.R.layout.simple_list_item_1, spc);
+        holder.espcialidades.setAdapter(adapter);
 
     }
 
 
+
     public class DiagnosisViewHolder extends RecyclerView.ViewHolder{
         Spinner espcialidades;
-        TextView icdname, fecha, fiabilidad, molestia;
+        TextView tratamiento, fecha, fiabilidad, molestia; TextView descripcion,sintomaspresentados;
 
 
 
@@ -70,10 +106,12 @@ public class AdaptadorDiagnostico extends FirestoreRecyclerAdapter<DiagnosisFire
             super(itemView);
 
             espcialidades = itemView.findViewById(R.id.especialidadesSpinner);
-            icdname = (TextView) itemView.findViewById(R.id.icdNameTextView);
+            tratamiento = (TextView) itemView.findViewById(R.id.tratamiento);
             fecha =  (TextView)itemView.findViewById(R.id.fechaTextView);
+            descripcion = (TextView) itemView.findViewById(R.id.descripcion);
+            sintomaspresentados = (TextView) itemView.findViewById(R.id.sintomasTextView);
             fiabilidad =  (TextView)itemView.findViewById(R.id.fiabilidadTextView);
-            molestia =  (TextView)itemView.findViewById(R.id.molestiaTextView);
+            molestia =  (TextView)itemView.findViewById(R.id.nombre);
 
 
 

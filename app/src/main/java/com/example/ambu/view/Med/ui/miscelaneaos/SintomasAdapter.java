@@ -31,21 +31,11 @@ public class SintomasAdapter extends RecyclerView.Adapter<SintomasAdapter.Recycl
     }
 
     public class RecyclerHolder extends RecyclerView.ViewHolder {
-        /*TextView nombre;
-        TextView apellidos;
-        TextView queja;
-        TextView medicacion;
-        TextView urlimagen; */
 
 
         public RecyclerHolder(@NonNull View itemView) {
             super(itemView);
 
-           /* autor = itemView.findViewById(id.autor);
-            titulo = itemView.findViewById(id.titulo);
-            contenido = itemView.findViewById(id.contenido2);
-            url = itemView.findViewById(id.url);
-            fecha = itemView.findViewById(id.fecha);*/
         }
 
 

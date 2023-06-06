@@ -148,27 +148,32 @@ public class Consulta extends Fragment{
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     String sintomas = "";
                     String edad = String.valueOf(tvedad.getText());
                     String genero = String.valueOf(tvgenero.getText());
                      sintomas = parseSymtom(ListaSintomasConsultaManual,view);
                     System.out.println(ListaSintomasConsultaManual.size());
+                    if(edad.isEmpty() || genero.isEmpty()){
+                        Toast.makeText(contexto, "Rellena todos los campos", Toast.LENGTH_SHORT).show();
+                    }else{
+
+
+
                     if (genero.equals("Masculino")) {
                         genero = "male";
                     } else if (genero.equals("Femenino")) {
                         genero = "female";
                     }
                     System.out.println(sintomas);
-                    if(sintomas.equals("")){
-                        Toast.makeText(contexto, "no has seleccionado ningun sintoma", Toast.LENGTH_SHORT).show();
+                    if(sintomas.equals("") && !esunnumero(edad)){
                     }else {
                         spSintomas.setAdapter(null);
                         generarDiagnostico(view, edad, sintomas, genero);
 
-                    }
+                    }  }
                     ListaSintomasConsultaManual.clear();
 
-                    //TODO bloquear el boton para ejecutar el diagnostico hasta que no se hayan rellenado todo los campos
 
 
                 }
@@ -241,11 +246,6 @@ public class Consulta extends Fragment{
 
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
     public void init(View view) {
         rvdiagnositco = view.findViewById(R.id.RvDiagnostico);
         spSintomas = view.findViewById(R.id.spinnerSintomas);
@@ -313,7 +313,7 @@ public class Consulta extends Fragment{
         //metodo para generar la consulta desde la base de datos o pasar los datos desde la consulta directa
     public void generarDiagnostico(View view, String edad, String sintomas, String genero) {
         Apis aqui = new Apis();
-        api = aqui.apiMedicServiceData();
+        api = Apis.apiMedicServiceData();
 
         System.out.println("por aqui ");
         Call<List<Diagnosis>> call = api.getDiagnosis(SharedPreferencesUtils.SacarDatos("ApiMedicToken", view), "json", "es-es", genero, edad, sintomas);
@@ -535,16 +535,16 @@ public class Consulta extends Fragment{
                         diagnostico.put("Issue", listaDiagnostico.get(posicion).getIssue2().getName());
                         diagnostico.put("Acurracy", String.valueOf(listaDiagnostico.get(posicion).getIssue().getAccuracy()));
                         diagnostico.put("medical_condition", listaDiagnostico.get(posicion).getIssue2().getMedicalCondition());
-                        diagnostico.put("fecha",currentTime.toString().toString());
+                        diagnostico.put("fecha", currentTime.toString());
                         diagnostico.put("sintomas_presentado", sintomasNombre);
                         diagnostico.put("specialidad", listaDiagnostico.get(posicion).getSpecialisation().toString());
-                        diagnostico.put("descripcion_larga", listaDiagnostico.get(posicion).getIssue2().getDescription().toString());
+                        diagnostico.put("descripcion_larga", listaDiagnostico.get(posicion).getIssue2().getDescription());
                         diagnostico.put("tratamiento", listaDiagnostico.get(posicion).getIssue2().getTreatmentDescription());
 
 
 
                         //generar una subcollecion para el la base de datos donde añado el diagnositco al nombre del usuario
-                            db.collection("Pacientes").document(nombrePaciente).collection("Diagnosticos").document(listaDiagnostico.get(posicion).getIssue().getName()+": "+currentTime.toString()).set(diagnostico);
+                            db.collection("Pacientes").document(nombrePaciente).collection("Diagnosticos").document(listaDiagnostico.get(posicion).getIssue().getName()+": "+ currentTime).set(diagnostico);
                        // Navigation.findNavController(view).navigate(R.id.nav_consulta, args);
 
                         Toast.makeText(contexto, "se ha añadido su diagnostico para el paciente: "+nombrePaciente, Toast.LENGTH_LONG).show();
@@ -563,6 +563,13 @@ public class Consulta extends Fragment{
                 .setNegativeButton("No", dialogClickListener).show();
 
     }
-
+    public static boolean esunnumero(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch(NumberFormatException e){
+            return false;
+        }
+    }
 }
 

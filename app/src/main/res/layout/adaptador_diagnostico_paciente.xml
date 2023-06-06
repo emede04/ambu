@@ -23,10 +23,8 @@
             android:textSize="16sp" />
 
 
-
-
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/inputicd"
+            android:id="@+id/inputniombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
@@ -36,10 +34,35 @@
             app:boxStrokeWidthFocused="0dp"
 
             android:textColorHint="@color/azulOscuro"
-            android:hint="icdName">
+            android:hint="nombre">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/icdNameTextView"
+                android:id="@+id/nombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:textColor="@color/black"
+                android:textStyle="bold|italic"
+                android:background="@color/naranjaClaro"
+
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputtratamiento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="@color/naranjaClaro"
+            android:layout_weight="1"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+
+            android:textColorHint="@color/azulOscuro"
+            android:hint="tratamiento">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tratamiento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
@@ -50,6 +73,30 @@
                  />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputDescripcion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="@color/naranjaClaro"
+            android:layout_weight="1"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+
+            android:textColorHint="@color/azulOscuro"
+            android:hint="descripcion">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/descripcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:textColor="@color/black"
+                android:textStyle="bold|italic"
+                android:background="@color/naranjaClaro"
+
+                />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
 

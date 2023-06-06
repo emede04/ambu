@@ -43,9 +43,6 @@ public class MedActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
 
 
-        //String nombre = savedInstanceState.getString("nombremedio");
-        //String especialidad = savedInstanceState.getString("especialidad");
-
         binding = ActivityMedBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -72,17 +69,16 @@ public class MedActivity extends AppCompatActivity{
 
         //NavigationHeader
         View header = navigationView.getHeaderView(0);
-      //  ColorDrawable colorDrawable
-      //          = new ColorDrawable(Color.parseColor("#DCF0ED"));
-      //  binding.appBarMed.toolbar.setBackgroundColor(colorDrawable.getColor()); //<-- metodo para dejar los colores bonitos;
 
-        cargarMed();
+
         med = (ImageView) header.findViewById(R.id.idImagenMedico);
         nombremed = header.findViewById(R.id.txtnameMed);
-      //  nombremed.setText(nombre);
+        nombremed.setText("Vista medico");
+        especialidad = header.findViewById(R.id.especialidad);
+        especialidad.setText("opciones: ");
         Glide
                 .with(this.getBaseContext())
-                .load("https://static.vecteezy.com/system/resources/previews/017/196/552/non_2x/doctor-icon-on-transparent-background-free-png.png")
+                .load("https://cdn-icons-png.flaticon.com/512/3063/3063176.png")
                 .placeholder(R.drawable.logo)
                 .error(R.drawable.logo)
                 .into(med);

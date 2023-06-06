@@ -259,17 +259,25 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
             muser.put("peso", peso);
             muser.put("altura", altura);
             muser.put("genero", genero);
-            muser.put("imagen","https://cdn-icons-png.flaticon.com/512/1467/1467464.png");
+            muser.put("imagen","https://cdn-icons-png.flaticon.com/512/4645/4645949.png");
             muser.put("estado", "paciente");
             muser.put("sintomas", sintomasraw);
 
 
             db.collection("Pacientes").document(usuario).set(muser);
             System.out.println(usuario);
-            BD.insertUsuarios(usuario, pass);
+            BD.insertUsuariosPaciente(usuario, pass,"paciente");
 
             System.out.println(usuario);
-
+            Fragment fragment = new PacienteProfile_Fragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("documento",usuario);
+            fragment.setArguments(bundle);
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container, fragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
 
         }
 
@@ -305,7 +313,7 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()/*to get clicked view id**/) {
             case R.id.bcancelar:
-                borrardocu(usuario);
+                //borrardocu(usuario);
                break;
 
 
@@ -313,20 +321,13 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
 
                 Toast.makeText(getActivity(), "Su usario ha sido registrado tanto localmente como online", Toast.LENGTH_LONG + 2).show();
                 register(view);
-                Fragment fragment = new PacienteProfile_Fragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("documento",usuario);
-                fragment.setArguments(bundle);
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.container, fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+
 
 
                 break;
 
             case R.id.bSintomas:
+
                 Fragment fragment1 = new FragmentSelectSymtom();
                 Bundle bundle1 = new Bundle();
                 fragment1.setArguments(bundle1);
@@ -335,7 +336,6 @@ public class registerPaciente extends Fragment implements View.OnClickListener {
                 fragmentTransaction1.replace(R.id.container, fragment1);
                 fragmentTransaction1.addToBackStack(null);
                 fragmentTransaction1.commit();
-
                 break;
 
 

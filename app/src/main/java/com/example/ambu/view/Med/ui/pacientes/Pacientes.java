@@ -7,40 +7,29 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ambu.*;
-
 import com.example.ambu.R;
-import com.example.ambu.fragments.registerPaciente;
 import com.example.ambu.models.Paciente;
-import com.example.ambu.view.Med.ui.consulta.Consulta;
+import com.example.ambu.utils.BaseDeDatosLocal;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-
-import org.checkerframework.checker.units.qual.A;
 
 public class Pacientes extends Fragment {
     PacientesAdapter  adapter;
     RecyclerView recyclerView;
 
     private FirebaseFirestore db;
+    BaseDeDatosLocal BD;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -49,7 +38,7 @@ public class Pacientes extends Fragment {
 
         View view  = inflater.inflate(R.layout.fragment_pacientes, container, false);
         recyclerView = view.findViewById(R.id.rListaPacientes);
-
+        BD = new BaseDeDatosLocal(view.getContext());
         return view;
     }
 
@@ -61,10 +50,7 @@ public class Pacientes extends Fragment {
         new ItemTouchHelper(itemTouchHelper).attachToRecyclerView(recyclerView);
 
     }
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
+
     @SuppressLint("NotifyDataSetChanged")
 
     public void init(){
@@ -150,6 +136,8 @@ public class Pacientes extends Fragment {
             adapter.deletePaciente(viewHolder.getBindingAdapterPosition());
             DocumentSnapshot nombre = adapter.getName(viewHolder.getBindingAdapterPosition());
             String nombre_paciente = nombre.getString("nombre");
+            System.out.println(nombre_paciente);
+            BD.borrar(nombre_paciente);
         }
     };
 

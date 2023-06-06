@@ -90,12 +90,15 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         // Inflate the layout for this fragment
         init(view);
-       view.getContext().deleteDatabase("AMBU");
+        //view.getContext().deleteDatabase("AMBU");
         view.getContext().deleteSharedPreferences("MyPref");
         BD = new BaseDeDatosLocal(view.getContext());
         //insertamos un usuario medico.
-       BD.insertMedico("md","md");
 
+        BD.insertMedico("md","md");
+        //usuarios dummy para que se muestre la informacion
+        BD.insertUsuariosPaciente("Juan","Juan","paciente");
+        BD.insertUsuariosPaciente("Maria","Maria","paciente");
 
         bLogin.setOnClickListener(this);
         bRegister.setOnClickListener(this);
@@ -236,6 +239,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
             DocumentReference rf = db.collection("Pacientes").document(user);
             rf.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     DocumentSnapshot docu = task.getResult();
@@ -243,6 +247,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         String xpassword = (String) docu.getData().get("password");
 
                         if(password.equals(xpassword)){
+                            createToken(ApimedicUserName, ApiMedicPassword, ApiMedicUrl, view);
 
                             SharedPreferencesUtils.saveToke("usuario-nombre",user,view);
                             Bundle bundle = new Bundle();

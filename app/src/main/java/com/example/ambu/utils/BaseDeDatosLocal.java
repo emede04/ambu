@@ -96,7 +96,7 @@ public class BaseDeDatosLocal extends SQLiteOpenHelper {
 
     }
 
-    public long insertUsuarios(String name, String pass) {
+    public long insertUsuariosPaciente(String name, String pass,String estado) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         long result = -1;
@@ -107,19 +107,13 @@ public class BaseDeDatosLocal extends SQLiteOpenHelper {
         values.put(USER_NAME_COLUMN, name);
         values.put(USER_PASSWORD_COLUMN, pass);
 
-        String data = "";
-        if(name.equals("md") || name.equals("admin")){
-            data = "medico";
-        }else{
-            data = "paciente";
 
-        }
-        values.put(USER_ESTADO_COLUMN, data);
-        System.out.println(name + ":"+ data);
+        values.put(USER_ESTADO_COLUMN, estado);
+        System.out.println(name + ":"+ estado);
         Log.d("base de datos", "usuario creado");
         Log.d("base de datos",name);
         result = db.insert(DB_TABLE_NAME, null, values);
-        System.out.println(data);
+        System.out.println(estado);
         //cerramos las conexion
         db.close();
 
@@ -153,6 +147,14 @@ public class BaseDeDatosLocal extends SQLiteOpenHelper {
             Log.d("base de datos", "el usuario no existe");
             return false;
         }
+
+
+    }
+
+    public void borrar(String user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        System.out.println("borrado el uuario"+user);
+        db.delete(DB_TABLE_NAME,"CUSER=?",new String[]{user});
 
 
     }

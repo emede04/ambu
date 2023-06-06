@@ -17,7 +17,7 @@
             android:title="@string/menu_consulta" />
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/tirita"
             android:menuCategory="secondary"
 
             android:title="@string/menu_med" />

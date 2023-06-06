@@ -127,7 +127,7 @@ public class MiscelaneosFragment extends Fragment {
 
                     FullIssue i = response.body();
 
-                    texto.setText(i.getName()+"\n" + i.getDescription()+"\n" + i.getMedicalCondition());
+                    texto.setText("Nombre: "+i.getName()+" \n" +"Descripcion: \n"+  i.getDescription()+"\n\n " +"Condicion:  \n" + i.getMedicalCondition()+"\n \n"+" Tratamiento \n"+i.getTreatmentDescription()+"\n");
 
                 }
 
