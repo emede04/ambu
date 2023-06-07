@@ -1,17 +1,11 @@
 package com.example.ambu.fragments;
 
 import android.annotation.SuppressLint;
-import android.app.FragmentTransaction;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,14 +19,11 @@ import com.example.ambu.models.Symptom;
 import com.example.ambu.utils.Apis;
 import com.example.ambu.utils.Interfaces.ApiMedicService;
 import com.example.ambu.utils.SharedPreferencesUtils;
-import com.example.ambu.view.Med.ui.consulta.Consulta;
-import com.example.ambu.view.Med.ui.pacientes.Pacientes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;

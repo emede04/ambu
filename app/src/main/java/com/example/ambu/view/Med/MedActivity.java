@@ -1,7 +1,5 @@
 package com.example.ambu.view.Med;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
@@ -14,12 +12,10 @@ import com.example.ambu.databinding.*;
 import com.example.ambu.models.Symptom;
 import com.example.ambu.utils.Apis;
 import com.example.ambu.utils.Interfaces.ApiMedicService;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;

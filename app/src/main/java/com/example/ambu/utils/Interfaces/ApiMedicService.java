@@ -5,8 +5,6 @@ import com.example.ambu.models.FullIssue;
 import com.example.ambu.models.Issue;
 import com.example.ambu.models.Symptom;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.ResponseBody;

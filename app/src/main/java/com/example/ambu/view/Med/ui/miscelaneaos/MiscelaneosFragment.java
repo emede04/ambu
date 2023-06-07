@@ -16,12 +16,9 @@ import androidx.fragment.app.Fragment;
 import com.example.ambu.R;
 import com.example.ambu.models.FullIssue;
 import com.example.ambu.models.Issue;
-import com.example.ambu.models.Symptom;
 import com.example.ambu.utils.Apis;
 import com.example.ambu.utils.Interfaces.ApiMedicService;
 import com.example.ambu.utils.SharedPreferencesUtils;
-
-import org.checkerframework.checker.units.qual.A;
 
 import java.util.ArrayList;
 import java.util.List;

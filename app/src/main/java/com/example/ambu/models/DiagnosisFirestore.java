@@ -1,7 +1,6 @@
 package com.example.ambu.models;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class DiagnosisFirestore implements Serializable
 {

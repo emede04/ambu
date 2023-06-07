@@ -8,12 +8,8 @@ import com.example.ambu.R;
 import com.example.ambu.fragments.LoginFragment;
 import com.example.ambu.utils.Apis;
 import com.example.ambu.utils.BaseDeDatosLocal;
-import com.example.ambu.utils.SharedPreferencesUtils;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.view.View;
 
 public class MainActivity extends AppCompatActivity implements  Navigation {
     Apis api;

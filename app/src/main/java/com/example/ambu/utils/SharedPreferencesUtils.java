@@ -2,16 +2,8 @@ package com.example.ambu.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
-
-import com.example.ambu.models.Symptom;
-import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 
 public class SharedPreferencesUtils {
 

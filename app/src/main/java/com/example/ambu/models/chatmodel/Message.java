@@ -1,5 +1,4 @@
 package com.example.ambu.models.chatmodel;
-import com.google.firebase.*;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
